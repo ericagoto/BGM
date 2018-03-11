@@ -1,0 +1,19 @@
+---
+title: "Relatorio"
+author: "Erica Goto"
+date: "3/6/2018"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Relatorio de Mapeamento de Areas de Risco
+
+```{r}
+# The `params` object is available in the document.
+params
+```
+

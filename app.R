@@ -12,6 +12,7 @@ library(shinythemes)
 library(latex2exp)
 library (markdown)
 library(rmarkdown)
+library(knitr)
 
 
 
@@ -257,33 +258,7 @@ ui <-
              
              ######################### INICIO OUTPUT ########################
              h3("Formulário Preenchido"),
-             verbatimTextOutput("txtout_munic"),
-             verbatimTextOutput("txout_area"),
-             verbatimTextOutput("txtoutt_bairro"),
-             verbatimTextOutput("txout_setor"),
-             verbatimTextOutput("txout_equipe"),
-             verbatimTextOutput("dateText"),
-             verbatimTextOutput("select_out_UA"),
-             verbatimTextOutput("txout_loc"),
-             verbatimTextOutput("txout_moradores"),
-             verbatimTextOutput("txout_acesso"),
-             verbatimTextOutput("select_out_moradia"), 
-             verbatimTextOutput("select_out_encosta"), 
-             verbatimTextOutput("txtout_h_max"),
-             verbatimTextOutput("txtout_dist_moradia"),
-             verbatimTextOutput("selectout_angle"),
-             verbatimTextOutput("selectout_posicao_moradia"),
-             verbatimTextOutput("selectout_geol"),
-             verbatimTextOutput("select_predominante"),
-             verbatimTextOutput("selectout_agua"),
-             verbatimTextOutput("selectout_drenag"),
-             verbatimTextOutput("selectout_veg"),
-             verbatimTextOutput("selectout_inst"),
-             verbatimTextOutput("txtout_moradia"),
-             verbatimTextOutput("selectout_densidade"),
-             verbatimTextOutput("selectout_via"),
-             verbatimTextOutput("txtout_via"),
-             
+
              
              
              
@@ -312,9 +287,9 @@ ui <-
              br(),
             
              
-             radioButtons('format', 'Formato do documento', c('PDF', 'HTML', 'Word'),
+             radioButtons(inputId ="pdf", label="Formato do documento", c('pdf'),
                           inline = TRUE),
-             downloadButton("report", "Gerar relatorio")
+             downloadButton(outputId = "down", "Gerar relatorio")
              
              
              
@@ -517,34 +492,41 @@ server <- function(input, output) {
   
   ##### output for PDF report ##########
   
-  output$report <- downloadHandler (
+  output$down <- downloadHandler (
+    
+    
+    # Specify the file name
     filename = function() {
-      paste('my-report', sep = '.', switch(
-        input$format, PDF = 'pdf', HTML = 'html', Word = 'docx'
-      ))
+      
+      #report.pdf (name of the file)
+      paste("report", input$pdf, sep=".")
     },
     
-    content = function(file) {
-      src <- normalizePath('report.Rmd')
+    content = function(file){
       
-      # temporarily switch to the temp dir, in case you do not have write
-      # permission to the current working directory
-      owd <- setwd(tempdir())
-      on.exit(setwd(owd))
-      file.copy(src, 'report.Rmd', overwrite = TRUE)
+      #open the device
+      #create the table
+      #close the device
       
-      library(rmarkdown)
-      out <- render('report.Rmd', switch(
-        input$format,
-        PDF = pdf_document(), HTML = html_document(), Word = word_document()
-      ))
-      file.rename(out, file)
+      #pdf()
+      
+      (input$pdf == "pdf")
+        pdf(file)
+      
+      tableOutput("values")
+      
+      dev.off
+      
     }
-  )
-  
-  
-  
-}
+    
+    
+    
+    
+    
+  ) #### end of output report
+                        
+    }
+
 
 
 
