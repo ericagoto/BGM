@@ -110,7 +110,7 @@ ui <-
                              choices = list("pavimentada" = "pavimentada", "nao pavimentada" = "nao pavimentada"), 
                              selected = ""),
                  
-                 textInput("txt_via", "Obs:", ""),
+                 textInput("txt_via", "Obs:", "escreva observacoes"),
                  
                  
                  
@@ -300,7 +300,7 @@ ui <-
              
              tableOutput("values"),
              
-             
+  
              
              
              
@@ -310,6 +310,7 @@ ui <-
              ######################## end of testing table output ##############
              
              br(),
+            
              
              radioButtons('format', 'Formato do documento', c('PDF', 'HTML', 'Word'),
                           inline = TRUE),
@@ -349,67 +350,76 @@ server <- function(input, output) {
                          "Bairro",
                          "Setor", 
                          "Equipe",
+                         "Data",
                          "UA",
                          "Localizacao", 
                          "Moradores",
                          "Acesso ao local",
                          "Tipo de moradias",
+                         "Observacao moradias",
+                         "Densidade da ocuapacao", 
+                         "Via", 
+                         "Observacao da via",
                          "Tipo de encosta", 
                          "Altura maxima da encosta natural",
                          "Distancia da moradia",
                          "Angulo de inclinacao", 
-                         "Posicao da  moradia", 
+                         "Posicao da  moradia",
                          "Geologia", 
                          "Predominante",
-                         "Agua no encosta", 
-                         "Tipo de drenagem", 
+                         "Agua",
+                         "Tipo de drenagem" ,
                          "Tipo de vegetacao",
-                         "Moraida", 
-                         "Densidade da ocuapacao", 
-                         "Via", 
-                         "Observacao da via"), 
+                         
+                         "Instabilidade do terreno"
+                         ), 
       
-      Value = as.character (c(output$txtout_munic, 
-                              output$txout_area, 
-                              output$txout_area,
-                              output$txtoutt_bairro, 
-                              outout$txout_setor,
-                              outuput$txout_equipe, 
-                              output$txout_equipe,
-                              output$dateText, 
-                              output$select_out_UA, 
-                              output$txout_loc, 
-                              output$txout_moradores, 
-                              output$txout_acesso, 
-                              output$select_out_moradia ,
-                              output$select_out_encosta , 
-                              output$txtout_h_max , 
-                              output$txtout_dist_moradia, 
-                              output$selectout_angle, 
-                              output$selectout_posicao_moradia,
-                              output$selectout_geol, 
-                              output$select_predominante, 
-                              output$selectout_agua, 
-                              output$selectout_drenag, 
-                              output$selectout_veg,
-                              output$selectout_inst, 
-                              output$txtout_moradia, 
-                              output$selectout_densidade, 
-                              output$selectout_via, 
-                              output$txtout_via)), 
+      Resposta = as.character (c(
+                              input$txt_mun, 
+                              input$txt_area, 
+                              input$txt_bairro, 
+                              input$txt_setor,
+                              input$txt_equip, 
+                              input$date, 
+                              input$select_UA, 
+                              input$txt_loc, 
+                              input$txt_moradores, 
+                              input$txt_acesso, 
+                              input$select_moradia,
+                              input$txt_moradia,
+                              input$select_densidade,
+                              input$select_via, 
+                              input$txt_via,
+                              input$select_encosta, 
+                              input$txt_h_max, 
+                              input$txt_dist_moradia, 
+                              input$select_angle, 
+                              input$select_posicao_moradia,
+                              input$select_geol, 
+                              input$select_predominante,
+                              paste(input$select_agua, collapse=";"),
+                              input$select_drenag, 
+                              input$select_veg,
+                              paste(input$select_inst, collapse =";")
+                              )), 
       stringsAsFactors = FALSE)
                               
                             
   })
-                          
+     
+  
+                
 
     #show the values in the HTML talbe ----
     output$values <- renderTable ({
       textValues ()
     })
+    
   
+    
   
-  
+                             
+    
   
   
   
