@@ -1,0 +1,152 @@
+---
+title: "Functions"
+author: "Erica Goto"
+date: "3/11/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Functions
+
+
+Command source() load function 
+Ex. source("Weight_01.R")
+
+and as script 
+
+if(exists("Weight_01.R", mode="function"))
+
+
+
+Functions:
+```{r}
+
+#Angulo, geologia, solo
+
+
+Weight_01 <- function(A10, A10_17, A17_30, A_30_60, A90) {
+  #angulo
+  if (angulo == A10) { return(angulo <-  0.5028996)}
+  if (angulo == A10_17) {return(angulo <- 0.8866914)}
+   if (angulo == A_17_30) {return(angulo <- 2.0248326)}
+   if (angulo == A_30_60) {return(angulo <- 4.1555388)}
+  if (angulo == A90) {return(angulo <- 2.2101114)}
+  
+}
+ 
+
+Weight_04 <- function (solo, favoravel, desfav, nao_obs){
+  
+  solo <- 6.165*solo
+  
+  # Geologia
+  
+  if (geologia == Favoravel) {
+    geologia <- 1.0030592
+  }
+  if (geologia == Desfav) {
+    geologia <- 2.9995328
+  }
+  
+  if (geologia == NaoObs) {
+    geologia <- 0.819808
+  }
+  
+  # sum of the three parameters
+  weight = solo + geologia
+
+  return(weight)
+}
+
+
+# Tipo de Encosta, Moradia, Densidade, Posicao Moradia
+
+
+Weight_02 <-function(madeira, alvenaria, mista)  {
+  
+  if (moradia == madeira) {moradia = 0.882882 }
+  if (moradia == alvenaria) {moradia = 0.1582308}
+  if (moradia == mista) {moradia = 1.2520872}
+  return (moradia)
+}
+
+
+Weight_05 <- function(encosta, dist_base, dist_topo) {
+  
+  if (posicao == encosta){posicao <- (0.8263458+0.5453406+0.6620292) }
+  if (posicao == dist_base) {posicao <- 0.202419}
+  if (posicao == dist_topo) {posicao <-0.1452654}
+  
+  return(posicao)
+}
+
+
+Weiight_06 <- function (aterro, lixo, entulho) {
+ 
+  material <- 2.8959*lixo + 2.8959*aterro + 2.8959*entulho
+   
+  
+  return(material)
+}
+
+Weight_07 <- function (densidade1, densidade2, densidade3, densidade4) {
+  
+  if (densidade == densidade1) { densidade <- 0.1241856 }
+    if (densidade == densidade2) { densidade <- 0.3796128}
+  if (densidade == densidade3) { densidade <- 0.613872 }
+    if (densidade == densidade4) { densidade <- 0.2935296}
+
+  return(densidade)
+}
+  
+Weight_08 <- function (servida, conc_chuva, vaz, fossa, inexistente, precario, satisf) {
+  
+  if (agua == servida) (agua <- 0.9726108)
+   if (agua == conc_chuva) (agua <- 0.5842662)
+   if (agua == vazamento) (agua <- 1.1650338)
+   if (agua == fossa) (agua <- 0.5737704)
+
+  if (drenagem == inexistente) {drenagem <- 0.1022710752}
+  if (drenagem == precario) { drenagem <-0.0840083832}
+  if (drenagem == satisf) {drenagem <-0.0166393416}
+  
+  A <- agua + drenagem
+  return(A)
+  
+}
+
+
+Weight_09 <- function (arv, rast, solo_exposto, bananeira, cobertura_urbana) {
+cobertura <-   (0.022344*arv+0.1854552*rast+0.6948984*solo_exposto++0.290472*bananeira+0.245784*cobert_urbana)
+return(cobertura)
+  
+}
+
+
+# Instabilidade do terreno
+Weight_03  <- function (embarricado, trinca_moradia, trinca_terreno, degrau, inclinados, cicatriz){
+  
+  instabilidade <-                         (7.5849*embarricado+7.1217*trinca_moradia+6.1374*inclinado+13.7223*degrau+11.4642*cicatriz+11.8116*trinca_terreno)
+return (instabilidade)  
+
+  }
+
+
+
+risk <- function (Weight_01, Weight_02, Weight_03, Weight_04, Weight_05, Weight_06, Weight_07, Weight_09) {
+  
+  final<- Weight_01 + Weight_02 + Weight_03 + Weight_04 + Weight_05 + Weight_06 + Weight_07 + Weight_08 + Weight_09
+  
+  if (final < 7.11) {(return(R1))}
+  if (final >= 7.11 & final <12) {(return(R2))}
+  if (final >=12 & final >37) {(return(R3))}
+  if (final >=37) {(return(R4))}
+  
+}   
+
+
+
+```
+
