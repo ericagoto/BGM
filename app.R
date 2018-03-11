@@ -295,7 +295,19 @@ ui <-
              
              ######################### FIM OUTPUT ########################
              
+             ####### Testing Table output #############################
              
+             
+             tableOutput("values"),
+             
+             
+             
+             
+             
+             
+             
+             
+             ######################## end of testing table output ##############
              
              br(),
              
@@ -324,6 +336,84 @@ ui <-
 # Define server
 
 server <- function(input, output) {
+  
+  ### Reactive expression to create dataframe of all inputs values
+  
+  
+  textValues <- reactive({
+    
+    data.frame (
+      
+      Caracteristica = c("Municipio", 
+                         "Area",
+                         "Bairro",
+                         "Setor", 
+                         "Equipe",
+                         "UA",
+                         "Localizacao", 
+                         "Moradores",
+                         "Acesso ao local",
+                         "Tipo de moradias",
+                         "Tipo de encosta", 
+                         "Altura maxima da encosta natural",
+                         "Distancia da moradia",
+                         "Angulo de inclinacao", 
+                         "Posicao da  moradia", 
+                         "Geologia", 
+                         "Predominante",
+                         "Agua no encosta", 
+                         "Tipo de drenagem", 
+                         "Tipo de vegetacao",
+                         "Moraida", 
+                         "Densidade da ocuapacao", 
+                         "Via", 
+                         "Observacao da via"), 
+      
+      Value = as.character (c(output$txtout_munic, 
+                              output$txout_area, 
+                              output$txout_area,
+                              output$txtoutt_bairro, 
+                              outout$txout_setor,
+                              outuput$txout_equipe, 
+                              output$txout_equipe,
+                              output$dateText, 
+                              output$select_out_UA, 
+                              output$txout_loc, 
+                              output$txout_moradores, 
+                              output$txout_acesso, 
+                              output$select_out_moradia ,
+                              output$select_out_encosta , 
+                              output$txtout_h_max , 
+                              output$txtout_dist_moradia, 
+                              output$selectout_angle, 
+                              output$selectout_posicao_moradia,
+                              output$selectout_geol, 
+                              output$select_predominante, 
+                              output$selectout_agua, 
+                              output$selectout_drenag, 
+                              output$selectout_veg,
+                              output$selectout_inst, 
+                              output$txtout_moradia, 
+                              output$selectout_densidade, 
+                              output$selectout_via, 
+                              output$txtout_via)), 
+      stringsAsFactors = FALSE)
+                              
+                            
+  })
+                          
+
+    #show the values in the HTML talbe ----
+    output$values <- renderTable ({
+      textValues ()
+    })
+  
+  
+  
+  
+  
+  
+  
   
   
   output$txtout_munic <- renderText({
