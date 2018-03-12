@@ -1,0 +1,36 @@
+---
+title: "Relatorio"
+author: "Erica Goto"
+date: "3/12/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r libraries, message=FALSE, include=FALSE}
+
+library(rmarkdown)
+library(knitr)
+library (shiny)
+library(tidyverse)
+
+```
+
+
+##  Relatorio de Mapeamento de Areas de Risco
+
+```{r}
+# The `params` object is available in the document.
+
+
+params$n
+```
+
+A plot of `params$n` random points.
+
+```{r}
+plot(rnorm(params$n), rnorm(params$n))
+```

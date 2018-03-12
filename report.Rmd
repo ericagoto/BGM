@@ -1,19 +1,119 @@
 ---
-title: "Relatorio"
+title: "RELATORIO"
 author: "Erica Goto"
-date: "3/6/2018"
-output:
-  pdf_document: default
+date: "3/11/2018"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Relatorio de Mapeamento de Areas de Risco
+
+#Libraries
+```{r}
+
+library(rmarkdown)
+library(knitr)
+library (shiny)
+
+
+params
+
+```
+
+Relatorio das respostas
 
 ```{r}
-# The `params` object is available in the document.
-params
+shinyApp(
+ui <- ( fluidPage(
+
+
+tableOutput("values"))
+             
+  
+))
+
+
+
+server <- function(input, output) {
+  
+  ### Reactive expression to create dataframe of all inputs values
+  
+  
+  textValues <- reactive({
+    
+    data.frame (
+      
+      Caracteristica = c("Municipio", 
+                         "Area",
+                         "Bairro",
+                         "Setor", 
+                         "Equipe",
+                         "Data",
+                         "UA",
+                         "Localizacao", 
+                         "Moradores",
+                         "Acesso ao local",
+                         "Tipo de moradias",
+                         "Observacao moradias",
+                         "Densidade da ocuapacao", 
+                         "Via", 
+                         "Observacao da via",
+                         "Tipo de encosta", 
+                         "Altura maxima da encosta natural",
+                         "Distancia da moradia",
+                         "Angulo de inclinacao", 
+                         "Posicao da  moradia",
+                         "Geologia", 
+                         "Predominante",
+                         "Agua",
+                         "Tipo de drenagem" ,
+                         "Tipo de vegetacao",
+                         
+                         "Instabilidade do terreno"
+                         ), 
+      
+      Resposta = as.character (c(
+                              input$txt_mun, 
+                              input$txt_area, 
+                              input$txt_bairro, 
+                              input$txt_setor,
+                              input$txt_equip, 
+                              input$date, 
+                              input$select_UA, 
+                              input$txt_loc, 
+                              input$txt_moradores, 
+                              input$txt_acesso, 
+                              input$select_moradia,
+                              input$txt_moradia,
+                              input$select_densidade,
+                              input$select_via, 
+                              input$txt_via,
+                              input$select_encosta, 
+                              input$txt_h_max, 
+                              input$txt_dist_moradia, 
+                              input$select_angle, 
+                              input$select_posicao_moradia,
+                              input$select_geol, 
+                              input$select_predominante,
+                              paste(input$select_agua, collapse=";"),
+                              input$select_drenag, 
+                              input$select_veg,
+                              paste(input$select_inst, collapse =";")
+                              )), 
+      stringsAsFactors = FALSE)
+                              
+                            
+
+  
+   output$values <- renderTable ({
+      textValues ()}
+   )
+  
+  }
+  )
+}
+)
 ```
 

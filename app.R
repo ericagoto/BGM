@@ -104,7 +104,7 @@ ui <-
                  
                  textInput("txt_moradia", "Obs:", ""),
                  selectInput("select_densidade", label = h5("Densidade de ocupacao:"), 
-                             choices = list("1" = "1", "2" = "2", "3" = "3", "4"="4"), 
+                             choices = list("1" = "densidade1", "2" = "densidade2", "3" = "densidade3", "4"="densidade4"), 
                              selected = ""),
                  
                  selectInput("select_via", label = h5("Condicao da via:"), 
@@ -125,7 +125,7 @@ ui <-
                  p("Descrever o terreno onde estão as moradias. Utilize o desenho no primeiro quadro como referência para as condições encontradas. Antes de preencher dê um passeio no entorno das moradias. Olhe com atenção os barrancos (taludes) e suba neles se for necessário."),
                  br(),
                  
-                 selectInput("select_encosta", label = h5("Tipos de encosta:"), 
+                 checkboxGroupInput("select_encosta", label = h5("Tipos de encosta:"), 
                              choices = list("Encosta Natural" = "Encosta Natural", "Talude de corte" = "Talude de corte"), 
                              selected = "Encosta Natural"),   
                  textInput("txt_h_max", "Altura maxima (m):", "preencher em metros"), 
@@ -133,25 +133,23 @@ ui <-
                  textInput("txt_dist_moradia", "Distancia moradia em relação encosta/talude m):", "preencher em metros"),
                  
                  p("Em relação ao ângulo de inclinação(teta) da encosta/talude: "),
-                 selectInput("select_angle", label = h5("Ângulo de inclinação (em graus):"), choices = list("< 10" = "< 10", "entre 10 e 17" = "entre 10 e 17","entre 17 e 30" = "entre 17 e 30", "entre 30 e 60" = "entre 30 e 60", "entre 60 e 90" = "entre 60 e 90", "90"="90"), 
+                 selectInput("select_angle", label = h5("Ângulo de inclinação (em graus):"), choices = list("< 10" = "A10", "entre 10 e 17" = "A10_17","entre 17 e 30" = "A_17_30", "entre 30 e 60" = "A_30_60", "entre 60 e 90" = "A_60_90", "90"="90"), 
                              selected = "escolher ângulo de inclinação da encosta"),
                  
                  selectInput("select_posicao_moradia", label = h5("Posição da moradia:"), choices = list(
-                   "Próxima a base da encosta" ="Próxima a base da encosta",          "Distante da base da encosta" =  "Distante da base da encosta",
-                   "Próxima ao topo da encosta" ="Próxima ao topo da encosta",          "Distante do topo da encosta" =  "Distante do topo da encosta",
-                   "No meio da encosta" =  "No meio da encosta", 
-                   "Na encosta" = "Na encosta"
+                   "Na encosta" = "na_encosta",          "Distante da base da encosta" =  "dist_base",
+                          "Distante do topo da encosta" =  "dist_topo"
                  ), 
                  selected = "escolha posição da moradia"),
                  
-                 selectInput("select_geol", label = h5("Geologia do terreno:"), choices = list("favorável à estabilidade" = "favorável à estabilidade",
-                                                                                               "desfavorável à estabilidade" = "desfavorável à estabilidade",
-                                                                                               "não observada" = "não observada"), 
+                 selectInput("select_geol", label = h5("Geologia do terreno:"), choices = list("favorável à estabilidade" = "favoravel",
+                                                                                               "desfavorável à estabilidade" = "desfav",
+                                                                                               "não observada" = "nao_obs"), 
                              selected = ""),
                  
                  
                  
-                 selectInput("select_predominante", label = h5("Material predominante:"), choices = list("solo residual" = "solo residual",
+                 checkboxGroupInput("select_predominante", label = h5("Material predominante:"), choices = list("solo residual" = "solo residual",
                                                                                                          "saprolito" = "saprolito",
                                                                                                          "rocha alterada" = "rocha alterada", 
                                                                                                          "rocha sa" = "rocha sa", 
@@ -170,19 +168,18 @@ ui <-
                  br(),
                  
                  checkboxGroupInput("select_agua", label = h5("Água no terreno:"), choices = list(
-                   "Lançamento de água servida em superfície " =     "Lançamento de água servida em superfície ", 
-                   "concentração de água de chuva em superfície" =    "concentração de água de chuva em superfície",
-                   "vazamento da tubulação" = "vazamento da tubulação",
-                   " fossa séptica " = " fossa septica ",
-                   "vazamento da tubulação" = "vazamento da tubulação"
-                   
+                   "Lançamento de água servida em superfície " =     "servida", 
+                   "concentração de água de chuva em superfície" =    "conc_chuva",
+                   "vazamento da tubulação" = "vazamento",
+                   " fossa séptica " = " fossa"
+
                  ), 
                  selected = "presença de água no terreno... "),
                  
                  
                  selectInput("select_drenag", label = h5("Tipo de sistema de drenagem:"), choices = list("inexistente" = "inexistente",
-                                                                                                         "satisfatório" = "satisfatório" ,
-                                                                                                         "precário" = "precário" 
+                                                                                                         "satisfatório" = "satisf" ,
+                                                                                                         "precário" = "precario" 
                  ), 
                  selected = "escolha o tipo de sistema de drenagem")
                  ,
@@ -206,16 +203,14 @@ ui <-
                    para a segurança da encosta. Anotar a vegetação que se encontra na 
                    área que está sendo avaliada, principalmente se existirem bananeiras."), 
                  
-                 selectInput("select_veg", label = h5("Cobertura do terreno:"), 
+                 checkboxGroupInput("select_veg", label = h5("Cobertura do terreno:"), 
                              choices = list( 
-                               "Presença de árvores" = "Presença de árvores",
-                               "vegetação rasteira/arbustiva" = "vegetação rasteira/arbustiva",
+                               "Presença de árvores" = "arvore",
+                               "vegetação rasteira/arbustiva" = "rasteira",
                                
-                               "área desmatada/solo exposto" = "área desmatada/solo exposto",
-                               
-                               "gramado/campo" = "gramado/campo",
-                               " presença de bananeira" = " presença de bananeira ",
-                               "cobertura urbana"="cobertura urbana"
+                               "área desmatada/solo exposto" = "solo_exposto",
+                               " presença de bananeira" = "bananeira",
+                               "cobertura urbana"="cobertura_urbana"
                                
                              ), 
                              selected = "escolha o tipo de cobertura do terreno"),
@@ -232,12 +227,12 @@ ui <-
                  
                  checkboxGroupInput("select_inst", label = h5("Instabilidade do terreno:"), 
                                     choices = list( 
-                                      "Muro e/ou parede embarrigado" = "Muro e/ou parede embarrigado",
-                                      "trinca na moradia" = "trinca na moradia",
-                                      "árvores, postes, muros inclinados" = "árvores, postes, muros inclinados",
-                                      "degrau de abatimento" = "degrau de abatimento", 
-                                      "cicatriz de escorregamento"="cicatriz de escorregamento",
-                                      "trinca no terreno" = "trinca no terreno"
+                                      "Muro e/ou parede embarrigado" = "embarricado",
+                                      "trinca na moradia" = "trinca_moradia",
+                                      "árvores, postes, muros inclinados" = "inclinados",
+                                      "degrau de abatimento" = "degrau", 
+                                      "cicatriz de escorregamento"="cicatriz",
+                                      "trinca no terreno" = "trinca_terreno"
                                       
                                     ), 
                                     selected = "instabilidade do terreno")
@@ -286,12 +281,12 @@ ui <-
              
              br(),
             
-             
-             radioButtons(inputId ="pdf", label="Formato do documento", c('pdf'),
+             radioButtons('format', 'Formato do Documento', c('PDF', 'HTML', 'Word'),
                           inline = TRUE),
-             downloadButton(outputId = "down", "Gerar relatorio")
+             downloadButton('Baixar relatorio')
+    
              
-             
+      
              
              
              
@@ -365,16 +360,16 @@ server <- function(input, output) {
                               input$select_densidade,
                               input$select_via, 
                               input$txt_via,
-                              input$select_encosta, 
+                              paste(input$select_encosta, collapse = ";"), 
                               input$txt_h_max, 
                               input$txt_dist_moradia, 
                               input$select_angle, 
                               input$select_posicao_moradia,
                               input$select_geol, 
-                              input$select_predominante,
+                              paste(input$select_predominante, collapse =";"),
                               paste(input$select_agua, collapse=";"),
                               input$select_drenag, 
-                              input$select_veg,
+                              paste(input$select_veg, collapse = ";"),
                               paste(input$select_inst, collapse =";")
                               )), 
       stringsAsFactors = FALSE)
@@ -385,7 +380,7 @@ server <- function(input, output) {
   
                 
 
-    #show the values in the HTML talbe ----
+    #show the values in the HTML table ----
     output$values <- renderTable ({
       textValues ()
     })
@@ -496,28 +491,68 @@ server <- function(input, output) {
     
     
     # Specify the file name
-    filename = function() {
-      
-      #report.pdf (name of the file)
-      paste("report", input$pdf, sep=".")
+    filename = {
+      paste('my-report', sep = '.', switch(
+        input$format, PDF = 'pdf', HTML = 'html', Word = 'docx'
+      ))
     },
     
-    content = function(file){
+    content = function(file) {
+      src <- normalizePath('report.Rmd')
       
-      #open the device
-      #create the table
-      #close the device
+      # temporarily switch to the temp dir, in case you do not have write
+      # permission to the current working directory
+      owd <- setwd(tempdir())
+      on.exit(setwd(owd))
+      file.copy(src, 'report.Rmd', overwrite = TRUE)
       
-      #pdf()
       
-      (input$pdf == "pdf")
-        pdf(file)
+      ### parameters 
       
-      tableOutput("values")
+      params <- list(c(          input$txt_mun, 
+                                 input$txt_area, 
+                                 input$txt_bairro, 
+                                 input$txt_setor,
+                                 input$txt_equip, 
+                                 input$date, 
+                                 input$select_UA, 
+                                 input$txt_loc, 
+                                 input$txt_moradores, 
+                                 input$txt_acesso, 
+                                 input$select_moradia,
+                                 input$txt_moradia,
+                                 input$select_densidade,
+                                 input$select_via, 
+                                 input$txt_via,
+                                 input$select_encosta, 
+                                 input$txt_h_max, 
+                                 input$txt_dist_moradia, 
+                                 input$select_angle, 
+                                 input$select_posicao_moradia,
+                                 input$select_geol, 
+                                 input$select_predominante,
+                                 paste(input$select_agua, collapse=";"),
+                                 input$select_drenag, 
+                                 input$select_veg,
+                                 paste(input$select_inst, collapse =";")))
       
-      dev.off
       
-    }
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+   ) }
+      
+      
+      
+      
+      
+      
+      
+      
+    
     
     
     
