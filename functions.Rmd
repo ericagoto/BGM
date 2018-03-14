@@ -25,55 +25,46 @@ Functions:
 
 #Angulo, geologia, solo
 
-
-Weight_01 <- function(A10, A10_17, A17_30, A_30_60, A90) {
+Weight_01 <- function(A10, A10_17, A17_30, A_30_60, A_60_90, A90) {
   #angulo
-  if (angulo == A10) { return(angulo <-  0.5028996)}
-  if (angulo == A10_17) {return(angulo <- 0.8866914)}
-   if (angulo == A_17_30) {return(angulo <- 2.0248326)}
-   if (angulo == A_30_60) {return(angulo <- 4.1555388)}
-  if (angulo == A90) {return(angulo <- 2.2101114)}
+  if (A10) { return(angulo <-  0.5028996)}
+  if (A10_17) {return(angulo <- 0.8866914)}
+   if (A_17_30) {return(angulo <- 2.0248326)}
+   if (A_30_60) {return(angulo <- 4.1555388)}
+  if (A_60_90) {return(angulo <- 3.4541262)}
+  if (A90) {return(angulo <- 2.2101114)}
   
 }
  
 
-Weight_04 <- function (solo, favoravel, desfav, nao_obs){
+Weight_04 <- function (favoravel, desfav, nao_obs){
   
-  solo <- 6.165*solo
+  #solo <- 6.165
   
   # Geologia
   
-  if (geologia == Favoravel) {
-    geologia <- 1.0030592
-  }
-  if (geologia == Desfav) {
-    geologia <- 2.9995328
-  }
+  if (favoravel) { return(geologia <-  1.0030592) }
+  if (desfav) { return(geologia <- 2.9995328)}
   
-  if (geologia == NaoObs) {
-    geologia <- 0.819808
+  if (nao_obs) { return(geologia <- 0.819808)
   }
-  
-  # sum of the three parameters
-  weight = solo + geologia
 
-  return(weight)
 }
 
 
 # Tipo de Encosta, Moradia, Densidade, Posicao Moradia
 
 
-Weight_02 <-function(madeira, alvenaria, mista)  {
+Weight_02 <-function(Madeira, Alvenaria, Mista)  {
   
-  if (moradia == madeira) {moradia = 0.882882 }
-  if (moradia == alvenaria) {moradia = 0.1582308}
-  if (moradia == mista) {moradia = 1.2520872}
+  if (moradia == Madeira) {moradia = 0.882882 }
+  if (moradia == Alvenaria) {moradia = 0.1582308}
+  if (moradia == Mista) {moradia = 1.2520872}
   return (moradia)
 }
 
 
-Weight_05 <- function(encosta, dist_base, dist_topo) {
+Weight_05 <- function(na_encosta, dist_base, dist_topo) {
   
   if (posicao == encosta){posicao <- (0.8263458+0.5453406+0.6620292) }
   if (posicao == dist_base) {posicao <- 0.202419}
@@ -83,7 +74,7 @@ Weight_05 <- function(encosta, dist_base, dist_topo) {
 }
 
 
-Weiight_06 <- function (aterro, lixo, entulho) {
+Weight_06 <- function (aterro, lixo, entulho) {
  
   material <- 2.8959*lixo + 2.8959*aterro + 2.8959*entulho
    
@@ -118,8 +109,8 @@ Weight_08 <- function (servida, conc_chuva, vaz, fossa, inexistente, precario, s
 }
 
 
-Weight_09 <- function (arv, rast, solo_exposto, bananeira, cobertura_urbana) {
-cobertura <-   (0.022344*arv+0.1854552*rast+0.6948984*solo_exposto++0.290472*bananeira+0.245784*cobert_urbana)
+Weight_09 <- function (arvore, rasteira, solo_exposto, bananeira, cobertura_urbana) {
+cobertura <-   (0.022344*arvore+0.1854552*rast+0.6948984*solo_exposto++0.290472*bananeira+0.245784*cobert_urbana)
 return(cobertura)
   
 }
