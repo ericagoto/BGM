@@ -131,41 +131,30 @@ $(document).ready(function () {
 <p>Functions:</p>
 <pre class="r"><code>#Angulo, geologia, solo
 
-A &lt;- c(&quot;A17_30&quot;, &quot;solo&quot;,&quot;favoravel&quot;, &quot;Madeira&quot;, &quot;na_encosta&quot;, &quot;lixo&quot;, &quot;aterro&quot;, &quot;degrau&quot;, &quot;inclinados&quot;, &quot;bananeira&quot;, &quot;degrau&quot;)
-
-Weight_01 &lt;- function(A10, A10_17, A17_30, A_30_60, A_60_90, A90) {
+angulo &lt;- function(x) {
   #angulo
-  if (angulo == A10) { return(angulo &lt;-  0.5028996)}
-  if (angulo == A10_17) {return(angulo &lt;- 0.8866914)}
-   if (angulo == A_17_30) {return(angulo &lt;- 2.0248326)}
-   if (angulo == A_30_60) {return(angulo &lt;- 4.1555388)}
-  if (angulo == A_60_90) {return(angulo &lt;- 3.4541262)}
-  if (angulo == A90) {return(angulo &lt;- 2.2101114)}
-  
+  if (x &lt;- A10) { (0.5028996)}
+  if (x &lt;- A10_17) {(0.8866914)}
+   if (x &lt;- A_17_30) {(2.0248326)}
+   if (x &lt;- A_30_60) {(4.1555388)}
+  if (x &lt;- A_60_90) {(3.4541262)}
+  if
+  (x &lt;- A90) {return(2.2101114)}
 }
  
 
-Weight_04 &lt;- function (solo, favoravel, desfav, nao_obs){
+Weight_04 &lt;- function (favoravel, desfav, nao_obs){
   
-  solo &lt;- 6.165
+  #solo &lt;- 6.165
   
   # Geologia
   
-  if (geologia == favoravel) {
-    geologia &lt;- 1.0030592
-  }
-  if (geologia == desfav) {
-    geologia &lt;- 2.9995328
-  }
+  if (favoravel) { return(geologia &lt;-  1.0030592) }
+  if (desfav) { return(geologia &lt;- 2.9995328)}
   
-  if (geologia == nao_obs) {
-    geologia &lt;- 0.819808
+  if (nao_obs) { return(geologia &lt;- 0.819808)
   }
-  
-  # sum of the three parameters
-  weight = solo + geologia
 
-  return(weight)
 }
 
 

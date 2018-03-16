@@ -1,7 +1,5 @@
 ---
 title: "Dynamic report"
-output:
-  html_document: default
 params:
   a: NA
   b: NA
@@ -29,7 +27,8 @@ params:
   x: NA
   z: NA
   y: NA
-
+output:
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -82,6 +81,7 @@ data.frame(
 
 
 
-
 ```
+
+
 

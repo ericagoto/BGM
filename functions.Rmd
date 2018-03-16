@@ -2,7 +2,9 @@
 title: "Functions"
 author: "Erica Goto"
 date: "3/11/2018"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -25,15 +27,15 @@ Functions:
 
 #Angulo, geologia, solo
 
-Weight_01 <- function(A10, A10_17, A17_30, A_30_60, A_60_90, A90) {
+angulo <- function(x) {
   #angulo
-  if (A10) { return(angulo <-  0.5028996)}
-  if (A10_17) {return(angulo <- 0.8866914)}
-   if (A_17_30) {return(angulo <- 2.0248326)}
-   if (A_30_60) {return(angulo <- 4.1555388)}
-  if (A_60_90) {return(angulo <- 3.4541262)}
-  if (A90) {return(angulo <- 2.2101114)}
-  
+  if (x <- A10) { (0.5028996)}
+  if (x <- A10_17) {(0.8866914)}
+   if (x <- A_17_30) {(2.0248326)}
+   if (x <- A_30_60) {(4.1555388)}
+  if (x <- A_60_90) {(3.4541262)}
+  if
+  (x <- A90) {return(2.2101114)}
 }
  
 
@@ -137,7 +139,6 @@ risk <- function (Weight_01, Weight_02, Weight_03, Weight_04, Weight_05, Weight_
   
 }   
 
-
-
 ```
+
 

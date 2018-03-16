@@ -149,13 +149,15 @@ ui <-
                  
                  
                  
-                 checkboxGroupInput("select_predominante", label = h5("Material predominante:"), choices = list("solo residual" = "solo residual",
-                                                                                                         "saprolito" = "saprolito",
-                                                                                                         "rocha alterada" = "rocha alterada", 
-                                                                                                         "rocha sa" = "rocha sa", 
-                                                                                                         "aterro" = "aterro", 
-                                                                                                         "lixo" = "lixo", 
-                                                                                                         "entulho" = "entulho"), 
+                 checkboxGroupInput("select_predominante", 
+                                    label = h5("Material predominante:"), 
+                                    choices = list("solo residual" = "solo residual",
+                                                    "saprolito" = "saprolito",
+                                                     "rocha alterada" = "rocha alterada", 
+                                                       "rocha sa" = "rocha sa", 
+                                                         "aterro" = "aterro", 
+                                                        "lixo" = "lixo", 
+                                                       "entulho" = "entulho"), 
                              selected = "escolha material predominante na encosta"),    
                  
                  
@@ -281,19 +283,37 @@ ui <-
              
              br(),
             
-             radioButtons('format', 'Formato do Documento', c('PDF', 'HTML', 'Word'),
-                          inline = TRUE),
-             downloadButton('Baixar relatorio')
-    
-             
-      
+             p("Baixar relatorio:"),
              
              
+             ################ inicio HTML button ####################
+             downloadButton( "format", "Baixar - HTML"),
+  
+             ########################## end html file #####################
              
-             ########################## fim PDF file #####################
+             
+             ################ inicio PDF button ####################
+             downloadButton( 'format_pdf', 'Baixar - PDF'),
+             
+             ########################## end html file #####################
+             
+             
+             
+             
+             # #################### inicio EXCELL dowonload button ############
+             downloadButton("downloadData", "Baixar em Excel"), 
+             br()
+             
+             ###################### end EXCEL download button #################
+             
+             
+    )
+             
+             
+             
              
     ) 
-    )
+
 
 
 
@@ -308,7 +328,14 @@ ui <-
 
 server <- function(input, output) {
   
-  ### Reactive expression to create dataframe of all inputs values
+  
+  
+  
+  
+  
+  
+  
+  ### Reactive expression to create dataframe of all inputs values for html and visualizatin
   
   
   textValues <- reactive({
@@ -336,7 +363,7 @@ server <- function(input, output) {
                          "Angulo de inclinacao", 
                          "Posicao da  moradia",
                          "Geologia", 
-                         "Predominante",
+                         "Material predominante",
                          "Agua",
                          "Tipo de drenagem" ,
                          "Tipo de vegetacao",
@@ -350,7 +377,7 @@ server <- function(input, output) {
                               input$txt_bairro, 
                               input$txt_setor,
                               input$txt_equip, 
-                              input$date, 
+                              as.character(input$date), 
                               input$select_UA, 
                               input$txt_loc, 
                               input$txt_moradores, 
@@ -377,7 +404,7 @@ server <- function(input, output) {
                             
   })
      
-  
+  ####################### end of reactive inputs for html and vizualizaiton ###############
                 
 
     #show the values in the HTML table ----
@@ -387,7 +414,41 @@ server <- function(input, output) {
     
   
     
+  ############# Reactive for excel #######################
+   
+    
+    textValues2 <- reactive({
+   data.frame("Municipio" = input$txt_mun, 
+               "Area" = input$txt_area, 
+               "Bairro"= input$txt_bairro, 
+               "Setor" = input$txt_setor,
+               "Equipe" = input$txt_equip, 
+               "Data" = as.character(input$date), 
+               "UA" = input$select_UA, 
+               "Localizacao" = input$txt_loc, 
+               "Moradores contato" = input$txt_moradores, 
+               "Acesso" = input$txt_acesso, 
+               "Tipo de Moradia" = input$select_moradia,
+               "Moradia (observacoes)" = input$txt_moradia,
+               "Densidade" = input$select_densidade,
+               "Via de acesso" = input$select_via, 
+               "Via de acesso (observacoes)" = input$txt_via,
+               "Tipo de encosta" = paste(input$select_encosta, collapse = ";"), 
+               "Altura maxima do talude" = input$txt_h_max, 
+               "Distancia Moradia" = input$txt_dist_moradia, 
+               "Angulo de inclinacao" = input$select_angle, 
+               "Posicao/Localiz das moradias" = input$select_posicao_moradia,
+               "Geologia" = input$select_geol, 
+               "Material presente/predominante" = paste(input$select_predominante, collapse =";"),
+               "Agua no terreno" = paste(input$select_agua, collapse=";"),
+               "Drenagem" = input$select_drenag, 
+               "Tipo de Vegetacao" = paste(input$select_veg, collapse = ";"),
+               "Instabilidade" = paste(input$select_inst, collapse =";"))
   
+} )
+    
+    
+  ######################## end Reactive for excel ##################
                              
     
   
@@ -453,7 +514,7 @@ server <- function(input, output) {
     paste("Geologia:", as.character(input$select_geol))})
   
   output$selectout_predominante <- renderText({
-    paste("Geologia:", as.character(input$select_predominante))})
+    paste("Tipo de material predominante:", as.character(input$select_predominante))})
   
   
   
@@ -485,56 +546,52 @@ server <- function(input, output) {
   
   
   
-  ##### output for PDF report ##########
+  ##### output for HTML report ##########
   
-  output$down <- downloadHandler (
+  output$format <- downloadHandler (
     
     
     # Specify the file name
-    filename = {
-      paste('my-report', sep = '.', switch(
-        input$format, PDF = 'pdf', HTML = 'html', Word = 'docx'
-      ))
-    },
-    
-    content = function(file) {
-      src <- normalizePath('report.Rmd')
-      
-      # temporarily switch to the temp dir, in case you do not have write
-      # permission to the current working directory
-      owd <- setwd(tempdir())
-      on.exit(setwd(owd))
-      file.copy(src, 'report.Rmd', overwrite = TRUE)
-      
+    filename = "report.html", 
+    content = function(file)
+     {
+      # Copy the report file to a temporary directory before processing it, in
+      # case we don't have write permissions to the current working dir (which
+      # can happen when deployed).
+      tempReport <- file.path(tempdir(), "report.Rmd")
+      file.copy("report.Rmd", tempReport, overwrite = TRUE)
       
       ### parameters 
       
-      params <- list(c(          input$txt_mun, 
-                                 input$txt_area, 
-                                 input$txt_bairro, 
-                                 input$txt_setor,
-                                 input$txt_equip, 
-                                 input$date, 
-                                 input$select_UA, 
-                                 input$txt_loc, 
-                                 input$txt_moradores, 
-                                 input$txt_acesso, 
-                                 input$select_moradia,
-                                 input$txt_moradia,
-                                 input$select_densidade,
-                                 input$select_via, 
-                                 input$txt_via,
-                                 input$select_encosta, 
-                                 input$txt_h_max, 
-                                 input$txt_dist_moradia, 
-                                 input$select_angle, 
-                                 input$select_posicao_moradia,
-                                 input$select_geol, 
-                                 input$select_predominante,
-                                 paste(input$select_agua, collapse=";"),
-                                 input$select_drenag, 
-                                 input$select_veg,
-                                 paste(input$select_inst, collapse =";")))
+      params <- list(    a= input$txt_mun, 
+                         b = input$txt_area, 
+                          c= input$txt_bairro, 
+                          d=input$txt_setor,
+                          e=input$txt_equip, 
+                          f= as.character(input$date),
+                        g = input$select_UA, 
+                        h=input$txt_loc, 
+                        i = input$txt_moradores, 
+                         j =input$txt_acesso, 
+                        k = input$select_moradia,
+                          l= input$txt_moradia,
+                          m= input$select_densidade,
+                          n = input$select_via, 
+                         o =  input$txt_via,
+                        p =paste(input$select_encosta, collapse="; "), 
+                         q =input$txt_h_max, 
+                         r =input$txt_dist_moradia, 
+                        s = input$select_angle,
+                         t =input$select_posicao_moradia,
+                          u =input$select_geol,
+                         v = paste(input$select_predominante, collapse ="; "),
+                          x = paste(input$select_agua, collapse="; "),
+                          z = input$select_drenag, 
+                          y = paste(input$select_veg, collapse=";"),
+                          w = paste(input$select_inst, collapse =";")
+      )
+      
+      
       
       
       # Knit the document, passing in the `params` list, and eval it in a
@@ -545,21 +602,170 @@ server <- function(input, output) {
                         envir = new.env(parent = globalenv())
    ) }
       
-      
-      
-      
-      
-      
-      
-      
+  ) 
+  #### ################ end of output report
+ 
+  ################ beginning of output report PDF #############
+ 
+  output$format_pdf <- downloadHandler (
     
     
+    # Specify the file name
+    filename = "report2.pdf", 
+    content = function(file)
+    {
+      # Copy the report file to a temporary directory before processing it, in
+      # case we don't have write permissions to the current working dir (which
+      # can happen when deployed).
+      tempReport <- file.path(tempdir(), "report_pdf.Rmd")
+      file.copy("report_pdf.Rmd", tempReport, overwrite = TRUE)
+      
+      ### parameters 
+      
+      params <- list(    a= input$txt_mun, 
+                         b = input$txt_area, 
+                         c= input$txt_bairro, 
+                         d=input$txt_setor,
+                         e=input$txt_equip, 
+                         f= as.character(input$date),
+                         g = input$select_UA, 
+                         h=input$txt_loc, 
+                         i = input$txt_moradores, 
+                         j =input$txt_acesso, 
+                         k = input$select_moradia,
+                         l= input$txt_moradia,
+                         m= input$select_densidade,
+                         n = input$select_via, 
+                         o =  input$txt_via,
+                         p =paste(input$select_encosta, collapse="; "), 
+                         q =input$txt_h_max, 
+                         r =input$txt_dist_moradia, 
+                         s = input$select_angle,
+                         t =input$select_posicao_moradia,
+                         u =input$select_geol,
+                         v = paste(input$select_predominante, collapse ="; "),
+                         x = paste(input$select_agua, collapse="; "),
+                         z = input$select_drenag, 
+                         y = paste(input$select_veg, collapse=";"),
+                         w = paste(input$select_inst, collapse =";")
+      )
+      
+      
+      
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      ) }
     
-    
-    
-    
-  ) #### end of output report
-                        
+  ) 
+  
+  ################ end of output report PDF ###############
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ###### ################## excel download #######################
+  
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste(       
+        data.frame(input$txt_mun, 
+        input$txt_area, 
+        input$txt_bairro, 
+        input$txt_setor,
+        input$txt_equip, 
+        as.character(input$date), 
+        input$select_UA, 
+        input$txt_loc, 
+        input$txt_moradores, 
+        input$txt_acesso, 
+        input$select_moradia,
+        input$txt_moradia,
+        input$select_densidade,
+        input$select_via, 
+        input$txt_via,
+        paste(input$select_encosta, collapse = ";"), 
+        input$txt_h_max, 
+        input$txt_dist_moradia, 
+        input$select_angle, 
+        input$select_posicao_moradia,
+        input$select_geol, 
+        paste(input$select_predominante, collapse =";"),
+        paste(input$select_agua, collapse=";"),
+        input$select_drenag, 
+        paste(input$select_veg, collapse = ";"),
+        paste(input$select_inst, collapse =";")), 
+        
+        colnames(df) <- c("Municipio", 
+                          "Area",
+                          "Bairro",
+                          "Setor", 
+                          "Equipe",
+                          "Data",
+                          "UA",
+                          "Localizacao", 
+                          "Moradores",
+                          "Acesso ao local",
+                          "Tipo de moradias",
+                          "Observacao moradias",
+                          "Densidade da ocuapacao", 
+                          "Via", 
+                          "Observacao da via",
+                          "Tipo de encosta", 
+                          "Altura maxima da encosta natural",
+                          "Distancia da moradia",
+                          "Angulo de inclinacao", 
+                          "Posicao da  moradia",
+                          "Geologia", 
+                          "Material predominante",
+                          "Agua",
+                          "Tipo de drenagem" ,
+                          "Tipo de vegetacao",
+                          "Instabilidade do terreno")
+      , ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(textValues2(), file, row.names = FALSE)
+    }
+  )
+  
+  
+  
+  
+  
+  ######################## end download excel ###################################
+  
     }
 
 

@@ -6,7 +6,7 @@ params:
   n: NA
   y: NA
 output:
-  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}

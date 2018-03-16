@@ -120,30 +120,71 @@ $(document).ready(function () {
 </div>
 
 
-<div id="relatorio-de-mapeamento-de-areas-de-risco" class="section level2">
-<h2>Relatorio de Mapeamento de Areas de Risco</h2>
-<pre class="r"><code># The `params` object is available in the document.
-data.frame (
+<p>Relatorio com respostas</p>
+<pre class="r"><code>data.frame(
       
       Caracteristica = c(&quot;Municipio&quot;, 
-                         &quot;2&quot;,
-                         &quot;3&quot;,
-                         &quot;4&quot;),
-                       
+                         &quot;Area&quot;,
+                         &quot;Bairro&quot;,
+                         &quot;Setor&quot;, 
+                         &quot;Equipe&quot;,
+                         &quot;Data&quot;,
+                         &quot;UA&quot;,
+                        &quot;Localizacao&quot;, 
+                         &quot;Moradores&quot;,
+                        &quot;Acesso ao local&quot;,
+                         &quot;Tipo de moradias&quot;,
+                         &quot;Observacao moradias&quot;,
+                        &quot;Densidade da ocuapacao&quot;, 
+                        &quot;Via&quot;, 
+                         &quot;Observacao da via&quot;,
+                         &quot;Tipo de encosta&quot;, 
+                         &quot;Altura maxima da encosta natural&quot;,
+                         &quot;Distancia da moradia&quot;,
+                        &quot;Angulo de inclinacao&quot; ,
+                         &quot;Posicao da  moradia&quot;,
+                        &quot;Geologia&quot;, 
+                       &quot;Material preodominante&quot;,
+                      &quot;Agua&quot;,
+                        &quot;Tipo de drenagem&quot; ,
+                        &quot;Tipo de vegetacao&quot;,
+                        &quot;Instabilidade do terreno&quot;
+                         ), 
       
-      Resposta = as.character(c(
-        params$n, 
-        params$x, 
-        params$y, 
-        params$i
-
-      )))</code></pre>
-<pre><code>##   Caracteristica                     Resposta
-## 1      Municipio                           50
-## 2              2                          A10
-## 3              3                    favoravel
-## 4              4 servida;conc_chuva;vazamento</code></pre>
-</div>
+      Resposta = as.character (c(
+                        params$a,  params$b,  params$c,  params$d,  params$e,  params$f,
+                         params$g,  params$h,  params$i,  params$j,  params$k,  params$l, 
+                         params$m,  params$n, params$o,  params$p,  params$q,  params$r, 
+                         params$s, params$t,  params$u,  params$v,
+                        params$x, params$z, params$y,  params$w)
+                              ))</code></pre>
+<pre><code>##                      Caracteristica                         Resposta
+## 1                         Municipio                nome do municipio
+## 2                              Area                     nome da area
+## 3                            Bairro                           Bairro
+## 4                             Setor                            Setor
+## 5                            Equipe          participantes da equipe
+## 6                              Data                       2018-03-16
+## 7                                UA                     Deslizamento
+## 8                       Localizacao                                 
+## 9                         Moradores                                 
+## 10                  Acesso ao local                                 
+## 11                 Tipo de moradias                        Alvenaria
+## 12              Observacao moradias                                 
+## 13           Densidade da ocuapacao                       densidade1
+## 14                              Via                      pavimentada
+## 15                Observacao da via              escreva observacoes
+## 16                  Tipo de encosta Encosta Natural; Talude de corte
+## 17 Altura maxima da encosta natural              preencher em metros
+## 18             Distancia da moradia              preencher em metros
+## 19             Angulo de inclinacao                              A10
+## 20              Posicao da  moradia                       na_encosta
+## 21                         Geologia                        favoravel
+## 22           Material preodominante                                 
+## 23                             Agua                                 
+## 24                 Tipo de drenagem                      inexistente
+## 25                Tipo de vegetacao                                 
+## 26         Instabilidade do terreno                  degrau;cicatriz</code></pre>
 
 
 
