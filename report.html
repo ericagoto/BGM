@@ -139,52 +139,91 @@ $(document).ready(function () {
                         &quot;Via&quot;, 
                          &quot;Observacao da via&quot;,
                          &quot;Tipo de encosta&quot;, 
+                        &quot;Talude de corte&quot;,
                          &quot;Altura maxima da encosta natural&quot;,
                          &quot;Distancia da moradia&quot;,
                         &quot;Angulo de inclinacao&quot; ,
                          &quot;Posicao da  moradia&quot;,
                         &quot;Geologia&quot;, 
-                       &quot;Material preodominante&quot;,
-                      &quot;Agua&quot;,
+                        &quot;Solo residual&quot;,
+                          &quot;Saprolito&quot;, 
+                          &quot;Rocha alterada&quot;,
+                          &quot;Rocha sa&quot;, 
+                          &quot;Aterro&quot;,
+                          &quot;Lixo&quot;,
+                          &quot;Entulho&quot;,
+                        &quot;Lancamento de agua servida&quot;,
+                      &quot;Concentracao de agua de chuva&quot;,
+                      &quot;Vazamento&quot;,
+                      &quot;Fossa septica&quot;,
                         &quot;Tipo de drenagem&quot; ,
-                        &quot;Tipo de vegetacao&quot;,
-                        &quot;Instabilidade do terreno&quot;
+                        &quot;Presenca de arvores&quot;,
+                          &quot;Presenca de vegetacao rasteira&quot;,
+                          &quot;Solo exposto/vegetacao desmatada&quot;,
+                          &quot;Cobertura urbana&quot;,                       
+                        &quot;Muro embarrigado&quot;, 
+                         &quot;Trinca na moradia&quot;, 
+                         &quot;Arvores, postes, e muros inclinados&quot;,
+                         &quot;Degrau de abatimento&quot;,
+                         &quot;Cicatrizes de escorregamento&quot;,
+                         &quot;Trinca no terreno&quot;
                          ), 
       
       Resposta = as.character (c(
                         params$a,  params$b,  params$c,  params$d,  params$e,  params$f,
                          params$g,  params$h,  params$i,  params$j,  params$k,  params$l, 
-                         params$m,  params$n, params$o,  params$p,  params$q,  params$r, 
-                         params$s, params$t,  params$u,  params$v,
-                        params$x, params$z, params$y,  params$w)
+                         params$m,  params$n, params$o,  params$p, params$p1,  params$q,
+                        params$r, params$s, params$t,  params$u,  params$v,
+                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6,
+                        params$x,  params$x1,  params$x2,  params$x3, 
+                        params$z, params$y, params$y1, params$y2, params$y3,   params$w,
+                         params$w1, params$w2, params$w3, params$w5, params$w6)
                               ))</code></pre>
-<pre><code>##                      Caracteristica                         Resposta
-## 1                         Municipio                nome do municipio
-## 2                              Area                     nome da area
-## 3                            Bairro                           Bairro
-## 4                             Setor                            Setor
-## 5                            Equipe          participantes da equipe
-## 6                              Data                       2018-03-16
-## 7                                UA                     Deslizamento
-## 8                       Localizacao                                 
-## 9                         Moradores                                 
-## 10                  Acesso ao local                                 
-## 11                 Tipo de moradias                        Alvenaria
-## 12              Observacao moradias                                 
-## 13           Densidade da ocuapacao                       densidade1
-## 14                              Via                      pavimentada
-## 15                Observacao da via              escreva observacoes
-## 16                  Tipo de encosta Encosta Natural; Talude de corte
-## 17 Altura maxima da encosta natural              preencher em metros
-## 18             Distancia da moradia              preencher em metros
-## 19             Angulo de inclinacao                              A10
-## 20              Posicao da  moradia                       na_encosta
-## 21                         Geologia                        favoravel
-## 22           Material preodominante                                 
-## 23                             Agua                                 
-## 24                 Tipo de drenagem                      inexistente
-## 25                Tipo de vegetacao                                 
-## 26         Instabilidade do terreno                  degrau;cicatriz</code></pre>
+<pre><code>##                         Caracteristica                Resposta
+## 1                            Municipio       nome do municipio
+## 2                                 Area            nome da area
+## 3                               Bairro                  Bairro
+## 4                                Setor                   Setor
+## 5                               Equipe participantes da equipe
+## 6                                 Data              2018-03-17
+## 7                                   UA             Solapamento
+## 8                          Localizacao                        
+## 9                            Moradores                        
+## 10                     Acesso ao local                        
+## 11                    Tipo de moradias               Alvenaria
+## 12                 Observacao moradias                        
+## 13              Densidade da ocuapacao              densidade1
+## 14                                 Via         nao pavimentada
+## 15                   Observacao da via     escreva observacoes
+## 16                     Tipo de encosta                   FALSE
+## 17                     Talude de corte                   FALSE
+## 18    Altura maxima da encosta natural     preencher em metros
+## 19                Distancia da moradia     preencher em metros
+## 20                Angulo de inclinacao                     A10
+## 21                 Posicao da  moradia               dist_base
+## 22                            Geologia               favoravel
+## 23                       Solo residual                    TRUE
+## 24                           Saprolito                    TRUE
+## 25                      Rocha alterada                   FALSE
+## 26                            Rocha sa                   FALSE
+## 27                              Aterro                   FALSE
+## 28                                Lixo                    TRUE
+## 29                             Entulho                   FALSE
+## 30          Lancamento de agua servida                   FALSE
+## 31       Concentracao de agua de chuva                   FALSE
+## 32                           Vazamento                    TRUE
+## 33                       Fossa septica                    TRUE
+## 34                    Tipo de drenagem             inexistente
+## 35                 Presenca de arvores                    TRUE
+## 36      Presenca de vegetacao rasteira                    TRUE
+## 37    Solo exposto/vegetacao desmatada                   FALSE
+## 38                    Cobertura urbana                   FALSE
+## 39                    Muro embarrigado                    TRUE
+## 40                   Trinca na moradia                   FALSE
+## 41 Arvores, postes, e muros inclinados                    TRUE
+## 42                Degrau de abatimento                    TRUE
+## 43        Cicatrizes de escorregamento                   FALSE
+## 44                   Trinca no terreno                   FALSE</code></pre>
 
 
 

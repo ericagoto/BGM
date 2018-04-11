@@ -1,7 +1,6 @@
 ---
 title: "Dynamic report"
-output:
-  html_document: default
+
 params:
   a: NA
   b: NA
@@ -25,11 +24,30 @@ params:
   t: NA
   u: NA
   v: NA
+  v1: NA
+  v2: NA
+  v3: NA
+  v4: NA
+  v5: NA
+  v6: NA
   w: NA
   x: NA
+  x1: Na
+  x2: Na
+  x3: NA
   z: NA
   y: NA
-
+  y1: NA
+  y2: NA
+  y3: NA
+  p1: NA
+  w1: NA
+  w2: NA
+  w3: NA
+  w5: NA
+  w6: NA
+  output: 
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -58,30 +76,52 @@ data.frame(
                         "Via", 
                          "Observacao da via",
                          "Tipo de encosta", 
+                        "Talude de corte",
                          "Altura maxima da encosta natural",
                          "Distancia da moradia",
                         "Angulo de inclinacao" ,
                          "Posicao da  moradia",
                         "Geologia", 
-                       "Material preodominante",
-                      "Agua",
+                        "Solo residual",
+                          "Saprolito", 
+                          "Rocha alterada",
+                          "Rocha sa", 
+                          "Aterro",
+                          "Lixo",
+                          "Entulho",
+                        "Lancamento de agua servida",
+                      "Concentracao de agua de chuva",
+                      "Vazamento",
+                      "Fossa septica",
                         "Tipo de drenagem" ,
-                        "Tipo de vegetacao",
-                        "Instabilidade do terreno"
+                        "Presenca de arvores",
+                          "Presenca de vegetacao rasteira",
+                          "Solo exposto/vegetacao desmatada",
+                          "Cobertura urbana",                       
+                        "Muro embarrigado", 
+                         "Trinca na moradia", 
+                         "Arvores, postes, e muros inclinados",
+                         "Degrau de abatimento",
+                         "Cicatrizes de escorregamento",
+                         "Trinca no terreno"
                          ), 
       
       Resposta = as.character (c(
                         params$a,  params$b,  params$c,  params$d,  params$e,  params$f,
                          params$g,  params$h,  params$i,  params$j,  params$k,  params$l, 
-                         params$m,  params$n, params$o,  params$p,  params$q,  params$r, 
-                         params$s, params$t,  params$u,  params$v,
-                        params$x, params$z, params$y,  params$w)
+                         params$m,  params$n, params$o,  params$p, params$p1,  params$q,
+                        params$r, params$s, params$t,  params$u,  params$v,
+                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6,
+                        params$x,  params$x1,  params$x2,  params$x3, 
+                        params$z, params$y, params$y1, params$y2, params$y3,   params$w,
+                         params$w1, params$w2, params$w3, params$w5, params$w6)
                               ))
 
               
 
 
 
-
 ```
+
+
 

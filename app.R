@@ -124,10 +124,12 @@ ui <-
                  h4("Instruções:"),
                  p("Descrever o terreno onde estão as moradias. Utilize o desenho no primeiro quadro como referência para as condições encontradas. Antes de preencher dê um passeio no entorno das moradias. Olhe com atenção os barrancos (taludes) e suba neles se for necessário."),
                  br(),
+                 h5("Tipos de encosta:"),
+              
+                 checkboxInput("select_encosta", label = "Encosta Natural"),
+                 checkboxInput("select_talude", label = "Talude de corte"),
                  
-                 checkboxGroupInput("select_encosta", label = h5("Tipos de encosta:"), 
-                             choices = list("Encosta Natural" = "Encosta Natural", "Talude de corte" = "Talude de corte"), 
-                             selected = "Encosta Natural"),   
+                 
                  textInput("txt_h_max", "Altura maxima (m):", "preencher em metros"), 
                  
                  textInput("txt_dist_moradia", "Distancia moradia em relação encosta/talude m):", "preencher em metros"),
@@ -148,19 +150,16 @@ ui <-
                              selected = ""),
                  
                  
+                 h5("Material predominante:"),
+                 checkboxInput("select_residual", label = "solo residual"),
+                 checkboxInput("select_saprolito", label = "saprolito"),
+                 checkboxInput("select_rocha_alterada", label = "rocha alterada"),
+                 checkboxInput("select_rocha_sa", label = "rocha sa"),
+                 checkboxInput("select_aterro", label = "aterro"),
+                 checkboxInput("select_lixo", label = "lixo"),
+                 checkboxInput("select_entulho", label = "entulho"),
                  
-                 checkboxGroupInput("select_predominante", 
-                                    label = h5("Material predominante:"), 
-                                    choices = list("solo residual" = "solo residual",
-                                                    "saprolito" = "saprolito",
-                                                     "rocha alterada" = "rocha alterada", 
-                                                       "rocha sa" = "rocha sa", 
-                                                         "aterro" = "aterro", 
-                                                        "lixo" = "lixo", 
-                                                       "entulho" = "entulho"), 
-                             selected = "escolha material predominante na encosta"),    
-                 
-                 
+            
                  ################# fim condicionantes ######################
                  
                  ####################### inicio AGUA ###########################
@@ -169,14 +168,13 @@ ui <-
                  p("A água é uma das principais causas de escorregamentos. A presença pode ocorrer de várias formas e deve ser observada. Pergunte aos moradores de onde vem a água (servida) e o que é feito dela depois do uso e o que ocorre com as águas das chuvas."),
                  br(),
                  
-                 checkboxGroupInput("select_agua", label = h5("Água no terreno:"), choices = list(
-                   "Lançamento de água servida em superfície " =     "servida", 
-                   "concentração de água de chuva em superfície" =    "conc_chuva",
-                   "vazamento da tubulação" = "vazamento",
-                   " fossa séptica " = " fossa"
-
-                 ), 
-                 selected = "presença de água no terreno... "),
+                 h5("Agua no terreno:"),
+                 checkboxInput("select_lancamento", label = "lançamento de água servida em superfície"),
+                 checkboxInput("select_chuva", label = "concentração de água de chuva em superfície"),
+                 checkboxInput("select_vazamento", label = "vazamento da tubulação"),
+                 checkboxInput("select_fossa", label = "fossa septica"),
+                               
+              
                  
                  
                  selectInput("select_drenag", label = h5("Tipo de sistema de drenagem:"), choices = list("inexistente" = "inexistente",
@@ -205,20 +203,13 @@ ui <-
                    para a segurança da encosta. Anotar a vegetação que se encontra na 
                    área que está sendo avaliada, principalmente se existirem bananeiras."), 
                  
-                 checkboxGroupInput("select_veg", label = h5("Cobertura do terreno:"), 
-                             choices = list( 
-                               "Presença de árvores" = "arvore",
-                               "vegetação rasteira/arbustiva" = "rasteira",
-                               
-                               "área desmatada/solo exposto" = "solo_exposto",
-                               " presença de bananeira" = "bananeira",
-                               "cobertura urbana"="cobertura_urbana"
-                               
-                             ), 
-                             selected = "escolha o tipo de cobertura do terreno"),
+                 h5("Cobertura do terreno:"),
+                 checkboxInput("select_arvore", label = "presença de árvores"),
+                 checkboxInput("select_rasteira", label = "vegetação rasteira/arbustiva"),
+                 checkboxInput("select_desmatado", label = "área desmatada/solo exposto"),
+                 checkboxInput("select_urbana", label = "cobertura_urbana"),
                  
-                 
-                 
+
                  ############################## fim VEGETACAO ######################
                  
                  ############################## inicio EVIDENCIAS de MOVIMENTACAO ####  
@@ -227,17 +218,14 @@ ui <-
                  h4("Intruções: "),
                  p("Lembre-se que antes de ocrorrer um escorregamento, a encosta dá sinais que está se movimentando. A observação desses sinais é muito importante para a classificação do risco, a retirada preventiva de moradores e a execução de obras de conteção. "),
                  
-                 checkboxGroupInput("select_inst", label = h5("Instabilidade do terreno:"), 
-                                    choices = list( 
-                                      "Muro e/ou parede embarrigado" = "embarricado",
-                                      "trinca na moradia" = "trinca_moradia",
-                                      "árvores, postes, muros inclinados" = "inclinados",
-                                      "degrau de abatimento" = "degrau", 
-                                      "cicatriz de escorregamento"="cicatriz",
-                                      "trinca no terreno" = "trinca_terreno"
-                                      
-                                    ), 
-                                    selected = "instabilidade do terreno")
+                 h5("Instabilidade do terreno:"),
+                 checkboxInput("select_embarrigado", label = "muro embarrigado"),
+                 checkboxInput("select_trinca_moradia", label = "trinca moradia"),
+                 checkboxInput("select_inclinados", label = "árvores, postes, muros inclinados"),
+                 checkboxInput("select_degrau", label = "degrau de abatimento"),
+                 checkboxInput("select_trinca_moradia", label = "trinca moradia"),
+                 checkboxInput("select_cicatriz", label = "cicatriz de escorregamento"),
+                 checkboxInput("select_trinca_terreno", label = "trinca no terreno")
                  
                  ))
              ),
@@ -353,6 +341,7 @@ server <- function(input, output) {
                          "Moradores",
                          "Acesso ao local",
                          "Tipo de moradias",
+                         "Tipo de moradias",
                          "Observacao moradias",
                          "Densidade da ocuapacao", 
                          "Via", 
@@ -363,12 +352,29 @@ server <- function(input, output) {
                          "Angulo de inclinacao", 
                          "Posicao da  moradia",
                          "Geologia", 
-                         "Material predominante",
-                         "Agua",
-                         "Tipo de drenagem" ,
+                         "Solo Residual",
+                         "Saprolito",
+                         "Rocha alterada",
+                         "Rocha sa", 
+                         "Aterro",
+                         "Lixo",
+                         "Entulho",
+                         "Lançamento de água servida em superfície",
+                         "Concentração de água de chuva em superfície",
+                         "Vazamento da tubulação",
+                         "Fossa septica",
+                        "Presença de árvores",
+                        "Vegetação rasteira/arbustiva",
+                        "área desmatada/solo exposto",
+                        "Cobertura urbana",
                          "Tipo de vegetacao",
+                         "Muro embarrigado", 
+                         "Trinca na moradia", 
+                         "Arvores, postes, e muros inclinados",
+                         "Degrau de abatimento",
+                         "Cicatrizes de escorregamento",
+                         "Trinca no terreno"
                          
-                         "Instabilidade do terreno"
                          ), 
       
       Resposta = as.character (c(
@@ -387,18 +393,39 @@ server <- function(input, output) {
                               input$select_densidade,
                               input$select_via, 
                               input$txt_via,
-                              paste(input$select_encosta, collapse = ";"), 
+                              input$select_encosta, 
+                              input$select_talude,
                               input$txt_h_max, 
                               input$txt_dist_moradia, 
                               input$select_angle, 
                               input$select_posicao_moradia,
                               input$select_geol, 
-                              paste(input$select_predominante, collapse =";"),
-                              paste(input$select_agua, collapse=";"),
+                              input$select_residual,
+                              input$select_saprolito, 
+                              input$select_rocha_alterada,
+                              input$select_rocha_sa,
+                              input$select_aterro,
+                              input$select_lixo,
+                              input$select_entulho,
+                              input$select_lancamento,
+                              input$select_chuva,
+                              input$select_vazamento, 
+                              input$select_fossa,
                               input$select_drenag, 
-                              paste(input$select_veg, collapse = ";"),
-                              paste(input$select_inst, collapse =";")
-                              )), 
+                              input$select_arvore,
+                              input$select_rasteira,
+                              input$select_desmatado,
+                              input$select_urbana,
+                              input$select_embarrigado,
+                              input$select_trinca_moradia,
+                              input$select_inclinados,
+                              input$select_degrau,
+                              input$select_cicatriz,
+                              input$select_trinca_terreno                              )), 
+      
+      
+      
+      
       stringsAsFactors = FALSE)
                               
                             
@@ -417,7 +444,7 @@ server <- function(input, output) {
   ############# Reactive for excel #######################
    
     
-    textValues2 <- reactive({
+  textValues2 <- reactive({
    data.frame("Municipio" = input$txt_mun, 
                "Area" = input$txt_area, 
                "Bairro"= input$txt_bairro, 
@@ -433,105 +460,40 @@ server <- function(input, output) {
                "Densidade" = input$select_densidade,
                "Via de acesso" = input$select_via, 
                "Via de acesso (observacoes)" = input$txt_via,
-               "Tipo de encosta" = paste(input$select_encosta, collapse = ";"), 
+               "Encosta Natural" = input$select_encosta, 
+              "Talude de corte" = input$select_talude,
                "Altura maxima do talude" = input$txt_h_max, 
                "Distancia Moradia" = input$txt_dist_moradia, 
                "Angulo de inclinacao" = input$select_angle, 
                "Posicao/Localiz das moradias" = input$select_posicao_moradia,
                "Geologia" = input$select_geol, 
-               "Material presente/predominante" = paste(input$select_predominante, collapse =";"),
-               "Agua no terreno" = paste(input$select_agua, collapse=";"),
+              "Solo residual" = input$select_residual,
+              "Saprolito" = input$select_saprolito, 
+              "Rocha alterada" = input$select_rocha_alterada,
+              "Rocha sa" = input$select_rocha_sa,
+              "Aterro" = input$select_aterro,
+              "Lixo" = input$select_lixo,
+              "Entulho" =input$select_entulho,
+              "Lançamento de água servida em superfície" = input$select_lancamento,
+              "Concentração de água de chuva em superfície" = input$select_chuva,
+              "Vazamento da tubulação" = input$select_vazamento,
+              "Fossa septica" = input$select_fossa,
                "Drenagem" = input$select_drenag, 
-               "Tipo de Vegetacao" = paste(input$select_veg, collapse = ";"),
-               "Instabilidade" = paste(input$select_inst, collapse =";"))
-  
+             "Presença de árvores"  = input$select_arvore,
+            "Vegetação rasteira/arbustiva" = input$select_rasteira,
+            "área desmatada/solo exposto" = input$select_desmatado,
+            "Cobertura_urbana" = input$select_urbana,
+                            "Muro embarrigado" = input$select_embarrigado,
+              "Trinca moradia" = input$select_trinca_moradia,
+              "Arvores, postes, e muros inclinados" = input$select_inclinados,
+              "Degrau de abatimento" = input$select_degrau,
+              "Cicatriz de escorregamento" = input$select_cicatriz,
+              "Trinca no terreno" =input$select_trinca_terreno   )
 } )
     
     
   ######################## end Reactive for excel ##################
                              
-    
-  
-  
-  
-  
-  
-  
-  output$txtout_munic <- renderText({
-    paste("Municipio:", as.character(input$txt_mun))})
-  
-  output$txout_area <- renderText({
-    paste("Area:", as.character(input$txt_area))})
-  
-  output$txtoutt_bairro <- renderText({
-    paste("Bairro:", as.character(input$txt_bairro))})
-  
-  output$txout_setor <- renderText({
-    paste("Setor:", as.character(input$txt_setor))})
-  
-  output$txout_equipe <- renderText({
-    paste("Equipe:", as.character(input$txt_equip))})
-  
-  output$dateText  <- renderText({
-    paste("Data:", as.character(input$date))})
-  
-  output$select_out_UA <- renderPrint({input$select_UA})
-  
-  output$txout_loc <- renderText({
-    paste("Localizacao:", as.character(input$txt_loc))})
-  output$txout_moradores <- renderText({
-    paste("Moradores:", as.character(input$txt_moradores))})
-  
-  output$txtout_moradia <- renderText({
-    paste("Observacao sobre moradias:", as.character(input$txt_moradia))})
-  output$selectout_densidade <- renderText({
-    paste("Densidade de ocupacao:", as.character(input$select_densidade))})
-  output$selectout_via <- renderText({
-    paste("Condicoes das vias:", as.character(input$select_via))})
-  output$txtout_via <- renderText({
-    paste("Feições de instabilidade:", as.character(input$txt_via))})
-  
-  
-  
-  
-  
-  output$txout_acesso <- renderText({
-    paste("Acesso:", as.character(input$txt_acesso))})
-  output$select_out_moradia <- renderText({
-    paste("Tipo de moradia:", as.character(input$select_moradia))})
-  output$select_out_encosta<- renderText({
-    paste("Encosta:", as.character(input$select_encosta))})
-  output$txtout_h_max <- renderText({
-    paste("Altura maxima da encosta:", as.character(input$txt_h_max))})
-  output$txtout_dist_moradia <- renderText({
-    paste("Distancia da moradia em relacao a encosta:", as.character(input$txt_dist_moradia))})
-  output$selectout_angle <- renderText({
-    paste("Ângulo de inclinação:", as.character(input$select_angle))})
-  
-  output$selectout_posicao_moradia <- renderText({
-    paste("Posição da moradia:", as.character(input$select_posicao_moradia))})
-  output$selectout_geol <- renderText({
-    paste("Geologia:", as.character(input$select_geol))})
-  
-  output$selectout_predominante <- renderText({
-    paste("Tipo de material predominante:", as.character(input$select_predominante))})
-  
-  
-  
-  output$selectout_agua <- renderText({
-    paste("Presença de água no terreno:", as.character(input$select_agua))})
-  
-  output$selectout_drenag <- renderText({
-    paste("Tipo de drenagem:", as.character(input$select_drenag))})
-  
-  output$selectout_veg <- renderText({
-    paste("Cobertura do terreno:", as.character(input$select_veg))})
-  
-  output$selectout_inst <- renderText({
-    paste("Feições de instabilidade:", as.character(input$select_inst))})
-  
-  
-  
   
   #output$equation_out <- renderText ({
   # paste("Grau de risco":, as.character$equation) })
@@ -578,17 +540,39 @@ server <- function(input, output) {
                           m= input$select_densidade,
                           n = input$select_via, 
                          o =  input$txt_via,
-                        p =paste(input$select_encosta, collapse="; "), 
+                        p = input$select_encosta, 
+                        p1 = input$select_talude,
                          q =input$txt_h_max, 
                          r =input$txt_dist_moradia, 
                         s = input$select_angle,
                          t =input$select_posicao_moradia,
                           u =input$select_geol,
-                         v = paste(input$select_predominante, collapse ="; "),
-                          x = paste(input$select_agua, collapse="; "),
+                          v = input$select_residual,
+                        v1 = input$select_saprolito, 
+                        v2 = input$select_rocha_alterada,
+                        v3 = input$select_rocha_sa,
+                        v4 = input$select_aterro,
+                        v5 = input$select_lixo,
+                        v6 = input$select_entulho, 
+                        x = input$select_lancamento,
+                        x1 = input$select_chuva,
+                        x2 = input$select_vazamento,
+                        x3 = input$select_fossa,
                           z = input$select_drenag, 
-                          y = paste(input$select_veg, collapse=";"),
-                          w = paste(input$select_inst, collapse =";")
+                        y = input$select_arvore,
+                        y1 = input$select_rasteira,
+                        y2 = input$select_desmatado,
+                        y3 = input$select_urbana,
+                        w = input$select_embarrigado,
+                          w1 = input$select_trinca_moradia,
+                          w2 = input$select_inclinados,
+                          w3 = input$select_degrau,
+                          w5 = input$select_cicatriz,
+                          w6 = input$select_trinca_terreno   
+                        
+                        
+                        
+                        
       )
       
       
@@ -637,17 +621,34 @@ server <- function(input, output) {
                          m= input$select_densidade,
                          n = input$select_via, 
                          o =  input$txt_via,
-                         p =paste(input$select_encosta, collapse="; "), 
+                         p = input$select_encosta,
+                         p1 = input$select_talude,
                          q =input$txt_h_max, 
                          r =input$txt_dist_moradia, 
                          s = input$select_angle,
                          t =input$select_posicao_moradia,
                          u =input$select_geol,
-                         v = paste(input$select_predominante, collapse ="; "),
-                         x = paste(input$select_agua, collapse="; "),
+                         v = input$select_residual,
+                         v1 = input$select_saprolito, 
+                         v2 = input$select_rocha_alterada,
+                         v3 = input$select_rocha_sa,
+                         v4 = input$select_aterro,
+                         v5 = input$select_lixo,
+                         v6 = input$select_entulho, 
+                         x = input$select_lancamento,
+                         x1 = input$select_chuva,
+                         x2 = input$select_vazamento,
+                         x3 = input$select_fossa,                         
                          z = input$select_drenag, 
-                         y = paste(input$select_veg, collapse=";"),
-                         w = paste(input$select_inst, collapse =";")
+                         y = input$select_arvore,
+                         y1 = input$select_rasteira,
+                         y2 = input$select_desmatado,
+                         y3 = input$select_urbana,                         
+                         w1 = input$select_trinca_moradia,
+                         w2 = input$select_inclinados,
+                         w3 = input$select_degrau,
+                         w5 = input$select_cicatriz,
+                         w6 = input$select_trinca_terreno
       )
       
       
@@ -698,9 +699,9 @@ server <- function(input, output) {
   ###### ################## excel download #######################
   
   output$downloadData <- downloadHandler(
-    filename = function() {
-      paste(       
-        data.frame(input$txt_mun, 
+    filename = function(file) {
+      paste( df <- data.frame(
+          input$txt_mun, 
         input$txt_area, 
         input$txt_bairro, 
         input$txt_setor,
@@ -715,17 +716,35 @@ server <- function(input, output) {
         input$select_densidade,
         input$select_via, 
         input$txt_via,
-        paste(input$select_encosta, collapse = ";"), 
+        input$select_encosta, 
+        input$select_talude,
         input$txt_h_max, 
         input$txt_dist_moradia, 
         input$select_angle, 
         input$select_posicao_moradia,
-        input$select_geol, 
-        paste(input$select_predominante, collapse =";"),
-        paste(input$select_agua, collapse=";"),
+        input$select_geol,
+        input$select_residual,
+        input$select_saprolito, 
+        input$select_rocha_alterada,
+        input$select_rocha_sa,
+        input$select_aterro,
+        input$select_lixo,
+        input$select_entulho, 
+        input$select_lancamento,
+        input$select_chuva,
+        input$select_vazamento,
+        input$select_fossa,        
         input$select_drenag, 
-        paste(input$select_veg, collapse = ";"),
-        paste(input$select_inst, collapse =";")), 
+        input$select_arvore,
+        input$select_rasteira,
+        input$select_desmatado,
+        input$select_urbana,
+        input$select_embarrigado, 
+        input$select_trinca_moradia,
+        input$select_inclinados,
+        input$select_degrau,
+        input$select_cicatriz,
+        input$select_trinca_terreno),
         
         colnames(df) <- c("Municipio", 
                           "Area",
@@ -742,17 +761,37 @@ server <- function(input, output) {
                           "Densidade da ocuapacao", 
                           "Via", 
                           "Observacao da via",
-                          "Tipo de encosta", 
+                          "Tipo de encosta",
+                          "Talude de corte",
                           "Altura maxima da encosta natural",
                           "Distancia da moradia",
                           "Angulo de inclinacao", 
                           "Posicao da  moradia",
                           "Geologia", 
-                          "Material predominante",
-                          "Agua",
+                          "Solo residual",
+                          "Saprolito", 
+                          "Rocha alterada",
+                          "Rocha sa", 
+                          "Aterro",
+                          "Lixo",
+                          "Entulho",
+                          "Lancamento de agua servida",
+                          "Concentracao de agua de chuva",
+                          "Vazamento",
+                          "Fossa septica",
                           "Tipo de drenagem" ,
-                          "Tipo de vegetacao",
-                          "Instabilidade do terreno")
+                          "Presenca de arvores",
+                          "Presenca de vegetacao rasteira",
+                          "Solo exposto/vegetacao desmatada",
+                          "Cobertura urbana",
+                          "Muro embarrigado", 
+                          "Trinca na moradia", 
+                          "Arvores, postes, e muros inclinados",
+                          "Degrau de abatimento",
+                          "Cicatrizes de escorregamento",
+                          "Trinca no terreno"
+
+                                         )
       , ".csv", sep = "")
     },
     content = function(file) {
