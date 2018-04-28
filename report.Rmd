@@ -56,7 +56,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Relatorio com respostas
 
-```{r}
+```{r, include=FALSE}
     
 data.frame(
       
@@ -118,7 +118,6 @@ data.frame(
                               ))
 
               
-
 
 
 ```
