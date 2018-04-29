@@ -260,6 +260,9 @@ ui <-
              
              
              tableOutput("values"),
+             br(), 
+             p("Grau de risco:"),
+             verbatimTextOutput("grau_risco"),
              
   
              
@@ -492,7 +495,9 @@ y
     if (final >=37) {return("R4")}
   })   
   
-  output$grau_risco <- renderText({risk()})
+  output$grau_risco <- reactive({
+    renderText(risk())
+    })
   
 
   
@@ -557,9 +562,7 @@ y
                          "Arvores, postes, e muros inclinados",
                          "Degrau de abatimento",
                          "Cicatrizes de escorregamento",
-                         "Trinca no terreno", 
-                          "Grau de risco"    
-                    
+                         "Trinca no terreno"
                          ), 
       
       Resposta = as.character (c(
@@ -608,13 +611,9 @@ y
                               input$select_inclinados,
                               input$select_degrau,
                               input$select_cicatriz,
-                              input$select_trinca_terreno,
-                              output$grau_risco)), 
-      
-      
-      
-      
-      stringsAsFactors = FALSE)
+                              input$select_trinca_terreno),
+                            
+      stringsAsFactors = FALSE))
                               
                             
   })
