@@ -11,7 +11,9 @@ params:
   h: NA
   i: NA
   j: NA
-  k: NA
+  k1: NA
+  k2: NA
+  k3: NA
   l: NA
   m: NA
   n: NA
@@ -46,6 +48,7 @@ params:
   w4: NA
   w5: NA
   w6: NA
+  w7: NA
 output:
   pdf_document: default
 ---
@@ -56,7 +59,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Relatorio com respostas
 
-```{r, include= FALSE}
+```{r}
     data.frame(
       
       Caracteristica = c("Municipio", 

@@ -1,0 +1,73 @@
+---
+title: "IPT Rmarkdown"
+author: "E G"
+date: "April 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(readxl)
+IPT <- read_excel("ipt_test.xlsx")
+
+IPT_todo <- read_excel("IPT_SP_2010.xls")
+
+```
+
+Equation
+```{r}
+
+IPT2 <- IPT %>% 
+  select(Risco, Setor, Processo:Cicatriz) %>% 
+  mutate(W_MaterialAterro =2.8959*MaterialAterro) %>% 
+  mutate(W_MaterialLixo = 2.8959*MaterialLixo) %>% 
+  mutate(W_MaterialEntulho = 2.8959*MaterialEntulho) %>% 
+  mutate(W_MMadeira = 0.882882*Mmadeira) %>% 
+   mutate(W_MMista = 1.2520872*Mmista) %>% 
+  mutate(W_MAlvenaria = 0.1582308*MAlvenaria)
+
+
+```
+
+
+IPT Todos
+```{r}
+
+IPT_moradia <- IPT_todo %>% 
+  select(setor:Dens4) %>% 
+  mutate(D1 = Dens1*0.1241856) %>% 
+  mutate(D2 = Dens2*0.3796128) %>% 
+  mutate(D3 = Dens3*0.613872) %>% 
+  mutate(D4 = Dens4*0.2935296) %>% 
+  select(setor:`loc outras:`, D1:D4) %>% 
+  mutate(MAlvenaria = alvenaria*0.1582308) %>% 
+  mutate(MMadeira = madeira*0.882882) %>% 
+  mutate(MMista = misto*1.2520872) %>% 
+  select(setor, D1:MMista) %>% 
+  mutate(Sum = rowSums(IPT_moradia[,2:9]))
+
+
+IPT_encosta <- IPT_todo %>% 
+  select(setor, an_encosta:outros)
+
+IPT_instab <- IPT_todo %>% 
+  select(setor, trincas:inclinados)
+
+IPT_agua <- IPT_todo %>% 
+  select(setor, Concentr_agua_chuva:satisfatorio)
+
+
+IPt_veg <- IPT_todo %>% 
+  select(setor, arvores:bananeira)
+
+IPT_risco <- IPT_todo %>% 
+  select(setor, R4:R1)
+  
+
+```
+
