@@ -126,7 +126,7 @@ ui <-
                  p("Descrever o terreno onde estão as moradias. Utilize o desenho no primeiro quadro como referência para as condições encontradas. Antes de preencher dê um passeio no entorno das moradias. Olhe com atenção os barrancos (taludes) e suba neles se for necessário."),
                  br(),
                  h5("Tipos de encosta:"),
-              
+                 
                  checkboxInput("select_encosta", label = "Encosta Natural"),
                  checkboxInput("select_talude", label = "Talude de corte"),
                  
@@ -141,7 +141,7 @@ ui <-
                  
                  selectInput("select_posicao_moradia", label = h5("Posição da moradia:"), choices = list(
                    "Na encosta" = "na_encosta",          "Distante da base da encosta" =  "dist_base",
-                          "Distante do topo da encosta" =  "dist_topo"
+                   "Distante do topo da encosta" =  "dist_topo"
                  ), 
                  selected = "escolha posição da moradia"),
                  
@@ -160,7 +160,7 @@ ui <-
                  checkboxInput("select_lixo", label = "lixo"),
                  checkboxInput("select_entulho", label = "entulho"),
                  
-            
+                 
                  ################# fim condicionantes ######################
                  
                  ####################### inicio AGUA ###########################
@@ -174,8 +174,8 @@ ui <-
                  checkboxInput("select_chuva", label = "concentração de água de chuva em superfície"),
                  checkboxInput("select_vazamento", label = "vazamento da tubulação"),
                  checkboxInput("select_fossa", label = "fossa septica"),
-                               
-              
+                 
+                 
                  
                  
                  selectInput("select_drenag", label = h5("Tipo de sistema de drenagem:"), choices = list("inexistente" = "inexistente",
@@ -210,7 +210,7 @@ ui <-
                  checkboxInput("select_desmatado", label = "área desmatada/solo exposto"),
                  checkboxInput("select_urbana", label = "cobertura_urbana"),
                  
-
+                 
                  ############################## fim VEGETACAO ######################
                  
                  ############################## inicio EVIDENCIAS de MOVIMENTACAO ####  
@@ -244,7 +244,7 @@ ui <-
              
              ######################### INICIO OUTPUT ########################
              h3("Formulário Preenchido"),
-
+             
              
              
              
@@ -264,7 +264,7 @@ ui <-
              p("Grau de risco:"),
              verbatimTextOutput("grau_risco"),
              
-  
+             
              
              
              
@@ -274,13 +274,13 @@ ui <-
              ######################## end of testing table output ##############
              
              br(),
-            
+             
              p("Baixar relatorio:"),
              
              
              ################ inicio HTML button ####################
              downloadButton( "format", "Baixar - HTML"),
-  
+             
              ########################## end html file #####################
              
              
@@ -300,11 +300,11 @@ ui <-
              
              
     )
-             
-             
-             
-             
-    ) 
+    
+    
+    
+    
+  ) 
 
 
 
@@ -322,7 +322,7 @@ server <- function(input, output) {
   
   
   
-############# Functions ##################
+  ############# Functions ##################
   x <- reactive(input$select_angle)
   x_geol <- reactive(input$select_geol)
   x1<-reactive(input$select_moradia_alvenaria)
@@ -346,17 +346,17 @@ server <- function(input, output) {
   posicao_moradia <-reactive(input$select_posicao_moradia)
   
   #Angulo, geologia, solo
-Angulo <-reactive( {
-if (x() ==  "A10") { y <- 0.5028996}
-if (x() == "A10_17") {y<- 0.8866914}
-if (x() == "A_17_30") {y<-2.0248326}
-if (x() == "A_30_60") {y<-4.1555388}
-if (x() == "A_60_90") {y<-3.4541262}
-if (x() == "A90") {y <- 2.2101114}
-y
-})
-
-
+  Angulo <-reactive( {
+    if (x() ==  "A10") { y <- 0.5028996}
+    if (x() == "A10_17") {y<- 0.8866914}
+    if (x() == "A_17_30") {y<-2.0248326}
+    if (x() == "A_30_60") {y<-4.1555388}
+    if (x() == "A_60_90") {y<-3.4541262}
+    if (x() == "A90") {y <- 2.2101114}
+    y
+  })
+  
+  
   Geologia <- reactive ({
     #solo <- 6.165
     
@@ -368,10 +368,10 @@ y
     
     geologia
   })
-
+  
   # Tipo de Encosta, Moradia, Densidade, Posicao Moradia
   # Need to change because each one of the types of houses is going to be a different column
-
+  
   Moradia <-reactive ({
     #x1 = alvenaria, x2 = madeira, x3 = mista 
     #In this case, I am considering the weight value of the most vulnerable. So, for alvenaria & madeira, the weight is of the madeira. And so on. 
@@ -386,7 +386,7 @@ y
     
     moradia
   })
-
+  
   # Aterro, lixo, entulho
   Material <- reactive ({
     
@@ -404,7 +404,7 @@ y
     material
   })
   
-    Densidade <- reactive ({
+  Densidade <- reactive ({
     
     if (densidade() == "densidade1") { densidade <- 0.1241856 }
     if (densidade() == "densidade2") { densidade <- 0.3796128}
@@ -414,7 +414,7 @@ y
     densidade
   })
   
-
+  
   
   Agua <- reactive ({
     
@@ -477,7 +477,7 @@ y
   })
   
   
- Posicao_moradia <- reactive( {
+  Posicao_moradia <- reactive( {
     
     if (posicao() == encosta){posicao <- (0.8263458+0.5453406+0.6620292) }
     if (posicao() == dist_base) {posicao <- 0.202419}
@@ -497,9 +497,9 @@ y
   
   output$grau_risco <- reactive({
     renderText(risk())
-    })
+  })
   
-
+  
   
   
   
@@ -553,86 +553,86 @@ y
                          "Vazamento da tubulação",
                          "Fossa septica",
                          "Sistema de drenagem",
-                        "Presença de árvores",
-                        "Vegetação rasteira/arbustiva",
-                        "área desmatada/solo exposto",
-                        "Cobertura urbana",
+                         "Presença de árvores",
+                         "Vegetação rasteira/arbustiva",
+                         "área desmatada/solo exposto",
+                         "Cobertura urbana",
                          "Muro embarrigado", 
                          "Trinca na moradia", 
                          "Arvores, postes, e muros inclinados",
                          "Degrau de abatimento",
                          "Cicatrizes de escorregamento",
                          "Trinca no terreno"
-                         ), 
+      ), 
       
       Resposta = as.character (c(
-                              input$txt_mun, 
-                              input$txt_area, 
-                              input$txt_bairro, 
-                              input$txt_setor,
-                              input$txt_equip, 
-                              as.character(input$date), 
-                              input$select_UA, 
-                              input$txt_loc, 
-                              input$txt_moradores, 
-                              input$txt_acesso, 
-                              input$select_moradia_alvenaria,
-                              input$select_moradia_madeira,
-                              input$select_moradia_mista, 
-                              input$txt_moradia,
-                              input$select_densidade,
-                              input$select_via, 
-                              input$txt_via,
-                              input$select_encosta,
-                              input$select_talude,
-                              input$txt_h_max, 
-                              input$txt_dist_moradia, 
-                              input$select_angle, 
-                              input$select_posicao_moradia,
-                              input$select_geol, 
-                              input$select_residual,
-                              input$select_saprolito, 
-                              input$select_rocha_alterada,
-                              input$select_rocha_sa,
-                              input$select_aterro,
-                              input$select_lixo,
-                              input$select_entulho,
-                              input$select_lancamento,
-                              input$select_chuva,
-                              input$select_vazamento, 
-                              input$select_fossa,
-                              input$select_drenag, 
-                              input$select_arvore,
-                              input$select_rasteira,
-                              input$select_desmatado,
-                              input$select_urbana,
-                              input$select_embarrigado,
-                              input$select_trinca_moradia,
-                              input$select_inclinados,
-                              input$select_degrau,
-                              input$select_cicatriz,
-                              input$select_trinca_terreno),
-                            
-      stringsAsFactors = FALSE))
-                              
-                            
+        input$txt_mun, 
+        input$txt_area, 
+        input$txt_bairro, 
+        input$txt_setor,
+        input$txt_equip, 
+        as.character(input$date), 
+        input$select_UA, 
+        input$txt_loc, 
+        input$txt_moradores, 
+        input$txt_acesso, 
+        input$select_moradia_alvenaria,
+        input$select_moradia_madeira,
+        input$select_moradia_mista, 
+        input$txt_moradia,
+        input$select_densidade,
+        input$select_via, 
+        input$txt_via,
+        input$select_encosta,
+        input$select_talude,
+        input$txt_h_max, 
+        input$txt_dist_moradia, 
+        input$select_angle, 
+        input$select_posicao_moradia,
+        input$select_geol, 
+        input$select_residual,
+        input$select_saprolito, 
+        input$select_rocha_alterada,
+        input$select_rocha_sa,
+        input$select_aterro,
+        input$select_lixo,
+        input$select_entulho,
+        input$select_lancamento,
+        input$select_chuva,
+        input$select_vazamento, 
+        input$select_fossa,
+        input$select_drenag, 
+        input$select_arvore,
+        input$select_rasteira,
+        input$select_desmatado,
+        input$select_urbana,
+        input$select_embarrigado,
+        input$select_trinca_moradia,
+        input$select_inclinados,
+        input$select_degrau,
+        input$select_cicatriz,
+        input$select_trinca_terreno),
+        
+        stringsAsFactors = FALSE))
+    
+    
   })
-     
-  ####################### end of reactive inputs for html and vizualizaiton ###############
-                
-
-    #show the values in the HTML table ----
-    output$values <- renderTable ({
-      textValues ()
-    })
-    
   
-    
+  ####################### end of reactive inputs for html and vizualizaiton ###############
+  
+  
+  #show the values in the HTML table ----
+  output$values <- renderTable ({
+    textValues ()
+  })
+  
+  
+  
   ############# Reactive for excel #######################
-   
-    
+  
+  
   textValues2 <- reactive({
-   data.frame("Municipio" = input$txt_mun, 
+    data.frame("Municipio" = input$txt_mun, 
                "Area" = input$txt_area, 
                "Bairro"= input$txt_bairro, 
                "Setor" = input$txt_setor,
@@ -643,49 +643,49 @@ y
                "Moradores contato" = input$txt_moradores, 
                "Acesso" = input$txt_acesso, 
                "Moradia alvernaria" = input$select_moradia_alvenaria,
-              "Moradia madeira" = input$select_moradia_madeira,
-              "Moradia mista" = input$select_moradia_mista,
+               "Moradia madeira" = input$select_moradia_madeira,
+               "Moradia mista" = input$select_moradia_mista,
                "Moradia (observacoes)" = input$txt_moradia,
                "Densidade" = input$select_densidade,
                "Via de acesso" = input$select_via, 
                "Via de acesso (observacoes)" = input$txt_via,
                "Encosta Natural" = input$select_encosta, 
-              "Talude de corte" = input$select_talude,
+               "Talude de corte" = input$select_talude,
                "Altura maxima do talude" = input$txt_h_max, 
                "Distancia Moradia" = input$txt_dist_moradia, 
                "Angulo de inclinacao" = input$select_angle, 
                "Posicao/Localiz das moradias" = input$select_posicao_moradia,
                "Geologia" = input$select_geol, 
-              "Solo residual" = input$select_residual,
-              "Saprolito" = input$select_saprolito, 
-              "Rocha alterada" = input$select_rocha_alterada,
-              "Rocha sa" = input$select_rocha_sa,
-              "Aterro" = input$select_aterro,
-              "Lixo" = input$select_lixo,
-              "Entulho" =input$select_entulho,
-              "Lançamento de água servida em superfície" = input$select_lancamento,
-              "Concentração de água de chuva em superfície" = input$select_chuva,
-              "Vazamento da tubulação" = input$select_vazamento,
-              "Fossa septica" = input$select_fossa,
+               "Solo residual" = input$select_residual,
+               "Saprolito" = input$select_saprolito, 
+               "Rocha alterada" = input$select_rocha_alterada,
+               "Rocha sa" = input$select_rocha_sa,
+               "Aterro" = input$select_aterro,
+               "Lixo" = input$select_lixo,
+               "Entulho" =input$select_entulho,
+               "Lançamento de água servida em superfície" = input$select_lancamento,
+               "Concentração de água de chuva em superfície" = input$select_chuva,
+               "Vazamento da tubulação" = input$select_vazamento,
+               "Fossa septica" = input$select_fossa,
                "Drenagem" = input$select_drenag, 
-             "Presença de árvores"  = input$select_arvore,
-            "Vegetação rasteira/arbustiva" = input$select_rasteira,
-            "área desmatada/solo exposto" = input$select_desmatado,
-            "Cobertura_urbana" = input$select_urbana,
-                            "Muro embarrigado" = input$select_embarrigado,
-              "Trinca moradia" = input$select_trinca_moradia,
-              "Arvores, postes, e muros inclinados" = input$select_inclinados,
-              "Degrau de abatimento" = input$select_degrau,
-              "Cicatriz de escorregamento" = input$select_cicatriz,
-              "Trinca no terreno" =input$select_trinca_terreno,
-            "Grau de risco" = output$grau_risco)
-} )
-    
-    
-  ######################## end Reactive for excel ##################
-                             
+               "Presença de árvores"  = input$select_arvore,
+               "Vegetação rasteira/arbustiva" = input$select_rasteira,
+               "área desmatada/solo exposto" = input$select_desmatado,
+               "Cobertura_urbana" = input$select_urbana,
+               "Muro embarrigado" = input$select_embarrigado,
+               "Trinca moradia" = input$select_trinca_moradia,
+               "Arvores, postes, e muros inclinados" = input$select_inclinados,
+               "Degrau de abatimento" = input$select_degrau,
+               "Cicatriz de escorregamento" = input$select_cicatriz,
+               "Trinca no terreno" =input$select_trinca_terreno,
+               "Grau de risco" = output$grau_risco)
+  } )
   
-
+  
+  ######################## end Reactive for excel ##################
+  
+  
+  
   
   
   
@@ -698,7 +698,7 @@ y
     # Specify the file name
     filename = "report.html", 
     content = function(file)
-     {
+    {
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
@@ -709,55 +709,55 @@ y
       
       params <- list(    a= input$txt_mun, 
                          b = input$txt_area, 
-                          c= input$txt_bairro, 
-                          d=input$txt_setor,
-                          e=input$txt_equip, 
-                          f= as.character(input$date),
-                        g = input$select_UA, 
-                        h=input$txt_loc, 
-                        i = input$txt_moradores, 
+                         c= input$txt_bairro, 
+                         d=input$txt_setor,
+                         e=input$txt_equip, 
+                         f= as.character(input$date),
+                         g = input$select_UA, 
+                         h=input$txt_loc, 
+                         i = input$txt_moradores, 
                          j =input$txt_acesso, 
-                        k1 = input$select_moradia_alvenaria,
-                        k2 = input$select_moradia_madeira,
-                        k3 = input$select_moradia_mista,
-                          l= input$txt_moradia,
-                          m= input$select_densidade,
-                          n = input$select_via, 
+                         k1 = input$select_moradia_alvenaria,
+                         k2 = input$select_moradia_madeira,
+                         k3 = input$select_moradia_mista,
+                         l= input$txt_moradia,
+                         m= input$select_densidade,
+                         n = input$select_via, 
                          o =  input$txt_via,
-                        p = input$select_encosta, 
-                        p1 = input$select_talude,
+                         p = input$select_encosta, 
+                         p1 = input$select_talude,
                          q =input$txt_h_max, 
                          r =input$txt_dist_moradia, 
-                        s = input$select_angle,
+                         s = input$select_angle,
                          t =input$select_posicao_moradia,
-                          u =input$select_geol,
-                          v = input$select_residual,
-                        v1 = input$select_saprolito, 
-                        v2 = input$select_rocha_alterada,
-                        v3 = input$select_rocha_sa,
-                        v4 = input$select_aterro,
-                        v5 = input$select_lixo,
-                        v6 = input$select_entulho, 
-                        x = input$select_lancamento,
-                        x1 = input$select_chuva,
-                        x2 = input$select_vazamento,
-                        x3 = input$select_fossa,
-                          z = input$select_drenag, 
-                        y = input$select_arvore,
-                        y1 = input$select_rasteira,
-                        y2 = input$select_desmatado,
-                        y3 = input$select_urbana,
-                        w = input$select_embarrigado,
-                          w1 = input$select_trinca_moradia,
-                          w2 = input$select_inclinados,
-                          w3 = input$select_degrau,
-                          w5 = input$select_cicatriz,
-                          w6 = input$select_trinca_terreno,
-                        w7 = output$grau_risco
-                        
-                        
-                        
-                        
+                         u =input$select_geol,
+                         v = input$select_residual,
+                         v1 = input$select_saprolito, 
+                         v2 = input$select_rocha_alterada,
+                         v3 = input$select_rocha_sa,
+                         v4 = input$select_aterro,
+                         v5 = input$select_lixo,
+                         v6 = input$select_entulho, 
+                         x = input$select_lancamento,
+                         x1 = input$select_chuva,
+                         x2 = input$select_vazamento,
+                         x3 = input$select_fossa,
+                         z = input$select_drenag, 
+                         y = input$select_arvore,
+                         y1 = input$select_rasteira,
+                         y2 = input$select_desmatado,
+                         y3 = input$select_urbana,
+                         w = input$select_embarrigado,
+                         w1 = input$select_trinca_moradia,
+                         w2 = input$select_inclinados,
+                         w3 = input$select_degrau,
+                         w5 = input$select_cicatriz,
+                         w6 = input$select_trinca_terreno,
+                         w7 = output$grau_risco
+                         
+                         
+                         
+                         
       )
       
       
@@ -769,13 +769,13 @@ y
       rmarkdown::render(tempReport, output_file = file,
                         params = params,
                         envir = new.env(parent = globalenv())
-   ) }
-      
+      ) }
+    
   ) 
   #### ################ end of output report
- 
+  
   ################ beginning of output report PDF #############
- 
+  
   output$format_pdf <- downloadHandler (
     
     
@@ -889,7 +889,7 @@ y
   output$downloadData <- downloadHandler(
     filename = function(file) {
       paste( df <- data.frame(
-          input$txt_mun, 
+        input$txt_mun, 
         input$txt_area, 
         input$txt_bairro, 
         input$txt_setor,
@@ -984,9 +984,9 @@ y
                           "Cicatrizes de escorregamento",
                           "Trinca no terreno", 
                           "Grau de risco"
-
-                                         )
-      , ".csv", sep = "")
+                          
+        )
+        , ".csv", sep = "")
     },
     content = function(file) {
       write.csv(textValues2(), file, row.names = FALSE)
@@ -999,7 +999,7 @@ y
   
   ######################## end download excel ###################################
   
-    }
+}
 
 
 
@@ -1009,6 +1009,5 @@ y
 
 # Run the application 
 shinyApp(ui, server)
-
 
 
