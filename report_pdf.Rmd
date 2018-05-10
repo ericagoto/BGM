@@ -41,6 +41,7 @@ params:
   y1: NA
   y2: NA
   y3: NA
+  y4: NA
   p1: NA
   w1: NA
   w2: NA
@@ -99,6 +100,7 @@ Relatorio com respostas
                       "Presenca de arvores",
                           "Presenca de vegetacao rasteira",
                           "Solo exposto/vegetacao desmatada",
+                      "Bananeira",
                           "Cobertura urbana",
                         "Muro embarrigado", 
                          "Trinca na moradia", 
@@ -115,7 +117,7 @@ Relatorio com respostas
                         params$r, params$s, params$t,  params$u,  params$v,
                         params$v1, params$v2, params$v3, params$v4, params$v5, params$v6,
                         params$x, params$x1, params$x2, params$x3, 
-                    params$z, params$y, params$y1, params$y2, params$y3, params$w,
+                    params$z, params$y, params$y1, params$y2,params$y4, params$y3, params$w,
                          params$w1, params$w2, params$w3, params$w5, params$w6)
                               ))
 

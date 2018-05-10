@@ -41,6 +41,7 @@ params:
   y: NA
   y1: NA
   y2: NA
+  y4: NA
   y3: NA
   p1: NA
   w1: NA
@@ -100,6 +101,7 @@ data.frame(
                         "Tipo de drenagem" ,
                         "Presenca de arvores",
                           "Presenca de vegetacao rasteira",
+                      "Bananeira",
                           "Solo exposto/vegetacao desmatada",
                           "Cobertura urbana",                       
                         "Muro embarrigado", 
@@ -117,7 +119,7 @@ data.frame(
                         params$r, params$s, params$t,  params$u,  params$v,
                         params$v1, params$v2, params$v3, params$v4, params$v5, params$v6,
                         params$x,  params$x1,  params$x2,  params$x3, 
-                        params$z, params$y, params$y1, params$y2, params$y3,   params$w,
+                        params$z, params$y, params$y1, params$y2, parms$y4, params$y3,   params$w,
                          params$w1, params$w2, params$w3, params$w5, params$w6)
                               ))
 
