@@ -1,8 +1,7 @@
 ---
 title: "Dynamic report"
-
 params:
-  a: NA
+  a: NA #1
   b: NA
   c: NA
   d: NA
@@ -10,8 +9,8 @@ params:
   f: NA
   g: NA
   h: NA
-  i: NA
-  j: NA
+  i: NA 
+  j: NA #10
   k1: NA
   k2: NA
   k3: NA
@@ -21,7 +20,7 @@ params:
   o: NA
   p: NA
   q: NA
-  r: NA
+  r: NA #20
   s: NA
   t: NA
   u: NA
@@ -31,25 +30,24 @@ params:
   v3: NA
   v4: NA
   v5: NA
-  v6: NA
+  v6: NA #30
   w: NA
   x: NA
-  x1: Na
-  x2: Na
+  x1: NA
+  x2: NA
   x3: NA
   z: NA
   y: NA
   y1: NA
   y2: NA
-  y4: NA
+  y4: NA #40
   y3: NA
   p1: NA
   w1: NA
   w2: NA
   w3: NA
   w5: NA
-  w6: NA
-  w7: NA
+  w6: NA #47
   
 output:
   html_document: default
@@ -58,14 +56,13 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 Relatorio com respostas
 
 ```{r}
-    
+      
 data.frame(
       
-      Caracteristica = c("Municipio", 
+      Caracteristica = c("Municipio", #1 
                          "Area",
                          "Bairro",
                          "Setor", 
@@ -74,15 +71,17 @@ data.frame(
                          "UA",
                         "Localizacao", 
                          "Moradores",
-                        "Acesso ao local",
-                         "Tipo de moradias",
+                        "Acesso ao local", #10
+                         "Moradia Alvenaria",
+                        "Moradia Madeira", 
+                        "Moradia Mista",
                          "Observacao moradias",
                         "Densidade da ocuapacao", 
                         "Via", 
                          "Observacao da via",
                          "Tipo de encosta", 
                         "Talude de corte",
-                         "Altura maxima da encosta natural",
+                         "Altura maxima da encosta natural", #20
                          "Distancia da moradia",
                         "Angulo de inclinacao" ,
                          "Posicao da  moradia",
@@ -92,7 +91,7 @@ data.frame(
                           "Rocha alterada",
                           "Rocha sa", 
                           "Aterro",
-                          "Lixo",
+                          "Lixo", #30
                           "Entulho",
                         "Lancamento de agua servida",
                       "Concentracao de agua de chuva",
@@ -102,31 +101,33 @@ data.frame(
                         "Presenca de arvores",
                           "Presenca de vegetacao rasteira",
                       "Bananeira",
-                          "Solo exposto/vegetacao desmatada",
+                          "Solo exposto/vegetacao desmatada", #40
                           "Cobertura urbana",                       
                         "Muro embarrigado", 
                          "Trinca na moradia", 
                          "Arvores, postes, e muros inclinados",
                          "Degrau de abatimento",
                          "Cicatrizes de escorregamento",
-                         "Trinca no terreno"
+                         "Trinca no terreno" #47
                          ), 
       
       Resposta = as.character (c(
-                        params$a,  params$b,  params$c,  params$d,  params$e,  params$f,
-                         params$g,  params$h,  params$i,  params$j,  params$k,  params$l, 
-                         params$m,  params$n, params$o,  params$p, params$p1,  params$q,
-                        params$r, params$s, params$t,  params$u,  params$v,
-                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6,
-                        params$x,  params$x1,  params$x2,  params$x3, 
-                        params$z, params$y, params$y1, params$y2, parms$y4, params$y3,   params$w,
-                         params$w1, params$w2, params$w3, params$w5, params$w6)
+                        params$a,  params$b,  params$c,  params$d,  params$e,  params$f, #6
+                         params$g,  params$h,  params$i,  params$j,  params$k1, params$k2, params$k3,  params$l,  #14
+                         params$m,  params$n, params$o,  params$p, params$p1,  params$q, #20
+                        params$r, params$s, params$t,  params$u,  params$v, #25
+                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6, #31
+                        params$x,  params$x1,  params$x2,  params$x3,  #35
+                        params$z, params$y, params$y1, params$y2, params$y4, params$y3,   params$w, #42
+                         params$w1, params$w2, params$w3, params$w5, params$w6) #47
                               ))
-
-              
 
 
 ```
 
+## Grau de Risco:
+```{r}
+risk()
+```
 
 

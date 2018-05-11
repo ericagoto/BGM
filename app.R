@@ -262,8 +262,7 @@ ui <-
              br(), 
              p("Grau de risco:"),
              verbatimTextOutput("grau_risco"),
-             
-             
+          
              
              
              
@@ -304,13 +303,6 @@ ui <-
     
     
   ) 
-
-
-
-
-
-
-
 
 
 
@@ -409,14 +401,14 @@ server <- function(input, output) {
   Material <- reactive ({
     
     # a = aterro, l=lixo, e = entulho
-    if (a() == TRUE) {aterro <- 1}
-    else if (a() == FALSE) {aterro <- 0}
+    if (a() == TRUE) {aterro = 1}
+    else if (a() == FALSE) {aterro = 0}
     
-    if (l() == TRUE) {lixo <- 1}
-    else if (l() == FALSE) {lixo <- 0}
+    if (l() == TRUE) {lixo = 1}
+    else if (l() == FALSE) {lixo = 0}
     
-    if (e() == TRUE) {entulho <- 1}
-    else if (e() == FALSE) {entulho<-0}
+    if (e() == TRUE) {entulho = 1}
+    else if (e() == FALSE) {entulho = 0}
     
     material <- 2.8959*aterro + 2.8959*lixo + 2.8959*entulho
     material
@@ -436,20 +428,24 @@ server <- function(input, output) {
   
   Agua <- reactive ({
     
-    servida=0
-    conc_chuva=0
-    vazamento=0
-    fossa=0
     drenagem="satisf"
     
-    if (servida() == "servida") {servida <- 0.9726108}
-    if (conc_chuva() == "conc_chuva") {conc_chuva <- 0.5842662}
-    if (vazamento() == "vazamento") {vazamento <- 1.1650338}
-    if (fossa() == "fossa") {fossa <- 0.5737704}
+    if (servida() == "TRUE") {servida = 0.9726108} 
+    else if (servida() == "FALSE") {servida = 0} 
+   
+    if (conc_chuva() == "TRUE") {conc_chuva = 0.5842662}
+    else if (conc_chuva() == "FALSE") {conc_chuva = 0}
+  
+    if (vazamento() == "TRUE") {vazamento = 1.1650338}
+    else  if (vazamento() == "FALSE") {vazamento = 0}
+  
+    if (fossa() == "TRUE") {fossa = 0.5737704}
+    else if (fossa() == "FALSE") {fossa = 0}
+
     
-    if (drenagem() == "inexistente") {drenagem <- 0.1022710752}
-    if (drenagem() == "precario") { drenagem <-0.0840083832}
-    if (drenagem() == "satisf") {drenagem <-0.0166393416}
+    if (drenagem() == "inexistente") {drenagem = 0.1022710752}
+    if (drenagem() == "precario") { drenagem = 0.0840083832}
+    if (drenagem() == "satisf") {drenagem = 0.0166393416}
     
     A <- servida + conc_chuva + vazamento + fossa
     A
@@ -458,16 +454,22 @@ server <- function(input, output) {
   
   # need to find a solution for this one... 
   Vegetacao <- reactive ({
-    arvore=0
-    rasteira=0
-    desmatado=0
-    bananeira=0
+   
     cobertura_urbana=0
-    if(arvore() == "arvore"){arvore <- 1}
-    if(rasteira() == "rasteira" ) {rasteira <- 1}
-    if (desmatado() == "dematado" ) {desmatado <- 1}
-    if (bananeira() == "bananeira")(bananeira <- 1)
-    if (cobertura_urbana() == "cobertura_urbana")(cobertura_urbana <- 1)
+    if(arvore() == "TRUE"){arvore <- 1}
+    else if (arvore() == "FALSE"){arvore <- 0}
+    
+    if(rasteira() == "TRUE" ) {rasteira <- 1}
+    else   if(rasteira() == "FALSE" ) {rasteira <- 0}
+    
+    if (desmatado() == "TRUE" ) {desmatado <- 1}
+    else     if (desmatado() == "FALSE" ) {desmatado <- 0}
+
+    if (bananeira() == "TRUE")(bananeira <- 1)
+    else if  (bananeira() == "FALSE")(bananeira <- 0)
+    
+    if (cobertura_urbana() == "TRUE")(cobertura_urbana <- 1)
+    else if (cobertura_urbana() == "FALSE")(cobertura_urbana <- 0)
     
     cobertura <-   (0.022344*arvore+0.1854552*rasteira+0.6948984*desmatado+0.290472*bananeira+0.245784*cobertura_urbana)
     cobertura
@@ -476,21 +478,32 @@ server <- function(input, output) {
   
   # Instabilidade do terreno
   Instabilidade  <- reactive ({
-    embarricado=0 
-    trinca_moradia=0
-    trinca_terreno=0
-    degrau=0
-    inclinados=0
-    cicatriz=0
+    #embarricado=0 
+    #trinca_moradia=0
+   # trinca_terreno=0
+  #  degrau=0
+  #  inclinados=0
+  #cicatriz=0
     
-    if(embarricado() == "embarricado"){embarricado <- 1}
-    if(trinca_moradia() == "trinca_moradia" ) {trinca_moradia <- 1}
-    if (trinca_terreno() == "trinca_terreno" ) {trinca_terreno <- 1}
-    if (inclinados() == "inclinados") {inclinados <- 1}
-    if (degrau() == "degrau")(degrau <- 1)
-    if (cicatriz() == "cicatriz")(cicatriz <- 1)
+    if(embarricado() == "TRUE"){embarricado = 1}
+   else if (embarricado() == "FALSE") {embarricado = 0 }
     
-    instabilidade <-                        (7.5849*embarricado+7.1217*trinca_moradia+6.1374*inclinados+13.7223*degrau+11.4642*cicatriz+11.8116*trinca_terreno)
+    if(trinca_moradia() == "TRUE" ) {trinca_moradia = 1}
+  else if (trinca_moradia() == "FALSE") {trinca_moradia=0}
+    
+    if (trinca_terreno() == "TRUE" ) {trinca_terreno = 1}
+  else if (trinca_terreno() == "FALSE" ) {trinca_terreno=0}
+    
+    if (inclinados() == "TRUE") {inclinados = 1}
+  else if (inclinados() == "FALSE")  {inclinados =0}
+    
+    if (degrau() == "TRUE") {degrau = 1}
+  else if (degrau() == "FALSE") {degrau=0}
+    
+    if (cicatriz() == "TRUE"){cicatriz = 1}
+  else if (cicatriz() == "FALSE") {cicatriz=0}
+    
+    instabilidade <- 7.5849*embarricado+7.1217*trinca_moradia+6.1374*inclinados+13.7223*degrau+11.4642*cicatriz+11.8116*trinca_terreno
     instabilidade
   })
   
@@ -506,7 +519,7 @@ server <- function(input, output) {
   
   
   risk <-reactive ({
-    final = Agua() + Angulo() + Densidade() + Instabilidade() + Material() + Moradia() + Vegetacao()
+    final <- Agua() + Angulo() + Densidade() + Instabilidade() + Material() + Moradia() + Vegetacao()
     if (final < 7.11) {return("R1")}
     if (final >= 7.11 & final <12) {return("R2")}
     if (final >=12 & final <37) {return("R3")}
@@ -515,6 +528,7 @@ server <- function(input, output) {
   })   
   
   output$grau_risco <- renderText( paste("Grau de risco igual", risk()))
+  output$instab <- renderText( paste("Instabilidade", Instabilidade()))
   
   
   
@@ -699,7 +713,7 @@ server <- function(input, output) {
                "Degrau de abatimento" = input$select_degrau,
                "Cicatriz de escorregamento" = input$select_cicatriz,
                "Trinca no terreno" =input$select_trinca_terreno,
-               "Grau de risco" = output$grau_risco)
+               "Grau de risco" =  risk())
   } )
   
   
@@ -728,7 +742,7 @@ server <- function(input, output) {
       
       ### parameters 
       
-      params <- list(    a= input$txt_mun, 
+      params <- list(    a= input$txt_mun, #1 
                          b = input$txt_area, 
                          c= input$txt_bairro, 
                          d=input$txt_setor,
@@ -737,7 +751,7 @@ server <- function(input, output) {
                          g = input$select_UA, 
                          h=input$txt_loc, 
                          i = input$txt_moradores, 
-                         j =input$txt_acesso, 
+                         j =input$txt_acesso, #10 
                          k1 = input$select_moradia_alvenaria,
                          k2 = input$select_moradia_madeira,
                          k3 = input$select_moradia_mista,
@@ -747,7 +761,7 @@ server <- function(input, output) {
                          o =  input$txt_via,
                          p = input$select_encosta, 
                          p1 = input$select_talude,
-                         q =input$txt_h_max, 
+                         q =input$txt_h_max,  #20
                          r =input$txt_dist_moradia, 
                          s = input$select_angle,
                          t =input$select_posicao_moradia,
@@ -757,7 +771,7 @@ server <- function(input, output) {
                          v2 = input$select_rocha_alterada,
                          v3 = input$select_rocha_sa,
                          v4 = input$select_aterro,
-                         v5 = input$select_lixo,
+                         v5 = input$select_lixo, #30
                          v6 = input$select_entulho, 
                          x = input$select_lancamento,
                          x1 = input$select_chuva,
@@ -767,15 +781,15 @@ server <- function(input, output) {
                          y = input$select_arvore,
                          y1 = input$select_rasteira,
                          y2 = input$select_desmatado,
-                         y4=input$select_bananeira,
+                         y4 = input$select_bananeira, #40
                          y3 = input$select_urbana,
                          w = input$select_embarrigado,
                          w1 = input$select_trinca_moradia,
                          w2 = input$select_inclinados,
                          w3 = input$select_degrau,
                          w5 = input$select_cicatriz,
-                         w6 = input$select_trinca_terreno,
-                         w7 = output$grau_risco
+                         w6 = input$select_trinca_terreno #47
+                         
                          
                          
                          
@@ -813,53 +827,54 @@ server <- function(input, output) {
       
       ### parameters 
       
-      params <- list(    a= input$txt_mun, 
-                         b = input$txt_area, 
-                         c= input$txt_bairro, 
-                         d=input$txt_setor,
-                         e=input$txt_equip, 
-                         f= as.character(input$date),
-                         g = input$select_UA, 
-                         h=input$txt_loc, 
-                         i = input$txt_moradores, 
-                         j =input$txt_acesso, 
-                         k1 = input$select_moradia_alvenaria,
-                         k2 = input$select_moradia_madeira,
-                         k3 = input$select_moradia_mista,
-                         l= input$txt_moradia,
-                         m= input$select_densidade,
-                         n = input$select_via, 
-                         o =  input$txt_via,
-                         p = input$select_encosta,
-                         p1 = input$select_talude,
-                         q =input$txt_h_max, 
-                         r =input$txt_dist_moradia, 
-                         s = input$select_angle,
-                         t =input$select_posicao_moradia,
-                         u =input$select_geol,
-                         v = input$select_residual,
-                         v1 = input$select_saprolito, 
-                         v2 = input$select_rocha_alterada,
-                         v3 = input$select_rocha_sa,
-                         v4 = input$select_aterro,
-                         v5 = input$select_lixo,
-                         v6 = input$select_entulho, 
-                         x = input$select_lancamento,
-                         x1 = input$select_chuva,
-                         x2 = input$select_vazamento,
-                         x3 = input$select_fossa,                         
-                         z = input$select_drenag, 
-                         y = input$select_arvore,
-                         y1 = input$select_rasteira,
-                         y2 = input$select_desmatado,
-                         y4=input$select_bananeira,
-                         y3 = input$select_urbana,                         
-                         w1 = input$select_trinca_moradia,
-                         w2 = input$select_inclinados,
-                         w3 = input$select_degrau,
-                         w5 = input$select_cicatriz,
-                         w6 = input$select_trinca_terreno, 
-                         w7 = output$grau_risco
+      params <- list(   a= input$txt_mun, #1 
+                        b = input$txt_area, 
+                        c= input$txt_bairro, 
+                        d=input$txt_setor,
+                        e=input$txt_equip, 
+                        f= as.character(input$date),
+                        g = input$select_UA, 
+                        h=input$txt_loc, 
+                        i = input$txt_moradores, 
+                        j =input$txt_acesso, #10 
+                        k1 = input$select_moradia_alvenaria,
+                        k2 = input$select_moradia_madeira,
+                        k3 = input$select_moradia_mista,
+                        l= input$txt_moradia,
+                        m= input$select_densidade,
+                        n = input$select_via, 
+                        o =  input$txt_via,
+                        p = input$select_encosta, 
+                        p1 = input$select_talude,
+                        q =input$txt_h_max,  #20
+                        r =input$txt_dist_moradia, 
+                        s = input$select_angle,
+                        t =input$select_posicao_moradia,
+                        u =input$select_geol,
+                        v = input$select_residual,
+                        v1 = input$select_saprolito, 
+                        v2 = input$select_rocha_alterada,
+                        v3 = input$select_rocha_sa,
+                        v4 = input$select_aterro,
+                        v5 = input$select_lixo, #30
+                        v6 = input$select_entulho, 
+                        x = input$select_lancamento,
+                        x1 = input$select_chuva,
+                        x2 = input$select_vazamento,
+                        x3 = input$select_fossa,
+                        z = input$select_drenag, 
+                        y = input$select_arvore,
+                        y1 = input$select_rasteira,
+                        y2 = input$select_desmatado,
+                        y4 = input$select_bananeira, #40
+                        y3 = input$select_urbana,
+                        w = input$select_embarrigado,
+                        w1 = input$select_trinca_moradia,
+                        w2 = input$select_inclinados,
+                        w3 = input$select_degrau,
+                        w5 = input$select_cicatriz,
+                        w6 = input$select_trinca_terreno #47
+                        
       )
       
       
@@ -912,7 +927,7 @@ server <- function(input, output) {
   output$downloadData <- downloadHandler(
     filename = function(file) {
       paste( df <- data.frame(
-        input$txt_mun, 
+        input$txt_mun,  #1
         input$txt_area, 
         input$txt_bairro, 
         input$txt_setor,
@@ -921,7 +936,7 @@ server <- function(input, output) {
         input$select_UA, 
         input$txt_loc, 
         input$txt_moradores, 
-        input$txt_acesso, 
+        input$txt_acesso, #10
         input$select_moradia_alvenaria,
         input$select_moradia_madeira,
         input$select_moradia_mista,
@@ -931,7 +946,7 @@ server <- function(input, output) {
         input$txt_via,
         input$select_encosta, 
         input$select_talude,
-        input$txt_h_max, 
+        input$txt_h_max,  #20
         input$txt_dist_moradia, 
         input$select_angle, 
         input$select_posicao_moradia,
@@ -941,7 +956,7 @@ server <- function(input, output) {
         input$select_rocha_alterada,
         input$select_rocha_sa,
         input$select_aterro,
-        input$select_lixo,
+        input$select_lixo, #30
         input$select_entulho, 
         input$select_lancamento,
         input$select_chuva,
@@ -951,17 +966,17 @@ server <- function(input, output) {
         input$select_arvore,
         input$select_rasteira,
         input$select_desmatado,
-        input$select_bananeira,
+        input$select_bananeira, #40
         input$select_urbana,
         input$select_embarrigado, 
         input$select_trinca_moradia,
         input$select_inclinados,
         input$select_degrau,
         input$select_cicatriz,
-        input$select_trinca_terreno,
-        output$grau_risco),
+        input$select_trinca_terreno, #47
+        risk()),
         
-        colnames(df) <- c("Municipio", 
+        colnames(df) <- c("Municipio", #1
                           "Area",
                           "Bairro",
                           "Setor", 
@@ -970,7 +985,7 @@ server <- function(input, output) {
                           "UA",
                           "Localizacao", 
                           "Moradores",
-                          "Acesso ao local",
+                          "Acesso ao local", #10
                           "Moradia Alvenaria",
                           "Moradia Madeira",
                           "Moradia Mista",
@@ -980,7 +995,7 @@ server <- function(input, output) {
                           "Observacao da via",
                           "Tipo de encosta",
                           "Talude de corte",
-                          "Altura maxima da encosta natural",
+                          "Altura maxima da encosta natural", #20
                           "Distancia da moradia",
                           "Angulo de inclinacao", 
                           "Posicao da  moradia",
@@ -990,7 +1005,7 @@ server <- function(input, output) {
                           "Rocha alterada",
                           "Rocha sa", 
                           "Aterro",
-                          "Lixo",
+                          "Lixo", #30
                           "Entulho",
                           "Lancamento de agua servida",
                           "Concentracao de agua de chuva",
@@ -1000,7 +1015,7 @@ server <- function(input, output) {
                           "Presenca de arvores",
                           "Presenca de vegetacao rasteira",
                           "Solo exposto/vegetacao desmatada",
-                          "Bananeira",
+                          "Bananeira", #40
                           "Cobertura urbana",
                           "Muro embarrigado", 
                           "Trinca na moradia", 
@@ -1008,7 +1023,7 @@ server <- function(input, output) {
                           "Degrau de abatimento",
                           "Cicatrizes de escorregamento",
                           "Trinca no terreno", 
-                          "Grau de risco"
+                          "Grau de risco" #48
                           
         )
         , ".csv", sep = "")
@@ -1025,6 +1040,8 @@ server <- function(input, output) {
   ######################## end download excel ###################################
   
 }
+
+
 
 
 
