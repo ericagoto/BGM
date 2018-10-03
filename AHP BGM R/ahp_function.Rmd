@@ -1,0 +1,214 @@
+---
+title: "AHP Brazilian Government Methodology"
+author: "Erica Goto"
+date: "12/19/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library (dplyr)
+```
+
+## AHP Brazilian Goverment Methodology
+### Part 01 - Anthrop, Natural or Instability
+
+Dataset: Include row with the values
+
+```{r dataset}
+
+# data = row with the values for the matrix
+# n= number of parameters
+# MM = main matrix 
+# MP = priority matrix (weight)
+# Sum = sum of each column of the MM
+# MN = normalized matrix
+# AX = MP*MM
+# Lamb_Max
+# CI = critical index
+# RI = random index
+# CR = consistency ratio
+
+# return: CR, MP
+
+
+#'  AHP
+#' 
+#' Function computes weight and consistancy ratio
+#' @param data vector to build the matrix
+#' @param n number of criteria
+#' @param RI random index
+#' @param CI critical index
+#' @param Lamb_Max
+#' @return CR, MP Critical Ratio and Priority matrix (weight)
+
+AHP <- function (data, n, MM, MN, MP, AX, Lamb_Max, CI, CR, RI) {
+
+MM <- matrix(data, nrow=n, ncol=n, byrow = TRUE)
+
+#Sum <- colSums (MM)
+MN <- sweep(MM, FUN="/", MARGIN=2, STATS = colSums(MM))
+
+#Matrix Priority (MP)
+MP <- (rowSums(MN))/n 
+MP <- matrix (MP, nrow=n, ncol=1)
+
+#AX, Lambida_max, CR
+AX <- (MM)%*%(MP)
+
+Lamb_Max  <- (AX/MP)
+Lamb_Max <- (sum(Lamb_Max))/n
+
+CI = (Lamb_Max-n)/(n-1)
+
+# RI 
+ if (n==2) {RI <- 0}
+  if (n==3) {RI <- 0.58}
+   if (n==4) { RI <- 0.9}
+   if (n==5) {RI <- 1.12}
+    if (n==6) {RI <- 1.24}
+      if (n==7) {RI <- 1.32}
+        if (n==8) {RI <- 1.41}
+          if (n==9) {RI <- 1.45}
+            if (n==10) {RI <- 1.51}
+              if (n >10) {RI <- NA}
+ 
+
+CR=CI/RI
+
+
+return (list(CR, MP))
+}
+
+```
+
+
+Testing fuction
+
+```{r testing_function_ahp}
+
+
+value <- AHP(data = c(1,1,1/3,1,1,1,3,1,1), n=3)
+
+value
+
+```
+
+Now think about a row with many.... 
+
+
+
+
+
+
+
+
+CR - Mean, Variance and SD for each expert groupA
+
+```{r dataset_library}
+
+#library(readr)
+#library (matrixStats)
+AHP_both_CR <- read_csv("D:/Dropbox/ESTUDOS/erica phD/Field-Work-SBC/AHP-Data/AHP_both_CR.csv")
+
+AHP_CR2 <- read_csv("D:/Dropbox/ESTUDOS/erica phD/methodology/AHP/AHP-BGM-Phases/AHP_R_IndivB.csv")
+
+```
+
+
+```{r}
+
+# Wrangling Data:
+
+colnames (AHP_both_CR) <- c("I", "CRA", "CRB", "CRB1", "CRB2", "CRC", "CRC1", "CRC2", "CRC3", "CRC4_", "CR3A", "CR4", "CR", "Median", "VAR.A", "VAR.P", "VAR", "SD")
+AHP <- select (AHP_both_CR, CRA:CR)
+
+#Computing Mean, Var, SD
+AHP <- AHP[1:11,]
+AHP <- mutate(AHP, Mean = rowMeans(AHP))
+AHP <- mutate(AHP, Var = apply(AHP[,1:12], 1, var, na.rm = TRUE))
+AHP <- mutate(AHP, sd = apply(AHP[,1:12], 1, sd, na.rm = TRUE))
+AHP
+
+```
+
+CR - Mean, Variance and SD for each expert groupb
+
+```{r}
+
+
+# Wrangling Data:
+
+colnames (AHP_CR2) <- c("I", "CRA", "CRB", "CRB1", "CRB2", "CRC1", "CRC2", "CRC3", "CRC4_", "CR3A", "CR4", "CR")
+AHP_2 <- select (AHP_CR2, CRA:CR)
+
+#Computing MEan, Var, Sd
+AHP_2 <- AHP_2[1:12,]
+AHP_2 <- mutate(AHP_2, Mean = rowMeans(AHP_2, na.rm	
+= TRUE))
+AHP_2 <- mutate(AHP_2, Var = apply(AHP_2[,1:11], 1, var, na.rm = TRUE))
+AHP_2 <- mutate(AHP_2, sd = apply(AHP_2[,1:11], 1, sd, na.rm = TRUE))
+AHP_2
+
+
+```
+
+
+
+
+
+1. Create Matrix
+```{r matrix}
+
+matrix_02 <- matrix (c(P1), nrow=3, ncol=3, byrow = TRUE)
+matrix_priority <- matrix (Priority, nrow=3, ncol=1)
+
+
+matrix_02
+matrix_priority
+
+
+
+```
+**Priority**: weight for each parameter
+
+
+## Checking for consistency
+
+- Next step: compute the Consistency Ratio (CR) --> measure how consistent the judgments have been relative to the samples of purely random judgments
+- AHP Assumption: decision maker is rational
+- CR > 0.1 --> the judgments are untrustworthy (too close for comfort to randomness and the exercise is valuesless or must be repeated)
+
+2. Compute Lambida Max & Average
+
+```{r multiplication_matrix}
+
+AX <- (matrix_02)%*%(matrix_priority)
+AX
+
+Lamb_Max  <- (AX/matrix_priority)
+Lamb_Max <- (sum(Lamb_Max))/n
+Lamb_Max
+
+```
+3. Compute Consistency Index (CI)
+
+```{r CI}
+n=3
+CI = (Lamb_Max-n)/(n-1)
+CI
+
+```
+
+
+4. Consistancy Ratio
+
+```{r rconsistency_ratio}
+
+RI = 0.58 ### value from table
+#RI = CI/CR
+CR=CI/RI
+CR
+```
+

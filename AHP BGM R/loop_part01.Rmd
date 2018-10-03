@@ -1,0 +1,200 @@
+---
+title: "Loop AHP BGM"
+author: "Erica Goto"
+date: "12/20/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Building a loop
+
+
+1. Import dataset & libraries
+
+```{r dataset_library}
+
+library (knitr)
+library (readr)
+library (dplyr)
+
+AHP_analysiw <- read_csv("~/Dropbox/ESTUDOS/erica phD/Field-Work-SBC/AHP-Data/AHP_analysiw.csv", 
+    col_types = cols(`A N` = col_number(), 
+        AA = col_number(), AI = col_number(), 
+        IA = col_number(), II = col_number(), 
+        IN = col_number(), NI = col_number(), 
+        NN = col_number(), X2 = col_number()))
+```
+
+2. Dataset as dataframe
+
+
+
+```{r dataframe}
+
+df <- data.frame(AHP_analysiw)
+colnames (df) <- c("NN", "NA", "NI", "AN", "AA", "AI", "IN", "II")
+df
+
+```
+
+2. Function 
+
+```{r function}
+
+#'  AHP
+#' 
+#' Function computes weight and critical ratio
+#' @param dataset data to build the matrix
+#' @param n number of parameters
+#' @param list list of parameters
+#' @param RI
+#' @param CR Consistency Ratio (uni), varies with n
+#' @return CrR critical ratio and weight
+
+
+
+#filenames <- list.files (path="data", pattern = "", full.names=TRUE)
+
+AHP <- function (list, RI, dataset) {
+  
+# Number of parameters
+  
+  n <- length(list)
+  
+# Creating the matrix
+ 
+  base_matrix <- matrix(nrow=n,ncol=n)
+  base_matrix[,] <- 1
+  base_matrix [,] <- dataset
+  
+  
+  for (n=2) {
+    
+    dataset <-c("",1,1,"")
+    CR <- 
+  }
+  
+  for (n=3) {
+    
+    dataset <- c("",1,1,1,"",11/7,1,7/8,"")
+    CR <- 
+  }
+  
+  for (n=4) {
+    dataset <- c("", 1, 1, 1/3, 1,"", 11/7, 3/7, 1, 7/8, "", 1/3, 2*(7/9), 2*(1/3),2*(4/5),"")
+  }
+  
+  
+  
+  for (i in  1:n) {
+   P[i] = df[i,]
+   P[i] <- as.numeric(as.vector(df[i,]))
+   matrix_01 [i]<- matrix (P[i], nrow=n, ncol=n, byrow = TRUE)
+  Sum[i] <- colSums (matrix_01[i])
+  
+  matrix_N [i] <- sweep(matrix_01[i], FUN="/", MARGIN=2, STATS = colSums(matrix_01[i]))
+
+  Priority[i] <- (rowSums(matrix_N[i]))/n
+  matrix_02[i] <- matrix (P[i], nrow=n, ncol=n, byrow = TRUE) # looop
+  matrix_priority[i] <- matrix (Priority[i], nrow=3, ncol=1)
+  AX[i] <- (matrix_02[i])%*%(matrix_priority[i])
+
+Lamb_Max[i]  <- (AX[i]/matrix_priority[i])
+Lamb_Max[i] <- (sum(Lamb_Max[i]))/n
+  CI[i] = (Lamb_Max[i]-n)/(n-1)
+CR[i]=CI[i]/RI
+ }
+return (list(Priority[i]), list(CR[i]))
+
+}
+
+
+
+```
+
+
+With the dataset:
+```{r}
+
+
+
+
+ # Using dataframe to create matrix
+df <- data.frame(AHP_analysiw)
+colnames (df) <- c("NN", "NA", "NI", "AN", "AA", "AI", "IN", "II")
+
+CR <- Loop01(n=3, RI =0.58, df=df) 
+CR
+
+```
+
+
+```{r test}
+list <- c("Antrop", "Inst", "Natural")
+n <- length(list)
+    dataset <- c("",1,1,1,"",11/7,1,7/8,"")
+
+
+  base_matrix <- matrix(nrow=n,ncol=n)
+  base_matrix[,] <- 1
+  base_matrix [,] <- dataset
+  
+    
+  
+base_matrix
+
+```
+
+CR - Mean, Variance and SD for each expert groupA
+
+```{r dataset_library}
+
+#library(readr)
+#library (matrixStats)
+AHP_both_CR <- read_csv("D:/Dropbox/ESTUDOS/erica phD/Field-Work-SBC/AHP-Data/AHP_both_CR.csv")
+
+AHP_CR2 <- read_csv("D:/Dropbox/ESTUDOS/erica phD/methodology/AHP/AHP-BGM-Phases/AHP_R_IndivB.csv")
+
+```
+
+
+```{r}
+
+# Wrangling Data:
+
+colnames (AHP_both_CR) <- c("I", "CRA", "CRB", "CRB1", "CRB2", "CRC", "CRC1", "CRC2", "CRC3", "CRC4_", "CR3A", "CR4", "CR", "Median", "VAR.A", "VAR.P", "VAR", "SD")
+AHP <- select (AHP_both_CR, CRA:CR)
+
+#Computing Mean, Var, SD
+AHP <- AHP[1:11,]
+AHP <- mutate(AHP, Mean = rowMeans(AHP))
+AHP <- mutate(AHP, Var = apply(AHP[,1:12], 1, var, na.rm = TRUE))
+AHP <- mutate(AHP, sd = apply(AHP[,1:12], 1, sd, na.rm = TRUE))
+AHP
+
+```
+
+CR - Mean, Variance and SD for each expert groupb
+
+```{r}
+
+
+# Wrangling Data:
+
+colnames (AHP_CR2) <- c("I", "CRA", "CRB", "CRB1", "CRB2", "CRC1", "CRC2", "CRC3", "CRC4_", "CR3A", "CR4", "CR")
+AHP_2 <- select (AHP_CR2, CRA:CR)
+
+#Computing MEan, Var, Sd
+AHP_2 <- AHP_2[1:12,]
+AHP_2 <- mutate(AHP_2, Mean = rowMeans(AHP_2, na.rm	
+= TRUE))
+AHP_2 <- mutate(AHP_2, Var = apply(AHP_2[,1:11], 1, var, na.rm = TRUE))
+AHP_2 <- mutate(AHP_2, sd = apply(AHP_2[,1:11], 1, sd, na.rm = TRUE))
+AHP_2
+
+
+```

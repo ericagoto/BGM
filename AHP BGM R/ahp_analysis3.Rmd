@@ -1,0 +1,151 @@
+---
+title: "AHP Brazilian Government Methodology"
+author: "Erica Goto"
+date: "12/19/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library (dplyr)
+```
+
+## AHP Brazilian Goverment Methodology
+### Part 01 - Anthrop, Natural or Instability
+
+Table
+
+
+```{r dataset}
+
+#1 - okay
+#P1=c(1,1,1,1,1,1,1,1,1)
+#2 
+#P1=c(1,5,0.2, 0.2, 1, 0.1428,5,7,1)
+#3
+#P1=c(1,5,0.2,0.2,1,0.2,5,5,1)
+#4
+#P1=c(1,5,0.2,0.2,1,3,8,0.333333,1)
+
+#5
+#P1 = c(1,1,7,1,1,0.2, 0.14285714, 5, 1)
+
+#6
+#P1 = c(1,1,0.2,1,1,1,5,1,1)
+#7
+#P1 =c(1,5,0.16666667, 0.2, 1, 0.1666667,6,6,1)
+
+
+#8 - okay
+#P1 = c(1,1,4,1,1,4,0.25,0.25,1)
+
+#9
+#P1 = c(1,0.5,0.1111111, 0.5,1,0.2,9,5,1)
+
+#10 - almost okay
+P1 =c(1,1,0.333333, 1,1,1,3,1,1)
+
+#11
+#P1=c(1,8,8,8,1,6,0.125,0.1666667,1)
+
+
+```
+
+
+```{r matrix_1}
+
+
+
+
+
+n=3
+
+matrix_01 <- matrix(P1, nrow=3, ncol=3, byrow = TRUE)
+#df_01 = data.frame(P1)
+
+#colnames(df_01) <- c("Natural", "Antrop", "Instab" )
+#row.names (df_01) <- c("Natura_rl", "Antrop_r", "Instab_r" )
+matrix_01
+
+Sum <- colSums (matrix_01)
+Sum
+#row.names (df_01) <- c("Antrop_r", "Natural_r", "Instab_r")
+
+#df_01S <- rbind(df_01, Sum)
+
+#row.names (df_01S) <- c("Antrop_r", "Natural_r", "Instab_r", "Sum")
+
+
+matrix_N <- sweep(matrix_01, FUN="/", MARGIN=2, STATS = colSums(matrix_01))
+matrix_N
+Priority <- (rowSums(matrix_N))/n
+Priority
+
+
+#matrix_M <- mutate(matrix_01, Priority= rowSums(matrix_N)/n) # Priority average of the row sum
+#df_01_N 
+
+#Multiplication Weight for each colummn and weight sum
+#df_01_MW <- df_01*Priority
+#df_01_MW
+```
+
+**Priority Column**: Weight for each parameter (row)
+
+###  Checking for consistency
+
+1. Create Matrix
+```{r matrix}
+
+matrix_02 <- matrix (c(P1), nrow=3, ncol=3, byrow = TRUE)
+matrix_priority <- matrix (Priority, nrow=3, ncol=1)
+
+
+matrix_02
+matrix_priority
+
+
+
+```
+**Priority**: weight for each parameter
+
+
+## Checking for consistency
+
+- Next step: compute the Consistency Ratio (CR) --> measure how consistent the judgments have been relative to the samples of purely random judgments
+- AHP Assumption: decision maker is rational
+- CR > 0.1 --> the judgments are untrustworthy (too close for comfort to randomness and the exercise is valuesless or must be repeated)
+
+2. Compute Lambida Max & Average
+
+```{r multiplication_matrix}
+
+AX <- (matrix_02)%*%(matrix_priority)
+AX
+
+Lamb_Max  <- (AX/matrix_priority)
+Lamb_Max <- (sum(Lamb_Max))/n
+Lamb_Max
+
+```
+3. Compute Consistency Index (CI)
+
+```{r CI}
+n=3
+CI = (Lamb_Max-n)/(n-1)
+CI
+
+```
+
+
+4. Consistancy Ratio
+
+```{r rconsistency_ratio}
+
+RI = 0.58 ### value from table
+#RI = CI/CR
+CR=CI/RI
+CR
+```
+

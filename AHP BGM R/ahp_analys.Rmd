@@ -1,0 +1,138 @@
+---
+title: "AHP Brazilian Government Methodology"
+author: "Erica Goto"
+date: "12/19/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library (dplyr)
+```
+
+## AHP Brazilian Goverment Methodology
+### Part 01 - Anthrop, Natural or Instability
+
+Table
+
+
+```{r dataset}
+
+#1 - Inconsi
+#A1 = c(1,1,1)
+#N1 = c(1,1,1)
+#I1 = c(1,1,1)
+
+#2
+A1 = c(1,0.2,0.143)
+N1 = c(5,1,0.2)
+I1 = c(7,5,1)
+
+
+
+
+
+
+#A1 = c(1,5,7)
+#N1 = c(0.2, 1, 5)
+#I1 = c(0.143, 0.2, 1)
+
+
+
+```
+
+
+```{r matrix_1}
+
+
+
+
+
+n=3
+
+df_01 = data.frame(A1, N1, I1)
+
+colnames(df_01) <- c("Antrop", "Natural", "Instab" )
+row.names (df_01) <- c("Antrop_r", "Natural_r", "Instab_r" )
+df_01
+
+Sum <- colSums (df_01)
+Sum
+#row.names (df_01) <- c("Antrop_r", "Natural_r", "Instab_r")
+
+#df_01S <- rbind(df_01, Sum)
+
+#row.names (df_01S) <- c("Antrop_r", "Natural_r", "Instab_r", "Sum")
+
+
+df_01S <- sweep(df_01, FUN="/", MARGIN=2, STATS = colSums(df_01))
+
+
+df_01_N <- mutate(df_01S, Priority= rowSums(df_01S)/n) # Priority average of the row sum
+df_01_N 
+
+#Multiplication Weight for each colummn and weight sum
+Priority <- df_01_N$Priority
+df_01_MW <- df_01*Priority
+df_01_MW
+```
+
+**Priority Column**: Weight for each parameter (row)
+
+###  Checking for consistency
+
+1. Create Matrix
+```{r matrix}
+
+matrix_01 <- matrix (c(A1, N1, I1), nrow=3, ncol=3)
+matrix_priority <- matrix (df_01_N$Priority, nrow=3, ncol=1)
+
+
+matrix_01
+matrix_priority
+
+
+
+```
+**Priority**: weight for each parameter
+
+
+## Checking for consistency
+
+- Next step: compute the Consistency Ratio (CR) --> measure how consistent the judgments have been relative to the samples of purely random judgments
+- AHP Assumption: decision maker is rational
+- CR > 0.1 --> the judgments are untrustworthy (too close for comfort to randomness and the exercise is valuesless or must be repeated)
+
+2. Compute Lambida Max & Average
+
+```{r multiplication_matrix}
+
+AX <- (matrix_01)%*%(matrix_priority)
+AX
+
+Lamb_Max  <- (AX/matrix_priority)
+Lamb_Max <- (sum(Lamb_Max))/n
+Lamb_Max
+
+```
+3. Compute Consistency Index (CI)
+
+```{r CI}
+n=3
+CI = (Lamb_Max-n)/(n-1)
+CI
+
+```
+
+
+4. Consistancy Ratio
+
+```{r rconsistency_ratio}
+
+RI = 0.58 ### value from table
+#RI = CI/CR
+CR=CI/RI
+CR
+```
+
