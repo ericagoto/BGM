@@ -1,0 +1,10 @@
+name: report
+title:
+username:
+account: ericagoto
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 358467
+bundleId: 1421442
+url: https://ericagoto.shinyapps.io/report/
+when: 1528652798.19292

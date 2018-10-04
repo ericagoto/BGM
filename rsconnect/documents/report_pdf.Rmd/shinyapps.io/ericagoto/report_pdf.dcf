@@ -1,0 +1,10 @@
+name: report_pdf
+title:
+username:
+account: ericagoto
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 358468
+bundleId: 1421445
+url: https://ericagoto.shinyapps.io/report_pdf/
+when: 1528652869.81602

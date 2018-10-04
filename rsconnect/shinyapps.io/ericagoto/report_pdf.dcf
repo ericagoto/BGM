@@ -1,0 +1,13 @@
+name: report_pdf
+title:
+username:
+account: ericagoto
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 358468
+bundleId: 1619230
+url: https://ericagoto.shinyapps.io/report_pdf/
+when: 1538527414.51444
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .Rapp.history|.RData|1Municipio.csv|downloadData|format|functions.html|functions.pdf|functions.Rmd|IPT_SP_2010.xls|ipt_test.xlsx|ipt_test2.xlsx|ipt_test3.xlsx|Ipt_weight.Rmd|ipt_weight.xlsx|ipt.xlsx|practice.html|report2.pdf|rock.csv|BGM/app.R|newdir/server.R|newdir/ui.R
