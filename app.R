@@ -608,10 +608,10 @@ server <- function(input, output) {
   
   risk <-reactive ({
     final <- (Agua() + Angulo() + Densidade() + Instabilidade() + Material() + Moradia() + Vegetacao())
-    if (final < 45) {return("R1")}
-    if (final >= 45 & final < 59) {return("R2")}
-    if (final >= 59 & final < 68) {return("R3")}
-    if (final >= 68) {return("R4")}
+    if (final < 36) {return("R1")}
+    if (final >= 36 & final < 53) {return("R2")}
+    if (final >= 53 & final < 66) {return("R3")}
+    if (final >= 66) {return("R4")}
     final
   })   
   

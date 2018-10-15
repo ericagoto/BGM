@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
 library(readxl)
+library(effsize)
 IPT <- read_excel("ipt_test.xlsx")
 
 IPT_todo <- read_excel("IPT_SP_2010.xls")
@@ -21,7 +22,6 @@ IPT_todo <- read_excel("IPT_SP_2010.xls")
 
 Equation
 ```{r}
-
 IPT2 <- IPT %>% 
   select(Risco, Setor, Processo:Cicatriz) %>% 
   mutate(W_MaterialAterro =2.8959*MaterialAterro) %>% 
@@ -68,6 +68,182 @@ IPt_veg <- IPT_todo %>%
 IPT_risco <- IPT_todo %>% 
   select(setor, R4:R1)
   
+
+```
+
+###IPT Training Set Weight - Divided in 3 (AHP, Ordinary Logistic Regression, Validation)
+
+```{r}
+library(readxl)
+AHP_Training <- read_excel("ipt_training_set_AHP_BGM.xlsx")
+View(AHP_Training)
+
+
+```
+
+Changing AHP Training to compute Risk Value
+```{r}
+AHP <- AHP_Training %>% 
+  select(setor, Inclinacao, Total_Moradia, Densidade, GeolDesf, Solo, CoberturaNatural, AterroLixoEntulho, InstabSum, AguaTotal, VegTotal, Risco)
+
+AHP$Total_Moradia <- as.numeric(AHP$Total_Moradia)
+AHP$Densidade <- as.numeric(AHP$Densidade)
+AHP$GeolDesf <- as.numeric(AHP$GeolDesf)
+AHP$Solo <- as.numeric(AHP$Solo)
+AHP$CoberturaNatural <- as.numeric(AHP$CoberturaNatural)
+AHP$AterroLixoEntulho <- as.numeric(AHP$AterroLixoEntulho)
+AHP$InstabSum <- as.numeric(AHP$InstabSum)
+AHP$AguaTotal <- as.numeric(AHP$AguaTotal)
+AHP$VegTotal <- as.numeric(AHP$VegTotal)
+AHP$Inclinacao <- as.numeric(AHP$Inclinacao)
+
+
+#change values InstabSum, AguaTotal, VegTogal
+
+
+AHP$InstabSum <- ifelse(AHP$InstabSum > 23.7, 23.7, AHP$InstabSum)
+AHP$AguaTotal <- ifelse(AHP$AguaTotal > 6.0424868, 6.0424868, AHP$AguaTotal)
+AHP$VegTotal <- ifelse(AHP$VegTotal > 3.8590672, 3.8590672, AHP$VegTotal)
+
+AHP1 <- AHP  %>% 
+  mutate(RiskNum = Inclinacao + Total_Moradia + Densidade + GeolDesf + Solo + CoberturaNatural + AterroLixoEntulho +  InstabSum +  AguaTotal + VegTotal) %>% 
+select(setor, Risco, RiskNum)
+
+AHP1 <- AHP1 %>%
+  mutate(LogRisk = log10(RiskNum))
+
+colnames(AHP1) <- c("Sector", "Risk", "RiskNum", "LogRisk")
+
+AHP1
+
+
+```
+
+Ploting AHP1 to look the distribution
+```{r AHP1_plot}
+Hist <- hist(AHP1$LogRisk, breaks = 80)
+QQPlot <- qqnorm(AHP1$RiskNum)
+
+par(mfrow=c(1,2))
+
+BoxPlot <- ggplot(AHP1, aes(x=Risk, y=RiskNum)) +
+  geom_boxplot(aes(fill=Risk)) +
+  theme_bw()+
+  ggtitle("Values for Each Degree of Risk")+
+  xlab("Risk Degree")+
+  ylab("Risk Value")+ 
+    theme(plot.title = element_text(hjust = 0.5)) ##center
+BoxPlot 
+
+Jiterplot <- ggplot (AHP1, aes(x=Risk, y=RiskNum)) +
+  geom_jitter(aes(colour = Risk), width = 0.3, alpha =0.4)+
+  theme_classic ()+ 
+      labs(x="Degree of Risk", y = "Risk Value") + 
+    theme(plot.title = element_text(hjust = 0.5)) ##center
+Jiterplot
+
+hist_ggplot <- ggplot(AHP1, aes(x=RiskNum)) +
+                        geom_histogram(aes(y=..density..), binwidth=1, color="dark green", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") + 
+    labs(title="Risk value histogram",x="Risk Value", y = "Count") + 
+    theme(plot.title = element_text(hjust = 0.5)) ##center
+
+
+  
+hist_ggplot + scale_x_continuous(limits = c(0, 80), breaks = c(0,5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80))
+
+```
+
+
+Comparing Risk Degree to see if they are significant different
+
+## Test 1 (R1 VS R2)
+- H0: no significant difference between R1 and R2
+- H1: There is a significant different between R1 and R2
+
+## Test 2 (R2 VS R3)
+- H0: no significant difference between R3 and R2
+- H1: There is a significant different between R3 and R2
+
+## Test 3 (R3 VS R4)
+- H0: no significant difference between R3 and R4
+- H1: There is a significant different between R3 and R4
+```{r}
+
+#Prepare dataset
+
+R1<- AHP1%>%
+  filter(Risco=="R1") %>%
+  select(RiskNum)
+R1<- R1$RiskNum
+
+R2<- AHP1%>%
+  filter(Risco=="R2") %>%
+  select(RiskNum)
+R2<- R2$RiskNum
+
+R3<- AHP1%>%
+  filter(Risco=="R3") %>%
+  select(RiskNum)
+R3<- R3$RiskNum
+
+R4<- AHP1%>%
+  filter(Risco=="R4") %>%
+  select(RiskNum)
+R4<- R4$RiskNum
+
+t_test_diff_R1_R2 <- t.test (R1, R2, var.equal = TRUE)
+t_test_diff_R1_R2
+effect_size_R1_R2 <- cohen.d(R1, R2)
+effect_size_R1_R2
+
+
+t_test_diff_R2_R3 <- t.test (R2, R3, var.equal = TRUE)
+t_test_diff_R2_R3
+effect_size_R2_R3 <- cohen.d(R2, R3)
+effect_size_R2_R3
+
+t_test_diff_R3_R4 <- t.test (R3, R4, var.equal = TRUE)
+t_test_diff_R3_R4
+effect_size_R3_R4 <- cohen.d(R3, R4)
+effect_size_R3_R4
+
+```
+
+
+
+Values Average & SD
+
+
+```{r}
+AHP_R1 <- AHP1 %>% 
+  filter(Risco == "R1") 
+AHP_R1_Mean <- mean(AHP_R1$RiskNum)
+AHP_R1_SD <- sd(AHP_R1$RiskNum)
+
+AHP_R2 <- AHP1 %>% 
+  filter(Risco == "R2") 
+AHP_R2_Mean <- mean(AHP_R2$RiskNum)
+AHP_R2_SD <- sd(AHP_R2$RiskNum)
+
+AHP_R3 <- AHP1 %>% 
+  filter(Risco == "R3") 
+AHP_R3_Mean <- mean(AHP_R3$RiskNum)
+AHP_R3_SD <- sd(AHP_R3$RiskNum)
+
+AHP_R4 <- AHP1 %>% 
+  filter(Risco == "R4") 
+AHP_R4_Mean <- mean(AHP_R4$RiskNum)
+AHP_R4_SD <- sd(AHP_R4$RiskNum)
+
+df_AHP <- data.frame(c( "R1", "R2", "R3", "R4"),
+                  c(AHP_R1_Mean, AHP_R2_Mean, AHP_R3_Mean, AHP_R4_Mean), 
+                 c( AHP_R1_SD, AHP_R2_SD, AHP_R3_SD, AHP_R4_SD))
+colnames(df_AHP) <-c("Risk", "MEan", "SD")
+df_AHP
+
+plot(df_AHP$MEan)
+
 
 ```
 
