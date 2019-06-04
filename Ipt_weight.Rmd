@@ -48,8 +48,10 @@ IPT_moradia <- IPT_todo %>%
   mutate(MAlvenaria = alvenaria*0.1582308) %>% 
   mutate(MMadeira = madeira*0.882882) %>% 
   mutate(MMista = misto*1.2520872) %>% 
-  select(setor, D1:MMista) %>% 
-  mutate(Sum = rowSums(IPT_moradia[,2:9]))
+  select(setor, D1:MMista) 
+
+IPT_moradia <- IPT_moradia %>% 
+  mutate(Sum = rowSums(IPT_moradia[,2:7]))
 
 
 IPT_encosta <- IPT_todo %>% 
@@ -121,8 +123,12 @@ AHP1
 
 Ploting AHP1 to look the distribution
 ```{r AHP1_plot}
+Hist <- hist(AHP1$RiskNum, breaks = 80,  main ="Histogram of risk values", xlab = "risk value", ylab="frequency")
+QQPlot <- qqnorm(AHP1$RiskNum, main="QQPlot risk values")
+
+
+
 Hist <- hist(AHP1$LogRisk, breaks = 80)
-QQPlot <- qqnorm(AHP1$RiskNum)
 
 par(mfrow=c(1,2))
 
@@ -133,7 +139,8 @@ BoxPlot <- ggplot(AHP1, aes(x=Risk, y=RiskNum)) +
   xlab("Risk Degree")+
   ylab("Risk Value")+ 
     theme(plot.title = element_text(hjust = 0.5)) ##center
-BoxPlot 
+BoxPlot + scale_y_continuous(breaks=c(5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,75, 80))
+
 
 Jiterplot <- ggplot (AHP1, aes(x=Risk, y=RiskNum)) +
   geom_jitter(aes(colour = Risk), width = 0.3, alpha =0.4)+
@@ -173,22 +180,22 @@ Comparing Risk Degree to see if they are significant different
 #Prepare dataset
 
 R1<- AHP1%>%
-  filter(Risco=="R1") %>%
+  filter(Risk=="R1") %>%
   select(RiskNum)
 R1<- R1$RiskNum
 
 R2<- AHP1%>%
-  filter(Risco=="R2") %>%
+  filter(Risk=="R2") %>%
   select(RiskNum)
 R2<- R2$RiskNum
 
 R3<- AHP1%>%
-  filter(Risco=="R3") %>%
+  filter(Risk=="R3") %>%
   select(RiskNum)
 R3<- R3$RiskNum
 
 R4<- AHP1%>%
-  filter(Risco=="R4") %>%
+  filter(Risk=="R4") %>%
   select(RiskNum)
 R4<- R4$RiskNum
 
@@ -217,22 +224,22 @@ Values Average & SD
 
 ```{r}
 AHP_R1 <- AHP1 %>% 
-  filter(Risco == "R1") 
+  filter(Risk == "R1") 
 AHP_R1_Mean <- mean(AHP_R1$RiskNum)
 AHP_R1_SD <- sd(AHP_R1$RiskNum)
 
 AHP_R2 <- AHP1 %>% 
-  filter(Risco == "R2") 
+  filter(Risk == "R2") 
 AHP_R2_Mean <- mean(AHP_R2$RiskNum)
 AHP_R2_SD <- sd(AHP_R2$RiskNum)
 
 AHP_R3 <- AHP1 %>% 
-  filter(Risco == "R3") 
+  filter(Risk == "R3") 
 AHP_R3_Mean <- mean(AHP_R3$RiskNum)
 AHP_R3_SD <- sd(AHP_R3$RiskNum)
 
 AHP_R4 <- AHP1 %>% 
-  filter(Risco == "R4") 
+  filter(Risk == "R4") 
 AHP_R4_Mean <- mean(AHP_R4$RiskNum)
 AHP_R4_SD <- sd(AHP_R4$RiskNum)
 
