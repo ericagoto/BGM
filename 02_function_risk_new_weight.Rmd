@@ -13,9 +13,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Functions
 
 ```{r dataset}
-library(xlsx)
+#library(xlsx)
 library(dplyr)
 library(readxl)
+library(ggplot2)
 escorregamento <- read_excel("BD-IPT 2010_todos.xls")
 
 df1 <- read_excel("IPT_SP_2010.xls")
@@ -93,9 +94,19 @@ escorregamento$leaking <- ifelse(escorregamento$leaking == 1, -0.290092399384874
 escorregamento$wastewater <- ifelse(escorregamento$wastewater == 1, -0.572563533314079, escorregamento$wastewater)
 escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc == 1, -0.567829380231467, escorregamento$rainfall_water_conc)
 
+escorregamento$angle_both <- as.numeric(escorregamento$angle_both)
+
+
+escorregamento$angle_both [escorregamento$angle_both  == (90) ] = 0.058482
+escorregamento$angle_both [escorregamento$angle_both  >= (60) & escorregamento$angle_both  < 90] = 0.05664807
+escorregamento$angle_both[escorregamento$angle_both >=(30) & escorregamento$angle_both < 60] = 0.026693875
+escorregamento$angle_both[escorregamento$angle_both >=(17) & escorregamento$angle_both < 30] = 0.013041282
+escorregamento$angle_both[escorregamento$angle_both >=(10) & escorregamento$angle_both < 17] = 0.004075401
+escorregamento$angle_both[escorregamento$angle_both <(10)] = 0
+
 
 escorregamento<- escorregamento %>%
-  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none))
+  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + angle_both)
 
 
     
@@ -104,7 +115,13 @@ escorregamento<- escorregamento %>%
 ## Ploting risk value
 ```{r}
 
-hist(escorregamento$value)
+sd_value <- sd(escorregamento$value)
+mean_value <- sd(escorregamento$value)
+
+ggplot(escorregamento, aes(value)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="darkgreen",binwidth=0.1) +
+  geom_density(alpha=0.2, fill="gray")+
+      ggtitle("Risk Value") 
 
 
 ```
