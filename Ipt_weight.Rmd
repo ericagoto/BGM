@@ -24,12 +24,12 @@ Equation
 ```{r}
 IPT2 <- IPT %>% 
   select(Risco, Setor, Processo:Cicatriz) %>% 
-  mutate(W_MaterialAterro =2.8959*MaterialAterro) %>% 
-  mutate(W_MaterialLixo = 2.8959*MaterialLixo) %>% 
-  mutate(W_MaterialEntulho = 2.8959*MaterialEntulho) %>% 
-  mutate(W_MMadeira = 0.882882*Mmadeira) %>% 
-   mutate(W_MMista = 1.2520872*Mmista) %>% 
-  mutate(W_MAlvenaria = 0.1582308*MAlvenaria)
+  mutate(W_MaterialAterro =0.037627021*MaterialAterro) %>% 
+  mutate(W_MaterialLixo = 0.037627021*MaterialLixo) %>% 
+  mutate(W_MaterialEntulho = 0.037627021*MaterialEntulho) %>% 
+  mutate(W_MMadeira = 0.204240586*Mmadeira) %>% 
+   mutate(W_MMista = 0.233000000*Mmista) %>% 
+  mutate(W_MAlvenaria = 0.050207113*MAlvenaria)
 
 
 ```
@@ -40,14 +40,14 @@ IPT Todos
 
 IPT_moradia <- IPT_todo %>% 
   select(setor:Dens4) %>% 
-  mutate(D1 = Dens1*0.1241856) %>% 
-  mutate(D2 = Dens2*0.3796128) %>% 
-  mutate(D3 = Dens3*0.613872) %>% 
-  mutate(D4 = Dens4*0.2935296) %>% 
+  mutate(D1 = Dens1*0.009238751) %>% 
+  mutate(D2 = Dens2*0.024749680) %>% 
+  mutate(D3 = Dens3*0.028733362) %>% 
+  mutate(D4 = Dens4*0.022037387) %>% 
   select(setor:`loc outras:`, D1:D4) %>% 
-  mutate(MAlvenaria = alvenaria*0.1582308) %>% 
-  mutate(MMadeira = madeira*0.882882) %>% 
-  mutate(MMista = misto*1.2520872) %>% 
+  mutate(MAlvenaria = alvenaria*0.050207113) %>% 
+  mutate(MMadeira = madeira*0.204240586) %>% 
+  mutate(MMista = misto*0.233000000) %>% 
   select(setor, D1:MMista) 
 
 IPT_moradia <- IPT_moradia %>% 
@@ -103,9 +103,9 @@ AHP$Inclinacao <- as.numeric(AHP$Inclinacao)
 #change values InstabSum, AguaTotal, VegTogal
 
 
-AHP$InstabSum <- ifelse(AHP$InstabSum > 23.7, 23.7, AHP$InstabSum)
-AHP$AguaTotal <- ifelse(AHP$AguaTotal > 6.0424868, 6.0424868, AHP$AguaTotal)
-AHP$VegTotal <- ifelse(AHP$VegTotal > 3.8590672, 3.8590672, AHP$VegTotal)
+AHP$InstabSum <- ifelse(AHP$InstabSum > 0.596000000, 0.596000000, AHP$InstabSum)
+AHP$AguaTotal <- ifelse(AHP$AguaTotal > 0.233000000, 0.233000000, AHP$AguaTotal)
+AHP$VegTotal <- ifelse(AHP$VegTotal > 0.037398979, 0.037398979, AHP$VegTotal)
 
 AHP1 <- AHP  %>% 
   mutate(RiskNum = Inclinacao + Total_Moradia + Densidade + GeolDesf + Solo + CoberturaNatural + AterroLixoEntulho +  InstabSum +  AguaTotal + VegTotal) %>% 

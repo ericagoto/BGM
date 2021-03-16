@@ -19,35 +19,39 @@ params:
   n: NA
   o: NA
   p: NA
-  q: NA
-  r: NA #20
+  p1: NA 
+  q: NA #20
+  r: NA 
   s: NA
   t: NA
   u: NA
+  u1: NA
+  u2: NA
   v: NA
   v1: NA
   v2: NA
-  v3: NA
+  v3: NA #30
   v4: NA
-  v5: NA
-  v6: NA #30
-  w: NA
+  v5: NA 
+  v6: NA 
   x: NA
   x1: NA
   x2: NA
   x3: NA
   z: NA
   y: NA
+  y5: NA #40
   y1: NA
   y2: NA
-  y4: NA #40
+  y4: NA
   y3: NA
-  p1: NA
+  w: NA
   w1: NA
   w2: NA
   w3: NA
   w5: NA
-  w6: NA #47
+  w6: NA #50
+  w7: NA
  
 output: 
   pdf_document: default
@@ -87,12 +91,14 @@ data.frame(
                         "Angulo de inclinacao" ,
                          "Posicao da  moradia",
                         "Geologia", 
+                        "Solo",
+                        "Cobertura Natural",
                         "Solo residual",
                           "Saprolito", 
                           "Rocha alterada",
                           "Rocha sa", 
                           "Aterro",
-                          "Lixo", #30
+                          "Lixo", #32
                           "Entulho",
                         "Lancamento de agua servida",
                       "Concentracao de agua de chuva",
@@ -100,27 +106,28 @@ data.frame(
                       "Fossa septica",
                         "Tipo de drenagem" ,
                         "Presenca de arvores",
+                      "Presença de vegetação arbustiva",
                           "Presenca de vegetacao rasteira",
                       "Bananeira",
-                          "Solo exposto/vegetacao desmatada", #40
+                          "Solo exposto/vegetacao desmatada", #43
                           "Cobertura urbana",                       
                         "Muro embarrigado", 
                          "Trinca na moradia", 
                          "Arvores, postes, e muros inclinados",
                          "Degrau de abatimento",
                          "Cicatrizes de escorregamento",
-                         "Trinca no terreno" #47
+                         "Trinca no terreno" #50
                          ), 
       
       Resposta = as.character (c(
                         params$a,  params$b,  params$c,  params$d,  params$e,  params$f, #6
                          params$g,  params$h,  params$i,  params$j,  params$k1, params$k2, params$k3,  params$l,  #14
                          params$m,  params$n, params$o,  params$p, params$p1,  params$q, #20
-                        params$r, params$s, params$t,  params$u,  params$v, #25
-                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6, #31
-                        params$x,  params$x1,  params$x2,  params$x3,  #35
-                        params$z, params$y, params$y1, params$y2, params$y4, params$y3,   params$w, #42
-                         params$w1, params$w2, params$w3, params$w5, params$w6) #47
+                        params$r, params$s, params$t,  params$u,  params$u1, params$u2, params$v, #27
+                        params$v1, params$v2, params$v3, params$v4, params$v5, params$v6, #33
+                        params$x,  params$x1,  params$x2,  params$x3,  #37
+                        params$z, params$y, params$y5, params$y1, params$y2, params$y4, params$y3,   params$w, #45
+                         params$w1, params$w2, params$w3, params$w5, params$w6) #50
                               ))
 
 
@@ -128,7 +135,7 @@ data.frame(
 
 ## Grau de Risco:
 ```{r}
-risk()
+params$w7
 ```
 
 

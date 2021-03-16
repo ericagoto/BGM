@@ -3,7 +3,7 @@ library(shiny)
 library (shinydashboard)
 library (tidyverse)
 library(leaflet)
-library(sf)
+#library(sf)
 library(shinythemes)
 library(latex2exp)
 library (markdown)
@@ -839,56 +839,57 @@ server <- function(input, output) {
       
       ### parameters 
       
-      params <- list(    a= input$txt_mun, #1 
-                         b = input$txt_area, 
-                         c= input$txt_bairro, 
-                         d=input$txt_setor,
-                         e=input$txt_equip, 
-                         f= as.character(input$date),
-                         g = input$select_UA, 
-                         h=input$txt_loc, 
-                         i = input$txt_moradores, 
-                         j =input$txt_acesso, #10 
-                         k1 = input$select_moradia_alvenaria,
-                         k2 = input$select_moradia_madeira,
-                         k3 = input$select_moradia_mista,
-                         l= input$txt_moradia,
-                         m= input$select_densidade,
-                         n = input$select_via, 
-                         o =  input$txt_via,
-                         p = input$select_encosta, 
-                         p1 = input$select_talude,
-                         q =input$txt_h_max,  #20
-                         r =input$txt_dist_moradia, 
-                         s = input$select_angle,
-                         t =input$select_posicao_moradia,
-                         u =input$select_geol,
-                         u1 = input$select_solo, 
-                         u2 =input$select_cobertura_natural, 
-                         v = input$select_residual,
-                         v1 = input$select_saprolito, 
-                         v2 = input$select_rocha_alterada,
-                         v3 = input$select_rocha_sa,
-                         v4 = input$select_aterro,
-                         v5 = input$select_lixo, #30
-                         v6 = input$select_entulho, 
-                         x = input$select_lancamento,
-                         x1 = input$select_chuva,
-                         x2 = input$select_vazamento,
-                         x3 = input$select_fossa,
-                         z = input$select_drenag, 
-                         y = input$select_arvore,
-                         y5 = input$select_arbusto, 
-                         y1 = input$select_rasteira,
-                         y2 = input$select_desmatado,
-                         y4 = input$select_bananeira, #41
-                         y3 = input$select_urbana,
-                         w = input$select_embarrigado,
-                         w1 = input$select_trinca_moradia,
-                         w2 = input$select_inclinados,
-                         w3 = input$select_degrau,
-                         w5 = input$select_cicatriz,
-                         w6 = input$select_trinca_terreno #48
+      params <- list(     a= input$txt_mun, #1 
+                          b = input$txt_area, 
+                          c= input$txt_bairro, 
+                          d=input$txt_setor,
+                          e=input$txt_equip, 
+                          f= as.character(input$date),
+                          g = input$select_UA, 
+                          h=input$txt_loc, 
+                          i = input$txt_moradores, 
+                          j =input$txt_acesso, #10 
+                          k1 = input$select_moradia_alvenaria,
+                          k2 = input$select_moradia_madeira,
+                          k3 = input$select_moradia_mista,
+                          l= input$txt_moradia,
+                          m= input$select_densidade,
+                          n = input$select_via, 
+                          o =  input$txt_via,
+                          p = input$select_encosta, 
+                          p1 = input$select_talude,
+                          q =input$txt_h_max,  #20
+                          r =input$txt_dist_moradia, 
+                          s = input$select_angle,
+                          t =input$select_posicao_moradia,
+                          u =input$select_geol,
+                          u1 = input$select_solo, 
+                          u2 =input$select_cobertura_natural, 
+                          v = input$select_residual,
+                          v1 = input$select_saprolito, 
+                          v2 = input$select_rocha_alterada,
+                          v3 = input$select_rocha_sa, #30
+                          v4 = input$select_aterro,
+                          v5 = input$select_lixo, 
+                          v6 = input$select_entulho, 
+                          x = input$select_lancamento,
+                          x1 = input$select_chuva,
+                          x2 = input$select_vazamento,
+                          x3 = input$select_fossa,
+                          z = input$select_drenag, 
+                          y = input$select_arvore,
+                          y5 = input$select_arbusto, #40 
+                          y1 = input$select_rasteira,
+                          y2 = input$select_desmatado,
+                          y4 = input$select_bananeira, #43
+                          y3 = input$select_urbana,
+                          w = input$select_embarrigado,
+                          w1 = input$select_trinca_moradia,
+                          w2 = input$select_inclinados,
+                          w3 = input$select_degrau,
+                          w5 = input$select_cicatriz,
+                          w6 = input$select_trinca_terreno, #50
+                          w7 = risk()
                          
                          
                          
@@ -927,57 +928,57 @@ server <- function(input, output) {
       
       ### parameters 
       
-      params <- list(   a= input$txt_mun, #1 
-                        b = input$txt_area, 
-                        c= input$txt_bairro, 
-                        d=input$txt_setor,
-                        e=input$txt_equip, 
-                        f= as.character(input$date),
-                        g = input$select_UA, 
-                        h=input$txt_loc, 
-                        i = input$txt_moradores, 
-                        j =input$txt_acesso, #10 
-                        k1 = input$select_moradia_alvenaria,
-                        k2 = input$select_moradia_madeira,
-                        k3 = input$select_moradia_mista,
-                        l= input$txt_moradia,
-                        m= input$select_densidade,
-                        n = input$select_via, 
-                        o =  input$txt_via,
-                        p = input$select_encosta, 
-                        p1 = input$select_talude,
-                        q =input$txt_h_max,  #20
-                        r =input$txt_dist_moradia, 
-                        s = input$select_angle,
-                        t =input$select_posicao_moradia,
-                        u =input$select_geol,
-                        u1 = input$select_solo, 
-                        u2 =input$select_cobertura_natural, 
-                        v = input$select_residual,
-                        v1 = input$select_saprolito, 
-                        v2 = input$select_rocha_alterada,
-                        v3 = input$select_rocha_sa,
-                        v4 = input$select_aterro,
-                        v5 = input$select_lixo, #30
-                        v6 = input$select_entulho, 
-                        x = input$select_lancamento,
-                        x1 = input$select_chuva,
-                        x2 = input$select_vazamento,
-                        x3 = input$select_fossa,
-                        z = input$select_drenag, 
-                        y = input$select_arvore,
-                        y5 = input$select_arbusto,
-                        y1 = input$select_rasteira,
-                        y2 = input$select_desmatado,
-                        y4 = input$select_bananeira, #41
-                        y3 = input$select_urbana,
-                        w = input$select_embarrigado,
-                        w1 = input$select_trinca_moradia,
-                        w2 = input$select_inclinados,
-                        w3 = input$select_degrau,
-                        w5 = input$select_cicatriz,
-                        w6 = input$select_trinca_terreno #48
-                        
+      params <- list(    a= input$txt_mun, #1 
+                         b = input$txt_area, 
+                         c= input$txt_bairro, 
+                         d=input$txt_setor,
+                         e=input$txt_equip, 
+                         f= as.character(input$date),
+                         g = input$select_UA, 
+                         h=input$txt_loc, 
+                         i = input$txt_moradores, 
+                         j =input$txt_acesso, #10 
+                         k1 = input$select_moradia_alvenaria,
+                         k2 = input$select_moradia_madeira,
+                         k3 = input$select_moradia_mista,
+                         l= input$txt_moradia,
+                         m= input$select_densidade,
+                         n = input$select_via, 
+                         o =  input$txt_via,
+                         p = input$select_encosta, 
+                         p1 = input$select_talude,
+                         q =input$txt_h_max,  #20
+                         r =input$txt_dist_moradia, 
+                         s = input$select_angle,
+                         t =input$select_posicao_moradia,
+                         u =input$select_geol,
+                         u1 = input$select_solo, 
+                         u2 =input$select_cobertura_natural, 
+                         v = input$select_residual,
+                         v1 = input$select_saprolito, 
+                         v2 = input$select_rocha_alterada,
+                         v3 = input$select_rocha_sa, #30
+                         v4 = input$select_aterro,
+                         v5 = input$select_lixo, 
+                         v6 = input$select_entulho, 
+                         x = input$select_lancamento,
+                         x1 = input$select_chuva,
+                         x2 = input$select_vazamento,
+                         x3 = input$select_fossa,
+                         z = input$select_drenag, 
+                         y = input$select_arvore,
+                         y5 = input$select_arbusto, #40 
+                         y1 = input$select_rasteira,
+                         y2 = input$select_desmatado,
+                         y4 = input$select_bananeira, #43
+                         y3 = input$select_urbana,
+                         w = input$select_embarrigado,
+                         w1 = input$select_trinca_moradia,
+                         w2 = input$select_inclinados,
+                         w3 = input$select_degrau,
+                         w5 = input$select_cicatriz,
+                         w6 = input$select_trinca_terreno, #50
+                         w7 = risk()
       )
       
       

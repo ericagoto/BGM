@@ -1,0 +1,220 @@
+---
+title: "Functions"
+author: "Erica Goto"
+date: "3/11/2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Functions
+
+```{r dataset}
+library(xlsx)
+library(dplyr)
+library(readxl)
+escorregamento <- read_excel("BD-IPT 2010_todos.xls")
+
+df1 <- read_excel("IPT_SP_2010.xls")
+df2 <- read_excel("sector_slope_angle.xlsx")
+
+merge_df <- merge(df1, df2, by.x = "setor", 
+             by.y = "sg_setor_r", all.x = TRUE, all.y = TRUE)
+
+#write.xlsx(merge_df, "merge_df.xls")
+
+```
+
+
+### Excluding  cells with empty values
+1 Find natural slope angle using 5m DEM
+2) Raster to Point so I could do Spatial Join to the polygons of the risk sectors
+3) New polygon of risk sectors and natural slope angle to excel table (so I could merge the sectors with the AHP calculation)
+4) excel table: need to exclude NA crated with the merge of the two excel file
+5) created just one column with slope angle (both anthropogenic and natural). The ones that did not have a value for the anthropogenic I inputed the natural one. So mainly the angle that AHP will be using is the anthropogenic and if there were not change into the terrain, the natural one. 
+```{r}
+escorregamento <- read_excel("merge_df_les.xls")
+
+```
+
+
+
+
+
+
+#Changing values data,frane
+
+```{r , include=FALSE}
+
+# these values were extracted from classifiers.xls These weight were normalized with z-score
+
+
+escorregamento$brick <- ifelse(escorregamento$brick == 1, -0.847144412, escorregamento$brick)
+escorregamento$wood <- ifelse(escorregamento$wood == 1, 0.018621387, escorregamento$wood)
+escorregamento$mixed<- ifelse(escorregamento$mixed == 1, 0.180267533, escorregamento$mixed)
+
+escorregamento$d1 <- ifelse(escorregamento$d1 == 1, -0.847144412, escorregamento$d1)
+escorregamento$d2 <- ifelse(escorregamento$d2 == 1, -0.173939960802013, escorregamento$d2)
+escorregamento$d3 <- ifelse(escorregamento$d3 == 1, -0.00104045691529944, escorregamento$d3)
+escorregamento$d4<- ifelse(escorregamento$d4 == 1, -0.291658771958924, escorregamento$d4)
+
+escorregamento$garbage<- ifelse(escorregamento$garbage == 1, 0.260848862548364, escorregamento$garbage)
+escorregamento$land_fill<- ifelse(escorregamento$land_fill == 1, 0.260848862548364, escorregamento$land_fill)
+escorregamento$construction_material<- ifelse(escorregamento$construction_material == 1, 0.260848862548364, escorregamento$construction_material)
+
+
+escorregamento$cracks <- ifelse(escorregamento$cracks == 1, 1.31713866640692, escorregamento$cracks) # crack in the house
+escorregamento$fracture <- ifelse(escorregamento$fracture == 1, 2.34774965617479, escorregamento$fracture) # crack in the teraain
+escorregamento$tilted <- ifelse(escorregamento$tilted == 1, 1.4717303148721, escorregamento$tilted)
+escorregamento$landslide_scars <- ifelse(escorregamento$landslide_scars == 1, 2.22751170736854, escorregamento$landslide_scars)
+escorregamento$belly_wall <- ifelse(escorregamento$belly_wall == 1, 1.4717303148721, escorregamento$belly_wall)
+escorregamento$downward_floor  <- ifelse(escorregamento$downward_floor == 1, 3.25812269713641, escorregamento$downward_floor)
+
+escorregamento$drainage_none <- ifelse(escorregamento$drainage_none == 1, -0.668824645993864, escorregamento$drainage_none)
+escorregamento$drainage_precarious <- ifelse(escorregamento$drainage_precarious == 1, -0.699186045020083, escorregamento$drainage_precarious)
+escorregamento$drainage_okay <- ifelse(escorregamento$drainage_okay == 1, -0.847144412105597, escorregamento$drainage_okay)
+
+
+escorregamento$tree <- ifelse(escorregamento$tree == 1, -0.809970465644889, escorregamento$tree)
+escorregamento$shrubs <- ifelse(escorregamento$shrubs == 1, -0.83785092549042, escorregamento$shrubs)
+escorregamento$banana_treen <- ifelse(escorregamento$banana_tree == 1, 0.0186213873767418, escorregamento$banana_tree)
+escorregamento$desnude_soil <- ifelse(escorregamento$desnude_soil == 1, 0.114731452565228, escorregamento$desnude_soil)
+
+
+
+escorregamento$septic_tank <- ifelse(escorregamento$septic_tank == 1, -0.607280655919903, escorregamento$septic_tank)
+escorregamento$leaking <- ifelse(escorregamento$leaking == 1, -0.290092399384874, escorregamento$leaking)
+escorregamento$wastewater <- ifelse(escorregamento$wastewater == 1, -0.572563533314079, escorregamento$wastewater)
+escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc == 1, -0.567829380231467, escorregamento$rainfall_water_conc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# dplyr
+escorregamento_ipt <- escorregamento %>%
+  select("Subprefeitura:", Area, Densidade, tc_estruturas_desfav, moradia, aterro, lixo, entulho, trincas_moradia_terreno, embarrigados, cicatrizes, degraus_abatimento, inclinados, conc_agua_chuva, lancamento_agua_servida, vazamento, fossa, drenagem, arvores, rasteiras, desmatada, BANANEIRA, RISCO)
+
+escorregamento_ipt$Densidade <- as.numeric(escorregamento_ipt$Densidade)
+as.numeric(escorregamento_ipt$aterro)
+as.numeric(escorregamento_ipt$lixo)
+as.numeric(escorregamento_ipt$entulho)
+as.numeric(escorregamento_ipt$trincas_moradia_terreno)
+as.numeric(escorregamento_ipt$embarrigados)
+as.numeric(escorregamento_ipt$cicatrizes)
+as.numeric(escorregamento_ipt$degraus_abatimento)
+as.numeric(escorregamento_ipt$conc_agua_chuva)
+as.numeric(escorregamento_ipt$lancamento_agua_servida)
+as.numeric(escorregamento_ipt$vazamento)
+as.numeric(escorregamento_ipt$fossa)
+escorregamento_ipt$drenagem<-as.numeric(escorregamento_ipt$drenagem)
+as.numeric(escorregamento_ipt$arvores)
+as.numeric(escorregamento_ipt$rasteiras)
+as.numeric(escorregamento_ipt$desmatada)
+as.numeric(escorregamento_ipt$BANANEIRA)
+as.factor(escorregamento_ipt$RISCO)
+as.numeric(escorregamento_ipt$tc_estrutura_desfav)
+escorregamento_ipt$moradia<-as.numeric(as.character(escorregamento_ipt$moradia))
+as.factor(escorregamento_ipt$moradia)
+
+    
+```
+
+# Equation:
+```{r}
+
+escorregamento_ipt <- escorregamento_ipt %>%
+  mutate(Agua = conc_agua_chuva + lancamento_agua_servida + vazamento + fossa + drenagem )
+
+escorregamento_ipt$Agua <- ifelse(escorregamento_ipt$Agua > 6.04, 6.04, escorregamento_ipt$Agua)
+
+escorregamento_ipt <- escorregamento_ipt %>%
+    mutate(Instab = trincas_moradia_terreno + embarrigados + cicatrizes + degraus_abatimento + inclinados )
+
+escorregamento_ipt$Instab <- ifelse(escorregamento_ipt$Instab > 5.0015542, 5.0015542, escorregamento_ipt$Instab)
+
+
+escorregamento_ipt <- escorregamento_ipt %>%
+  mutate(Veg = arvores + rasteiras + desmatada + BANANEIRA )
+
+escorregamento_ipt$Veg <- ifelse(escorregamento_ipt$Veg > 3.8590672, 3.8590672, escorregamento_ipt$Veg)
+
+escorregamento_ipt <- escorregamento_ipt %>%
+  mutate(AterroLixo = lixo + aterro + entulho)
+
+escorregamento_ipt$AterroLixo <- ifelse(escorregamento_ipt$AterroLixo > 5.0015542, 5.0015542, escorregamento_ipt$AterroLixo)
+
+
+escorregamento_ipt <- escorregamento_ipt %>%
+  mutate(RiscoComputado = AterroLixo + Veg + Instab + Agua + Densidade + tc_estruturas_desfav + moradia+34.2205842)
+
+
+
+
+```
+
+
+Data.frame with Degree of Risk and RiskComputate
+
+```{r}
+
+df <- escorregamento_ipt %>%
+  select("Subprefeitura:", Area, RISCO, RiscoComputado)
+
+
+R1 <- df %>%
+  filter(RISCO == "R1") %>%
+  select(RISCO:RiscoComputado)
+
+R2 <- df %>%
+  filter(RISCO == "R2") %>%
+  select(RISCO:RiscoComputado)
+
+
+R3 <- df %>%
+  filter(RISCO == "R3") %>%
+  select(RISCO:RiscoComputado)
+
+R4 <- df %>%
+  filter(RISCO == "R4") %>%
+  select(RISCO:RiscoComputado)
+
+
+Risco1 <-R1$RiscoComputado
+Risco2 <-R2$RiscoComputado
+Risco3 <-R3$RiscoComputado
+Risco4 <-R4$RiscoComputado
+
+Mean_R1 <- mean(Risco1)
+SD_R1 <- sd(Risco1)
+
+Mean_R2 <- mean(Risco2)
+SD_R2 <- sd(Risco2)
+
+Mean_R3 <- mean(Risco3)
+SD_R3 <- sd(Risco3)
+
+Mean_R4 <- mean(Risco4)
+SD_R4 <- sd(Risco4)
+
+df_risk <- data.frame(c("Risco", "R1", "R2", "R3", "R4"), 
+                      c("Mean", Mean_R1, Mean_R2, Mean_R3, Mean_R4), 
+                      c("SD", SD_R1, SD_R2, SD_R3, SD_R4))
+df_risk
+                      
+
+```
+

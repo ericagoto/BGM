@@ -1,0 +1,14 @@
+---
+title: "Summary"
+author: "Erica Goto"
+date: "3/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summary of the files
+
+01: 01_weight_pairwisecomparision.Rmd: import excel file with specific weight computed for the pairwise comparision.
