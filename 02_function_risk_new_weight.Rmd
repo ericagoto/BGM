@@ -56,6 +56,7 @@ escorregamento$brick <- ifelse(escorregamento$brick == 1, -0.847144412, escorreg
 escorregamento$wood <- ifelse(escorregamento$wood == 1, 0.018621387, escorregamento$wood)
 escorregamento$mixed<- ifelse(escorregamento$mixed == 1, 0.180267533, escorregamento$mixed)
 
+
 escorregamento$d1 <- ifelse(escorregamento$d1 == 1, -0.847144412, escorregamento$d1)
 escorregamento$d2 <- ifelse(escorregamento$d2 == 1, -0.173939960802013, escorregamento$d2)
 escorregamento$d3 <- ifelse(escorregamento$d3 == 1, -0.00104045691529944, escorregamento$d3)
@@ -64,6 +65,8 @@ escorregamento$d4<- ifelse(escorregamento$d4 == 1, -0.291658771958924, escorrega
 escorregamento$garbage<- ifelse(escorregamento$garbage == 1, 0.260848862548364, escorregamento$garbage)
 escorregamento$land_fill<- ifelse(escorregamento$land_fill == 1, 0.260848862548364, escorregamento$land_fill)
 escorregamento$construction_material<- ifelse(escorregamento$construction_material == 1, 0.260848862548364, escorregamento$construction_material)
+escorregamento$garbage_all <- (escorregamento$garbage+escorregamento$land_fill+escorregamento$construction_material)
+escorregamento$garbage_all <- ifelse(escorregamento$garbage_all >= 0.260848862548364, 0.260848862548364, 0)
 
 
 escorregamento$cracks <- ifelse(escorregamento$cracks == 1, 1.31713866640692, escorregamento$cracks) # crack in the house
@@ -80,7 +83,7 @@ escorregamento$drainage_okay <- ifelse(escorregamento$drainage_okay == 1, -0.847
 
 escorregamento$tree <- ifelse(escorregamento$tree == 1, -0.809970465644889, escorregamento$tree)
 escorregamento$shrubs <- ifelse(escorregamento$shrubs == 1, -0.83785092549042, escorregamento$shrubs)
-escorregamento$banana_treen <- ifelse(escorregamento$banana_tree == 1, 0.0186213873767418, escorregamento$banana_tree)
+escorregamento$banana_tree <- ifelse(escorregamento$banana_tree == 1, 0.0186213873767418, escorregamento$banana_tree)
 escorregamento$desnude_soil <- ifelse(escorregamento$desnude_soil == 1, 0.114731452565228, escorregamento$desnude_soil)
 
 
@@ -91,47 +94,25 @@ escorregamento$wastewater <- ifelse(escorregamento$wastewater == 1, -0.572563533
 escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc == 1, -0.567829380231467, escorregamento$rainfall_water_conc)
 
 
+escorregamento<- escorregamento %>%
+  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none))
 
-
-
-
-
-
-
-
-
-
-
-
-
-# dplyr
-escorregamento_ipt <- escorregamento %>%
-  select("Subprefeitura:", Area, Densidade, tc_estruturas_desfav, moradia, aterro, lixo, entulho, trincas_moradia_terreno, embarrigados, cicatrizes, degraus_abatimento, inclinados, conc_agua_chuva, lancamento_agua_servida, vazamento, fossa, drenagem, arvores, rasteiras, desmatada, BANANEIRA, RISCO)
-
-escorregamento_ipt$Densidade <- as.numeric(escorregamento_ipt$Densidade)
-as.numeric(escorregamento_ipt$aterro)
-as.numeric(escorregamento_ipt$lixo)
-as.numeric(escorregamento_ipt$entulho)
-as.numeric(escorregamento_ipt$trincas_moradia_terreno)
-as.numeric(escorregamento_ipt$embarrigados)
-as.numeric(escorregamento_ipt$cicatrizes)
-as.numeric(escorregamento_ipt$degraus_abatimento)
-as.numeric(escorregamento_ipt$conc_agua_chuva)
-as.numeric(escorregamento_ipt$lancamento_agua_servida)
-as.numeric(escorregamento_ipt$vazamento)
-as.numeric(escorregamento_ipt$fossa)
-escorregamento_ipt$drenagem<-as.numeric(escorregamento_ipt$drenagem)
-as.numeric(escorregamento_ipt$arvores)
-as.numeric(escorregamento_ipt$rasteiras)
-as.numeric(escorregamento_ipt$desmatada)
-as.numeric(escorregamento_ipt$BANANEIRA)
-as.factor(escorregamento_ipt$RISCO)
-as.numeric(escorregamento_ipt$tc_estrutura_desfav)
-escorregamento_ipt$moradia<-as.numeric(as.character(escorregamento_ipt$moradia))
-as.factor(escorregamento_ipt$moradia)
 
     
 ```
+
+## Ploting risk value
+```{r}
+
+hist(escorregamento$value)
+
+
+```
+
+
+
+
+
 
 # Equation:
 ```{r}
