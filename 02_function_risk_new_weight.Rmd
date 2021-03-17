@@ -115,19 +115,50 @@ escorregamento<- escorregamento %>%
 ## Ploting risk value
 ```{r}
 
-sd_value <- sd(escorregamento$value)
-mean_value <- sd(escorregamento$value)
+sd_value <- sd(escorregamento$value, na.rm=TRUE)
+mean_value <- mean(escorregamento$value, na.rm=TRUE)
 
 ggplot(escorregamento, aes(value)) + 
-  geom_histogram(aes(y=..density..), colour="black", fill="darkgreen",binwidth=0.1) +
+  geom_histogram(aes(y=..density..), colour="black", fill="steelblue4",binwidth=0.3) +
   geom_density(alpha=0.2, fill="gray")+
-      ggtitle("Risk Value") 
+      ggtitle("Risk Value")  +
+  geom_vline(aes(xintercept=mean(value, na.rm=TRUE)),
+            color="firebrick4", linetype="dashed", size=1) +
+   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)+sd(value, na.rm=TRUE)),
+            color="gray46", linetype="dashed", size=1) +
+   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)-sd(value, na.rm=TRUE)),
+            color="gray46", linetype="dashed", size=1)
+
 
 
 ```
 
 
 
+## Counting number of values to decide threshold
+```{r}
+### First for vuln
+sd_value <- sd(escorregamento$value, na.rm=TRUE)
+mean_value <- mean(escorregamento$value, na.rm=TRUE)
+
+perc <- escorregamento$value[!is.na(escorregamento$value)]
+ 
+A <- length(perc)
+
+B <- sum(perc< (mean(perc)-sd(perc, na.rm=TRUE)))
+C <- sum(perc< mean(perc) & perc >= mean(perc)+(-sd(perc)))
+D <- sum (perc  >= mean(perc) & perc< sd(perc)+mean(perc))
+E <- sum(perc >= sd(perc)+mean(perc))
+
+B+C+D+E 
+
+df_risk_level_perc <- data.frame(
+  c("low", "moderate", "high", "very high"),
+  c((B/A),(C/A), (D/A), (E/A) )
+)
+
+df_risk_level_perc
+```
 
 
 
