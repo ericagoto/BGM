@@ -160,90 +160,57 @@ df_risk_level_perc <- data.frame(
 df_risk_level_perc
 ```
 
-
-
-# Equation:
+## changing the values for risk level 
 ```{r}
+## Categorical level for vulnerability
 
-escorregamento_ipt <- escorregamento_ipt %>%
-  mutate(Agua = conc_agua_chuva + lancamento_agua_servida + vazamento + fossa + drenagem )
+new_escorregamento <- escorregamento %>%
+  select(sector, value) %>%
+  mutate(risk_level = value)
 
-escorregamento_ipt$Agua <- ifelse(escorregamento_ipt$Agua > 6.04, 6.04, escorregamento_ipt$Agua)
-
-escorregamento_ipt <- escorregamento_ipt %>%
-    mutate(Instab = trincas_moradia_terreno + embarrigados + cicatrizes + degraus_abatimento + inclinados )
-
-escorregamento_ipt$Instab <- ifelse(escorregamento_ipt$Instab > 5.0015542, 5.0015542, escorregamento_ipt$Instab)
+new_escorregamento <- na.omit(new_escorregamento) # exclude rows with NA
 
 
-escorregamento_ipt <- escorregamento_ipt %>%
-  mutate(Veg = arvores + rasteiras + desmatada + BANANEIRA )
-
-escorregamento_ipt$Veg <- ifelse(escorregamento_ipt$Veg > 3.8590672, 3.8590672, escorregamento_ipt$Veg)
-
-escorregamento_ipt <- escorregamento_ipt %>%
-  mutate(AterroLixo = lixo + aterro + entulho)
-
-escorregamento_ipt$AterroLixo <- ifelse(escorregamento_ipt$AterroLixo > 5.0015542, 5.0015542, escorregamento_ipt$AterroLixo)
+### using cut() to create the intervals
 
 
-escorregamento_ipt <- escorregamento_ipt %>%
-  mutate(RiscoComputado = AterroLixo + Veg + Instab + Agua + Densidade + tc_estruturas_desfav + moradia+34.2205842)
+new_escorregamento$risk_level <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
 
 
 
+library ("openxlsx")
+
+write.xlsx(new_escorregamento, file="risk_value_AHP.xls")
 
 ```
 
-
-Data.frame with Degree of Risk and RiskComputate
-
+### Merging risk_level(shapefile) with risk_value_AHP
 ```{r}
+library(rgdal)
 
-df <- escorregamento_ipt %>%
-  select("Subprefeitura:", Area, RISCO, RiscoComputado)
-
-
-R1 <- df %>%
-  filter(RISCO == "R1") %>%
-  select(RISCO:RiscoComputado)
-
-R2 <- df %>%
-  filter(RISCO == "R2") %>%
-  select(RISCO:RiscoComputado)
+# The input file geodatabase
 
 
-R3 <- df %>%
-  filter(RISCO == "R3") %>%
-  select(RISCO:RiscoComputado)
+fgdb <- "shapefile/social_Vulnerability_sp.gdb"
 
-R4 <- df %>%
-  filter(RISCO == "R4") %>%
-  select(RISCO:RiscoComputado)
+# List all feature classes in a file geodatabase
+subset(ogrDrivers(), grepl("GDB", name))
+fc_list <- ogrListLayers(fgdb)
+print(fc_list)
 
 
-Risco1 <-R1$RiscoComputado
-Risco2 <-R2$RiscoComputado
-Risco3 <-R3$RiscoComputado
-Risco4 <-R4$RiscoComputado
 
-Mean_R1 <- mean(Risco1)
-SD_R1 <- sd(Risco1)
+vuln <- readOGR(dsn=fgdb,layer="to_be_merged_with_risk_level")
 
-Mean_R2 <- mean(Risco2)
-SD_R2 <- sd(Risco2)
 
-Mean_R3 <- mean(Risco3)
-SD_R3 <- sd(Risco3)
 
-Mean_R4 <- mean(Risco4)
-SD_R4 <- sd(Risco4)
+vuln@data <- merge(vuln@data,new_escorregamento, by.x="sg_setor_r", by.y="sector", all.x=T, sort=F)
 
-df_risk <- data.frame(c("Risco", "R1", "R2", "R3", "R4"), 
-                      c("Mean", Mean_R1, Mean_R2, Mean_R3, Mean_R4), 
-                      c("SD", SD_R1, SD_R2, SD_R3, SD_R4))
-df_risk
-                      
+names(vuln@data)
+
+
+## create the laye
+#writeOGR(census_tract_sp,dsn="shapefile",layer="census_tract_sp_vuln_correct2", driver="ESRI Shapefile")
+
 
 ```
-
