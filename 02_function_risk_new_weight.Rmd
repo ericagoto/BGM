@@ -97,16 +97,30 @@ escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc 
 escorregamento$angle_both <- as.numeric(escorregamento$angle_both)
 
 
-escorregamento$angle_both [escorregamento$angle_both  == (90) ] = 0.058482
-escorregamento$angle_both [escorregamento$angle_both  >= (60) & escorregamento$angle_both  < 90] = 0.05664807
-escorregamento$angle_both[escorregamento$angle_both >=(30) & escorregamento$angle_both < 60] = 0.026693875
-escorregamento$angle_both[escorregamento$angle_both >=(17) & escorregamento$angle_both < 30] = 0.013041282
-escorregamento$angle_both[escorregamento$angle_both >=(10) & escorregamento$angle_both < 17] = 0.004075401
-escorregamento$angle_both[escorregamento$angle_both <(10)] = 0
+
+
+
+#this need to be in a decreasing order otherwise one will change the other
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both <(10), 0, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(10) & escorregamento$angle_both < 17, 0.026693875, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(17) & escorregamento$angle_both < 30, 0.013041282, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(30) & escorregamento$angle_both < 60, 0.026693875, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both  >= (60) & escorregamento$angle_both  < 90, 0.05664807, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both  == 90, 0.058482, escorregamento$angle_both)
+
+
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(10) & escorregamento$natural_slope < 17, 0.026693875, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(17) & escorregamento$natural_slope < 30, 0.013041282, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(30) & escorregamento$natural_slope < 60, 0.026693875, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  >= (60) & escorregamento$natural_slope  < 90, 0.05664807, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  == 90, 0.058482, escorregamento$natural_slope)
+
+
 
 
 escorregamento<- escorregamento %>%
-  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + angle_both)
+  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + angle_both) %>%
+   mutate(value_natural_angle =(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + natural_slope)
 
 
     
@@ -119,16 +133,33 @@ sd_value <- sd(escorregamento$value, na.rm=TRUE)
 mean_value <- mean(escorregamento$value, na.rm=TRUE)
 
 ggplot(escorregamento, aes(value)) + 
-  geom_histogram(aes(y=..density..), colour="black", fill="steelblue4",binwidth=0.3) +
+  geom_histogram(aes(y=..density..), colour="black", fill="steelblue4",binwidth=0.2) +
   geom_density(alpha=0.2, fill="gray")+
       ggtitle("Risk Value")  +
-  geom_vline(aes(xintercept=mean(value, na.rm=TRUE)),
+  geom_vline(aes(xintercept=mean(value, na.rm=TRUE)+0.5*sd(value, na.rm=TRUE)),
             color="firebrick4", linetype="dashed", size=1) +
-   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)+sd(value, na.rm=TRUE)),
+   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)- 0.5*sd(value, na.rm=TRUE)),
+            color="firebrick4", linetype="dashed", size=1) +
+   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)+1.5*sd(value, na.rm=TRUE)),
             color="gray46", linetype="dashed", size=1) +
-   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)-sd(value, na.rm=TRUE)),
+   geom_vline(aes(xintercept=mean(value, na.rm=TRUE)-1.5*sd(value, na.rm=TRUE)),
             color="gray46", linetype="dashed", size=1)
 
+## natural slope
+
+sd_value <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
+mean_value <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
+
+ggplot(escorregamento, aes(value_natural_angle)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="steelblue4",binwidth=0.2) +
+  geom_density(alpha=0.2, fill="gray")+
+      ggtitle("Risk Value")  +
+  geom_vline(aes(xintercept=mean(value_natural_angle, na.rm=TRUE)),
+            color="firebrick4", linetype="dashed", size=1) +
+   geom_vline(aes(xintercept=mean(value_natural_angle, na.rm=TRUE)+sd(value_natural_angle, na.rm=TRUE)),
+            color="gray46", linetype="dashed", size=1) +
+   geom_vline(aes(xintercept=mean(value_natural_angle, na.rm=TRUE)-sd(value_natural_angle, na.rm=TRUE)),
+            color="gray46", linetype="dashed", size=1)
 
 
 ```
@@ -137,7 +168,7 @@ ggplot(escorregamento, aes(value)) +
 
 ## Counting number of values to decide threshold
 ```{r}
-### First for vuln
+### 
 sd_value <- sd(escorregamento$value, na.rm=TRUE)
 mean_value <- mean(escorregamento$value, na.rm=TRUE)
 
@@ -158,6 +189,31 @@ df_risk_level_perc <- data.frame(
 )
 
 df_risk_level_perc
+
+
+### for rik level with natural angle
+
+sd_value <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
+mean_value <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
+
+perc <- escorregamento$value_natural_angle[!is.na(escorregamento$value_natural_angle)]
+ 
+A <- length(perc)
+
+B <- sum(perc< (mean(perc)-sd(perc, na.rm=TRUE)))
+C <- sum(perc< mean(perc) & perc >= mean(perc)+(-sd(perc)))
+D <- sum (perc  >= mean(perc) & perc< sd(perc)+mean(perc))
+E <- sum(perc >= sd(perc)+mean(perc))
+
+B+C+D+E 
+
+df_risk_level_perc <- data.frame(
+  c("low", "moderate", "high", "very high"),
+  c((B/A),(C/A), (D/A), (E/A) )
+)
+
+df_risk_level_perc
+
 ```
 
 ## changing the values for risk level 
@@ -165,7 +221,7 @@ df_risk_level_perc
 ## Categorical level for vulnerability
 
 new_escorregamento <- escorregamento %>%
-  select(sector, value) %>%
+  select(sector, value, value_natural_angle) %>%
   mutate(risk_level = value)
 
 new_escorregamento <- na.omit(new_escorregamento) # exclude rows with NA
@@ -174,15 +230,22 @@ new_escorregamento <- na.omit(new_escorregamento) # exclude rows with NA
 ### using cut() to create the intervals
 
 
-new_escorregamento$risk_level <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$risk_level_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$risk_level_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 7), labels = c("low", "moderate", "high", "very high" ))
 
+new_escorregamento$risk_level_natural_slope_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$risk_level_natural_slope_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 16), labels = c("low", "moderate", "high", "very high" ))
 
 
 library ("openxlsx")
 
-write.xlsx(new_escorregamento, file="risk_value_AHP.xls")
+#write.xlsx(new_escorregamento, file="risk_value_AHP.xls")
 
 ```
+
+### Open merged file
+
+
 
 ### Merging risk_level(shapefile) with risk_value_AHP
 ```{r}
