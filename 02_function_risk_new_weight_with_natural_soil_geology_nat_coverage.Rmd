@@ -53,33 +53,33 @@ escorregamento <- read_excel("merge_df_les.xls")
 # these values were extracted from classifiers.xls These weight were normalized with z-score
 
 
-escorregamento$brick <- ifelse(escorregamento$brick == 1, -0.847144412, escorregamento$brick)
-escorregamento$wood <- ifelse(escorregamento$wood == 1, 0.018621387, escorregamento$wood)
-escorregamento$mixed<- ifelse(escorregamento$mixed == 1, 0.180267533, escorregamento$mixed)
+escorregamento$brick <- ifelse(escorregamento$brick == 1, -0.8691705, escorregamento$brick)
+escorregamento$wood <- ifelse(escorregamento$wood == 1, 0.01406183, escorregamento$wood)
+escorregamento$mixed<- ifelse(escorregamento$mixed == 1, 0.17896914, escorregamento$mixed)
 
 
-escorregamento$d1 <- ifelse(escorregamento$d1 == 1, -0.847144412, escorregamento$d1)
-escorregamento$d2 <- ifelse(escorregamento$d2 == 1, -0.173939960802013, escorregamento$d2)
-escorregamento$d3 <- ifelse(escorregamento$d3 == 1, -0.00104045691529944, escorregamento$d3)
-escorregamento$d4<- ifelse(escorregamento$d4 == 1, -0.291658771958924, escorregamento$d4)
+escorregamento$d1 <- ifelse(escorregamento$d1 == 1, -0.8691705, escorregamento$d1)
+escorregamento$d2 <- ifelse(escorregamento$d2 == 1, -0.1823844, escorregamento$d2)
+escorregamento$d3 <- ifelse(escorregamento$d3 == 1, -0.0059967, escorregamento$d3)
+escorregamento$d4<- ifelse(escorregamento$d4 == 1, -0.3024781, escorregamento$d4)
 
-escorregamento$garbage<- ifelse(escorregamento$garbage == 1, 0.260848862548364, escorregamento$garbage)
-escorregamento$land_fill<- ifelse(escorregamento$land_fill == 1, 0.260848862548364, escorregamento$land_fill)
-escorregamento$construction_material<- ifelse(escorregamento$construction_material == 1, 0.260848862548364, escorregamento$construction_material)
+escorregamento$garbage<- ifelse(escorregamento$garbage == 1, 0.26117617, escorregamento$garbage)
+escorregamento$land_fill<- ifelse(escorregamento$land_fill == 1, 0.26117617, escorregamento$land_fill)
+escorregamento$construction_material<- ifelse(escorregamento$construction_material == 1, 0.26117617, escorregamento$construction_material)
 escorregamento$garbage_all <- (escorregamento$garbage+escorregamento$land_fill+escorregamento$construction_material)
-escorregamento$garbage_all <- ifelse(escorregamento$garbage_all >= 0.260848862548364, 0.260848862548364, 0)
+escorregamento$garbage_all <- ifelse(escorregamento$garbage_all >= 0.26117617, 0.26117617, 0)
 
 
-escorregamento$cracks <- ifelse(escorregamento$cracks == 1, 1.31713866640692, escorregamento$cracks) # crack in the house
-escorregamento$fracture <- ifelse(escorregamento$fracture == 1, 2.34774965617479, escorregamento$fracture) # crack in the teraain
-escorregamento$tilted <- ifelse(escorregamento$tilted == 1, 1.4717303148721, escorregamento$tilted)
+escorregamento$cracks <- ifelse(escorregamento$cracks == 1, 1.33877628, escorregamento$cracks) # crack in the house
+escorregamento$fracture <- ifelse(escorregamento$fracture == 1, 2.39017951, escorregamento$fracture) # crack in the teraain
+escorregamento$tilted <- ifelse(escorregamento$tilted == 1, 1.49648676, escorregamento$tilted)
 escorregamento$landslide_scars <- ifelse(escorregamento$landslide_scars == 1, 2.22751170736854, escorregamento$landslide_scars)
-escorregamento$belly_wall <- ifelse(escorregamento$belly_wall == 1, 1.4717303148721, escorregamento$belly_wall)
-escorregamento$downward_floor  <- ifelse(escorregamento$downward_floor == 1, 3.25812269713641, escorregamento$downward_floor)
+escorregamento$belly_wall <- ifelse(escorregamento$belly_wall == 1, 1.49648676, escorregamento$belly_wall)
+escorregamento$downward_floor  <- ifelse(escorregamento$downward_floor == 1, 3.31891904, escorregamento$downward_floor)
 
-escorregamento$drainage_none <- ifelse(escorregamento$drainage_none == 1, -0.668824645993864, escorregamento$drainage_none)
-escorregamento$drainage_precarious <- ifelse(escorregamento$drainage_precarious == 1, -0.699186045020083, escorregamento$drainage_precarious)
-escorregamento$drainage_okay <- ifelse(escorregamento$drainage_okay == 1, -0.847144412105597, escorregamento$drainage_okay)
+escorregamento$drainage_none <- ifelse(escorregamento$drainage_none == 1, -0.6872532, escorregamento$drainage_none)
+escorregamento$drainage_precarious <- ifelse(escorregamento$drainage_precarious == 1, -0.7182271, escorregamento$drainage_precarious)
+escorregamento$drainage_okay <- ifelse(escorregamento$drainage_okay == 1, -0.8691705, escorregamento$drainage_okay)
 
 
 escorregamento$tree <- ifelse(escorregamento$tree == 1, -0.809970465644889, escorregamento$tree)
@@ -89,44 +89,44 @@ escorregamento$desnude_soil <- ifelse(escorregamento$desnude_soil == 1, 0.114731
 
 
 
-escorregamento$septic_tank <- ifelse(escorregamento$septic_tank == 1, -0.607280655919903, escorregamento$septic_tank)
-escorregamento$leaking <- ifelse(escorregamento$leaking == 1, -0.290092399384874, escorregamento$leaking)
-escorregamento$wastewater <- ifelse(escorregamento$wastewater == 1, -0.572563533314079, escorregamento$wastewater)
-escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc == 1, -0.567829380231467, escorregamento$rainfall_water_conc)
+escorregamento$septic_tank <- ifelse(escorregamento$septic_tank == 1, -0.6244676, escorregamento$septic_tank)
+escorregamento$leaking <- ifelse(escorregamento$leaking == 1, -0.3008802, escorregamento$leaking)
+escorregamento$wastewater <- ifelse(escorregamento$wastewater == 1, -0.5890501, escorregamento$wastewater)
+escorregamento$rainfall_water_conc <- ifelse(escorregamento$rainfall_water_conc == 1, -0.5842204, escorregamento$rainfall_water_conc)
 
 escorregamento$angle_both <- as.numeric(escorregamento$angle_both)
 
 escorregamento$natural_slope <- as.numeric(escorregamento$natural_slope)
 
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope <(10), 0, escorregamento$natural_slope)
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(10) & escorregamento$natural_slope < 17, 0.026693875, escorregamento$natural_slope)
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(17) & escorregamento$natural_slope < 30, 0.013041282, escorregamento$natural_slope)
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(30) & escorregamento$natural_slope < 60, 0.026693875, escorregamento$natural_slope)
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  >= (60) & escorregamento$natural_slope  < 90, 0.05664807, escorregamento$natural_slope)
-escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  == 90, 0.058482, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope <(10), -0.8691705, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(10) & escorregamento$natural_slope < 17, -0.749347, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(17) & escorregamento$natural_slope < 30, -0.4857352, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope >=(30) & escorregamento$natural_slope < 60, -0.0843264, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  >= (60) & escorregamento$natural_slope  < 90, 0.79637657, escorregamento$natural_slope)
+escorregamento$natural_slope  <- ifelse(escorregamento$natural_slope  == 90, 0.85029716, escorregamento$natural_slope)
 
 
 
 
 
 #this need to be in a decreasing order otherwise one will change the other
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both <(10), 0, escorregamento$angle_both)
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(10) & escorregamento$angle_both < 17, 0.026693875, escorregamento$angle_both)
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(17) & escorregamento$angle_both < 30, 0.013041282, escorregamento$angle_both)
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(30) & escorregamento$angle_both < 60, 0.026693875, escorregamento$angle_both)
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both  >= (60) & escorregamento$angle_both  < 90, 0.05664807, escorregamento$angle_both)
-escorregamento$angle_both  <- ifelse(escorregamento$angle_both  == 90, 0.058482, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both <(10), -0.8691705, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(10) & escorregamento$angle_both < 17, -0.749347, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(17) & escorregamento$angle_both < 30, -0.4857352, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both >=(30) & escorregamento$angle_both < 60, -0.0843264, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both  >= (60) & escorregamento$angle_both  < 90, 0.79637657, escorregamento$angle_both)
+escorregamento$angle_both  <- ifelse(escorregamento$angle_both  == 90, 0.85029716, escorregamento$angle_both)
 
 
 
 
 
 escorregamento<- escorregamento %>%
-  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + angle_both) %>%
-   mutate(value_natural_angle =(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + natural_slope) %>%
+  mutate(value=(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + angle_both+ 0.51847006-0.3161254-0.7443453 ) %>%
+   mutate(value_natural_angle =(brick+wood+mixed+d1+d2+d3+d4+cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall+ tree + shrubs + banana_tree + desnude_soil + septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none) + natural_slope + 0.51847006-0.3161254-0.7443453  ) %>%
   mutate(value_instability=(cracks+fracture+downward_floor+tilted+landslide_scars+belly_wall))%>%
   mutate(value_anthropogenic=(brick+wood+mixed+d1+d2+d3+d4+tree + shrubs + banana_tree + desnude_soil+ septic_tank+ leaking + wastewater+ rainfall_water_conc + garbage_all + drainage_okay + drainage_precarious + drainage_none)) %>%
-  mutate(value_natural=(natural_slope))
+  mutate(value_natural=(natural_slope+0.51847006-0.3161254-0.7443453 ))
 
 
 
@@ -155,8 +155,8 @@ ggplot(escorregamento, aes(value)) +
 
 ## natural slope
 
-sd_value <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
-mean_value <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
+sd_value_natural <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
+mean_value_natural <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
 
 ggplot(escorregamento, aes(value_natural_angle)) + 
   geom_histogram(aes(y=..density..), colour="black", fill="steelblue4",binwidth=0.2) +
@@ -201,8 +201,8 @@ df_risk_level_perc
 
 ### for rik level with natural angle
 
-sd_value <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
-mean_value <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
+sd_value_natural <- sd(escorregamento$value_natural_angle, na.rm=TRUE)
+mean_value_natural <- mean(escorregamento$value_natural_angle, na.rm=TRUE)
 
 perc <- escorregamento$value_natural_angle[!is.na(escorregamento$value_natural_angle)]
  
@@ -241,8 +241,8 @@ new_escorregamento <- na.omit(new_escorregamento) # exclude rows with NA
 new_escorregamento$risk_level_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
 new_escorregamento$risk_level_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 7), labels = c("low", "moderate", "high", "very high" ))
 
-new_escorregamento$risk_level_natural_slope_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
-new_escorregamento$risk_level_natural_slope_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 16), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$risk_level_natural_slope_one_sd <- cut(new_escorregamento$value_natural_angle, breaks=c(-6,(mean_value_natural-sd_value_natural), mean_value, (mean_value_natural + sd_value_natural),7), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$risk_level_natural_slope_half_sd <- cut(new_escorregamento$value_natural_angle, breaks=c(-6, (mean_value_natural-0.5*sd_value_natural), (mean_value_natural + 0.5*sd_value_natural), (mean_value_natural + 1.5*sd_value_natural), 16), labels = c("low", "moderate", "high", "very high" ))
 
 
 library ("openxlsx")
@@ -251,16 +251,6 @@ library ("openxlsx")
 
 ```
 
-### Open merged file
-```{r}
-library(readxl)
-risk_level <- read_excel("risk_level_updated_look_into_R.xlsx")
-
-head(risk_level)
-
-
-
-```
 
 ## Creating 4 cagegories from 5 since BGM uses low, moderate, high, and very high. Therefore, low and very low are going to computed but aggreaged as low. 
 - using cut as mean-sd, mean-0.5sd, mean+0.5sd, mean+sd
@@ -270,13 +260,28 @@ head(risk_level)
 ### using cut() to create the intervals
 
 
-new_escorregamento$risk_level_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
-new_escorregamento$risk_level_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 7), labels = c("low", "moderate", "high", "very high" ))
+new_escorregamento$new_risk_level_both_slopes <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-0.5*sd_value), (mean_value+0.5*sd_value), (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
 
-new_escorregamento$risk_level_natural_slope_one_sd <- cut(new_escorregamento$risk_level, breaks=c(-6,(mean_value-sd_value), mean_value, (mean_value + sd_value),7), labels = c("low", "moderate", "high", "very high" ))
-new_escorregamento$risk_level_natural_slope_half_sd <- cut(new_escorregamento$risk_level, breaks=c(-6, (mean_value-0.5*sd_value), (mean_value + 0.5*sd_value), (mean_value + 1.5*sd_value), 16), labels = c("low", "moderate", "high", "very high" ))
 
+new_escorregamento$new_risk_level_natural <- cut(new_escorregamento$value_natural_angle, breaks=c(-6, (mean_value_natural-0.5*sd_value_natural), (mean_value_natural + 0.5*sd_value_natural), (mean_value_natural +sd_value_natural), 7), labels = c("low", "moderate", "high", "very high" ))
+
+
+```
+
+###Importing dataset from arcgis to merge with the one created
+```{r}
+df <- read_excel("risk_level_updated_look_into_R.xlsx")
+
+df1 <- df %>%
+  select(nm_area_ri:cd_grau_ri)
+
+new_df <- merge(df1, new_escorregamento, by.x = "sg_setor_r", 
+             by.y = "sector", all.x = TRUE, all.y = FALSE)
 
 library ("openxlsx")
+
+#write.xlsx(new_df, file="risk_value_final_version.xlsx")
+
+
 ```
 
