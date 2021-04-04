@@ -1,0 +1,64 @@
+---
+title: "Comparision"
+author: "E G"
+date: "3/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Comparision
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+
+df <- read_excel("risk_value_final_version_20210403.xlsx")
+
+df_comparision <- df %>%
+  select(sg_setor_r, cd_grau_ri,value_natural_angle:new_risk_level_natural)
+```
+## Using table to compare data
+
+- One sd - both angles
+```{r}
+## comparing multiple categorical variables
+## 1 - Contingency tables
+
+Table1 <- table(df_comparision$cd_grau_ri, df_comparision$risk_level_one_sd)
+Table1
+
+## 2 - Proportion overall
+prop.table(Table1)
+## 3 proportion adds up to 1 for each row  (normalize by each row)
+prop.table(Table1, 1)
+## 4 Proportion adds up to 1 for each column (normalize by each column)
+prop.table(Table1, 2)
+### 5  Percentatge
+100*prop.table(Table1, 2)
+
+```
+
+
+### Using chi-squared to compared
+```{r}
+chisq.test(df_comparision$cd_grau_ri, df_comparision$risk_level_one_sd)
+
+
+```
+
+##Plot
+```{r}
+ggplot(df_comparision) +
+  aes(x = cd_grau_ri, fill = risk_level_one_sd) +
+  geom_bar() +
+  scale_fill_hue() +
+  theme_minimal()
+
+
+
+```
+

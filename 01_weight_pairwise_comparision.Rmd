@@ -30,7 +30,7 @@ weight_percentange <- read_excel("classifiers_weight_percentage.xlsx")
 classifiers <- weight_pairwisecomparision %>%
   select(Parameter, large_category, final_weight)
 
-classifiers <- classifiers[-c(1:7,17:18,20:22,54),]
+classifiers <- classifiers[-c(1:4,7,17:18,20:22,54),]
 
 mean_classifiers <- mean(classifiers$final_weight)
 sd_classifiers <- sd(classifiers$final_weight)
