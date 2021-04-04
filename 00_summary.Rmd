@@ -12,3 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Summary of the files
 
 01: 01_weight_pairwisecomparision.Rmd: import excel file with specific weight computed for the pairwise comparision.
+02: 02_function_risk_new_weight.Rmd: updated in 2021 from the one I used in my dissertaton
+03: 02_function_risk_new_weight_with_natural_soil_geology.Rmd: updaded from previous version including the weight for natural coverage, soil, and geology
+04: 03_comparision_dataset.Rmd: code comparing the results from 02
+05: 04_function_risk_new_weight_using_different_weight.Rmd: corrected version from previous (02 and 03)
+06: 05_comparision_dataset_new_dataset.Rmd: comparision of the final dataset from 05.
+07: 06_weight_pairwisecomparision.Rmd: updated version of 01, but now using values from 05. 

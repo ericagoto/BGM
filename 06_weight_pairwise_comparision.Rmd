@@ -1,0 +1,73 @@
+---
+title: "01 Using the dataset"
+author: "Erica Goto"
+date: "3/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Computing Weight Pairwise comparision
+```{r}
+library(readxl)
+library(tidyverse)
+weight_pairwisecomparision <- read_excel("weight_normalized2.xlsx")
+head(weight_pairwisecomparision)
+
+
+```
+
+- Main category values in percentage
+- options of a category (normalized using min-max)
+- creating a dataframe with the values
+```{r}
+
+## Using df weight_percentange, I select just the classifiers from the main category (angle, natural coverage...) not the options (i.e. wood, brick, mixed)
+
+classifiers <- weight_pairwisecomparision %>%
+  select(Parameter, large_category, final_weight)
+
+classifiers <- classifiers[-c(1:4,7,17:18,20:22,54),]
+
+mean_classifiers <- mean(classifiers$final_weight)
+sd_classifiers <- sd(classifiers$final_weight)
+
+## to remove columns with value equal zero
+
+
+
+classifiers[classifiers==0] <- NA
+classifiers <- na.omit(classifiers)
+
+
+#write.xlsx(classifiers, "classifiers.xls")
+
+
+
+```
+
+## Plot - to visualize the data
+
+```{r plot, fig.height=9, fig.width= 8}
+
+
+
+
+plot_classifiers <- ggplot(classifiers, aes(x=Parameter, y=final_weight, label="classifier weight")) + 
+  geom_bar(stat="identity", aes(fill=large_category), width=.5)  +
+  labs(title= "Classifers Weight") + 
+       ylab("weight") + xlab("classifiers") + 
+    theme(text = element_text(size=22)) +
+  coord_flip()
+
+
+#changing color of the plot
+plot_classifiers + scale_fill_manual(values=c("deepskyblue4", "darkseagreen4", "darkred"), 
+                                     name="Category",
+                                     labels=c("anthropogenic", "instability", "natural")
+                                     )
+
+```
+
